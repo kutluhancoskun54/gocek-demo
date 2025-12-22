@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Marina İndirimi | Göcek Lokantası</title>
+  <meta name="description" content="Marina misafirlerine %10 indirim. WhatsApp ile iletişim, yol tarifi ve Instagram günlük menü." />
+
+  <style>
+    :root{
+      --bg: #fbf7ef;
+      --ink: #141311;
+      --muted: #5f5a52;
+
+      --gold: #b08d32;
+      --gold-2: #8f7226;
+
+      --shadow: 0 24px 70px rgba(20,19,17,.10);
+      --radius-xl: 28px;
+
+      --btn-bg: #fff;
+      --btn-border: rgba(20,19,17,.14);
+      --btn-hover: rgba(176,141,50,.10);
+
+      --focus: 0 0 0 4px rgba(176,141,50,.22);
+      --max: 1100px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      color:var(--ink);
+      background:
+        radial-gradient(1000px 520px at 50% 10%, rgba(176,141,50,.12) 0%, rgba(176,141,50,0) 55%),
+        radial-gradient(900px 520px at 85% 20%, rgba(20,19,17,.06) 0%, rgba(20,19,17,0) 55%),
+        var(--bg);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      letter-spacing: .1px;
+    }
+
+    .topbar{
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(10px);
+      background: rgba(251,247,239,.72);
+      border-bottom: 1px solid rgba(20,19,17,.06);
+    }
+    .topbar-inner{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 14px 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 16px;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap: 12px;
+      min-width: 240px;
+    }
+    .brand-badge{
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid rgba(20,19,17,.10);
+      display:grid;
+      place-items:center;
+      box-shadow: 0 14px 30px rgba(20,19,17,.06);
+      overflow:hidden;
+      flex: 0 0 auto;
+    }
+    .brand-badge img{
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      display:block;
+    }
+    .brand-text{
+      display:flex;
+      flex-direction:column;
+      line-height: 1.05;
+    }
+    .brand-text .name{
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: .2px;
+    }
+    .brand-text .tag{
+      margin-top: 4px;
+      font-size: 10px;
+      letter-spacing: 2px;
+      color: var(--gold-2);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .nav a{
+      text-decoration:none;
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 13px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      transition: .18s ease;
+      white-space: nowrap;
+    }
+    .nav a:hover{
+      background: rgba(255,255,255,.65);
+      border-color: rgba(20,19,17,.08);
+      color: var(--ink);
+    }
+
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 26px 18px 120px;
+    }
+
+    .hero{
+      margin-top: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.85) 0%, rgba(255,255,255,.70) 100%);
+      border: 1px solid rgba(20,19,17,.10);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+
+    .hero-inner{
+      padding: 34px 32px;
+      display:grid;
+      grid-template-columns: 1.35fr .85fr;
+      gap: 26px;
+      align-items: start;
+    }
+
+    .kicker{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      color: var(--gold-2);
+      font-weight: 800;
+      letter-spacing: 2.6px;
+      text-transform: uppercase;
+      font-size: 11px;
+    }
+    .dot{
+      width: 8px; height: 8px;
+      border-radius: 99px;
+      background: var(--gold);
+      box-shadow: 0 0 0 4px rgba(176,141,50,.14);
+    }
+
+    h1{
+      margin: 14px 0 10px;
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      font-weight: 800;
+      letter-spacing: -.6px;
+      font-size: clamp(34px, 4.2vw, 54px);
+      line-height: 1.02;
+    }
+    .lead{
+      margin: 0;
+      max-width: 52ch;
+      color: var(--muted);
+      font-size: 15.5px;
+      line-height: 1.7;
+    }
+
+    .badgeRow{
+      margin-top: 18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(176,141,50,.10);
+      border: 1px solid rgba(176,141,50,.22);
+      color: #4a3c17;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .badge strong{ font-weight: 900; }
+    .codeBadge{
+      background: rgba(20,19,17,.06);
+      border: 1px solid rgba(20,19,17,.10);
+      color: rgba(20,19,17,.82);
+      font-weight: 800;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      letter-spacing: .08em;
+    }
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(20,19,17,.10);
+      background: rgba(255,255,255,.6);
+      color: rgba(20,19,17,.76);
+      font-weight: 800;
+      font-size: 12px;
+    }
+    .chip svg{ width:16px;height:16px; }
+
+    .panel{
+      background: rgba(255,255,255,.78);
+      border: 1px solid rgba(20,19,17,.10);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 18px 45px rgba(20,19,17,.08);
+    }
+    .panel h2{
+      margin: 0 0 8px;
+      font-size: 12px;
+      letter-spacing: 2.4px;
+      text-transform: uppercase;
+      color: var(--gold-2);
+      font-weight: 900;
+    }
+    .panel p{
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .actions{
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+    }
+
+    .btn{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--btn-border);
+      background: var(--btn-bg);
+      color: var(--ink);
+      text-decoration:none;
+      font-weight: 800;
+      font-size: 14px;
+      transition: .18s ease;
+      user-select:none;
+    }
+    .btn:hover{ background: var(--btn-hover); transform: translateY(-1px); }
+    .btn:focus{ outline:none; box-shadow: var(--focus); }
+    .btn-primary{
+      background: linear-gradient(180deg, #8f7226 0%, #7c6422 100%);
+      border-color: rgba(0,0,0,.08);
+      color: #fff;
+    }
+    .btn-primary:hover{ filter: brightness(1.02); }
+
+    .mini-row{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 14px;
+      padding: 0 32px 28px;
+    }
+    .mini{
+      background: rgba(255,255,255,.74);
+      border: 1px solid rgba(20,19,17,.10);
+      border-radius: 18px;
+      padding: 14px 14px;
+      display:flex;
+      align-items:flex-start;
+      gap: 12px;
+    }
+    .mini .ic{
+      width: 38px; height: 38px;
+      border-radius: 14px;
+      background: rgba(176,141,50,.12);
+      border: 1px solid rgba(176,141,50,.22);
+      display:grid;
+      place-items:center;
+      flex: 0 0 auto;
+    }
+    .mini .ic svg{ width: 18px; height: 18px; }
+    .mini h3{
+      margin: 2px 0 4px;
+      font-size: 12px;
+      letter-spacing: 2.2px;
+      text-transform: uppercase;
+      color: var(--gold-2);
+      font-weight: 900;
+    }
+    .mini p{
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .fab{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      display:flex;
+      flex-direction:column;
+      gap: 10px;
+      z-index: 60;
+    }
+    .fab a{
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.88);
+      border: 1px solid rgba(20,19,17,.12);
+      box-shadow: 0 14px 30px rgba(20,19,17,.12);
+      display:grid;
+      place-items:center;
+      transition: .18s ease;
+      text-decoration:none;
+    }
+    .fab a:hover{ transform: translateY(-2px); background: rgba(176,141,50,.10); }
+    .fab svg{ width: 20px; height: 20px; }
+
+    footer{
+      max-width: var(--max);
+      margin: 22px auto 0;
+      padding: 0 18px 26px;
+      color: rgba(95,90,82,.9);
+      font-size: 12px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 920px){
+      .hero-inner{ grid-template-columns: 1fr; }
+      .mini-row{ grid-template-columns: 1fr; padding: 0 22px 22px; }
+      .brand{ min-width: auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="brand-badge" aria-hidden="true">
+          <img src="assets/logo.jpg" alt="Göcek Lokantası Logo">
+        </div>
+        <div class="brand-text">
+          <div class="name">Göcek Lokantası</div>
+          <div class="tag">Bir Kepçe Mutluluk</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Sayfa bağlantıları">
+        <a href="index.html">Ana Sayfa</a>
+        <a href="index.html#menu">Günlük Menü</a>
+        <a href="index.html#siparis">Sipariş</a>
+        <a href="index.html#ulasim">Ulaşım</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" aria-label="Marina indirimi">
+      <div class="hero-inner">
+        <div>
+          <div class="kicker"><span class="dot"></span> Marina misafirleri</div>
+          <h1>Tebrikler,<br><span style="color:var(--gold-2);">%10 indirim</span> kazandınız.</h1>
+
+          <p class="lead">
+            Bu ekranı kasada göstererek marina misafiri indiriminizi kullanabilirsiniz.
+            Sipariş ve bilgi için WhatsApp hattımızdan yazabilir, günün menüsünü Instagram’dan görebilir,
+            yol tarifi için Google Maps’i açabilirsiniz.
+          </p>
+
+          <div class="badgeRow">
+            <div class="badge"><strong>%10</strong> Marina Misafiri İndirimi</div>
+            <div class="badge codeBadge" id="psCode">PS: ps-000-******</div>
+            <div class="chip" id="openMode">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4Z" stroke="currentColor" stroke-width="1.8"/>
+              </svg>
+              Demo görünümü
+            </div>
+          </div>
+
+          <div style="height:16px"></div>
+
+          <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+            <a class="btn btn-primary" id="btnWhatsapp" href="#" target="_blank" rel="noopener">WhatsApp ile yaz</a>
+            <a class="btn" id="btnInstagram" href="#" target="_blank" rel="noopener">Günlük menü (Instagram)</a>
+            <a class="btn" id="btnMaps" href="#" target="_blank" rel="noopener">Yol tarifi al</a>
+          </div>
+        </div>
+
+        <aside class="panel" aria-label="Hızlı işlemler">
+          <h2>Hızlı İşlemler</h2>
+          <p>İsterseniz sipariş için WhatsApp’a yazın, menü için Instagram’a geçin veya Google Maps’te yol tarifi açın.</p>
+          <div class="actions">
+            <a class="btn btn-primary" id="sideWhatsapp" href="#" target="_blank" rel="noopener">WhatsApp’a yaz</a>
+            <a class="btn" id="sideInstagram" href="#" target="_blank" rel="noopener">Instagram’da menü</a>
+            <a class="btn" id="sideMaps" href="#" target="_blank" rel="noopener">Google Maps yol tarifi</a>
+          </div>
+        </aside>
+      </div>
+
+      <div class="mini-row">
+        <div class="mini">
+          <div class="ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M7 3h10v18H7V3Z" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M9 7h6M9 11h6M9 15h6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Günlük Menü</h3>
+            <p>Menü her gün Instagram’da güncellenir. En güncel paylaşım oradadır.</p>
+          </div>
+        </div>
+
+        <div class="mini">
+          <div class="ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8Z" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Sipariş & Bilgi</h3>
+            <p>En hızlı iletişim kanalımız WhatsApp. Sipariş ve bilgi için yazabilirsiniz.</p>
+          </div>
+        </div>
+
+        <div class="mini">
+          <div class="ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 22s7-4.6 7-12a7 7 0 1 0-14 0c0 7.4 7 12 7 12Z" stroke="currentColor" stroke-width="1.8"/>
+              <path d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="1.8"/>
+            </svg>
+          </div>
+          <div>
+            <h3>Ulaşım</h3>
+            <p>Google Maps’te doğrudan “Yol tarifi” açılır (başlangıç: mevcut konum).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="fab" aria-label="Hızlı ikonlar">
+    <a id="fabWhatsapp" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M20.52 3.48A11.91 11.91 0 0 0 12.02 0C5.4 0 .04 5.36.04 11.98c0 2.11.55 4.17 1.6 5.99L0 24l6.17-1.62a11.93 11.93 0 0 0 5.85 1.49h.01c6.62 0 11.98-5.36 11.98-11.98 0-3.2-1.25-6.21-3.49-8.41ZM12.03 21.9h-.01a9.9 9.9 0 0 1-5.04-1.38l-.36-.22-3.66.96.98-3.57-.23-.37a9.9 9.9 0 0 1-1.52-5.32C2.19 6.5 6.55 2.14 12.02 2.14c2.64 0 5.12 1.03 6.98 2.89a9.82 9.82 0 0 1 2.89 6.98c0 5.47-4.39 9.89-9.86 9.89Z"/>
+      </svg>
+    </a>
+    <a id="fabInstagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Z" stroke="currentColor" stroke-width="1.9"/>
+        <path d="M12 8.2A3.8 3.8 0 1 0 12 15.8 3.8 3 0 0 0 12 8.2Z" stroke="currentColor" stroke-width="1.9"/>
+        <path d="M17.6 6.6h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+    </a>
+    <a id="fabMaps" href="#" target="_blank" rel="noopener" aria-label="Google Maps">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 22s7-4.6 7-12a7 7 0 1 0-14 0c0 7.4 7 12 7 12Z" stroke="currentColor" stroke-width="1.9"/>
+        <path d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" stroke="currentColor" stroke-width="1.9"/>
+      </svg>
+    </a>
+  </div>
+
+  <footer>
+    <div>© <span id="year"></span> Göcek Lokantası</div>
+  </footer>
+
+  <script>
+    const SITE = {
+      WHATSAPP_NUMBER: "905394105058",
+      INSTAGRAM_URL: "https://www.instagram.com/goceklokantasi/",
+      MAPS_DIRECTIONS_URL: "https://www.google.com/maps/dir/?api=1&destination=36.7523523%2C28.9428661&travelmode=driving"
+    };
+
+    // QR parametresi: marina.html?p=ps-000-ABC123
+    const params = new URLSearchParams(location.search);
+    const psParam = (params.get("p") || params.get("ps") || "").trim();
+
+    // Geçici format: ps-000-****** (****** = 6 alfanumerik)
+    const PS_REGEX = /^ps-\d{3}-[a-z0-9]{6}$/i;
+
+    const codeEl = document.getElementById("psCode");
+    const modeEl = document.getElementById("openMode");
+
+    let shownCode = "ps-000-******";
+    let modeText = "Demo görünümü";
+
+    if (PS_REGEX.test(psParam)) {
+      shownCode = psParam.toLowerCase();
+      modeText = "QR ile açıldı";
+    }
+
+    if (codeEl) codeEl.textContent = "PS: " + shownCode;
+    if (modeEl) modeEl.innerHTML = `
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2l7 4v6c0 5-3 9-7 10-4-1-7-5-7-10V6l7-4Z" stroke="currentColor" stroke-width="1.8"/>
+      </svg>
+      ${modeText}
+    `;
+
+    // WhatsApp mesajına PS kodunu ekle
+    const waText = `Merhaba, marina indirimi ekranındayım (%10). Pedalstar kodum: ${shownCode}. Bilgi alabilir miyim?`;
+    const waUrl = `https://wa.me/${SITE.WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+
+    const bind = (id, url) => {
+      const el = document.getElementById(id);
+      if (el) el.href = url;
+    };
+
+    ["btnWhatsapp","sideWhatsapp","fabWhatsapp"].forEach(id => bind(id, waUrl));
+    ["btnInstagram","sideInstagram","fabInstagram"].forEach(id => bind(id, SITE.INSTAGRAM_URL));
+    ["btnMaps","sideMaps","fabMaps"].forEach(id => bind(id, SITE.MAPS_DIRECTIONS_URL));
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
