@@ -3,596 +3,429 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Marina İndirimi | Göcek Lokantası</title>
-  <meta name="description" content="Göcek Lokantası Marina indirimi kod üretimi ve doğrulama ekranı." />
-
+  <title>Göcek Lokantası – Marina İndirimi</title>
+  <meta name="description" content="Marina indirimi için tek kullanımlık kod üret." />
   <style>
     :root{
-      --bg:#0b0f14;
-      --card:#101826;
-      --card2:#0f1724;
-      --text:#e7edf6;
-      --muted:#9fb0c7;
-      --line:rgba(255,255,255,.08);
-      --accent:#78ead3;
-      --accent2:#f88451;
-      --danger:#ff5c5c;
-      --ok:#4ee59f;
-      --shadow: 0 12px 30px rgba(0,0,0,.35);
-      --radius:16px;
-      --radius2:22px;
-      --max:1080px;
+      --bg1:#071018; --bg2:#120a10;
+      --card: rgba(255,255,255,.06);
+      --stroke: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --brand:#78ead3;
+      --brand2:#f88451;
+      --danger:#ff6b6b;
+      --ok:#7CFFB2;
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 18px;
     }
-
     *{box-sizing:border-box}
     body{
       margin:0;
       font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      background: radial-gradient(1200px 700px at 20% -10%, rgba(120,234,211,.20), transparent 60%),
-                  radial-gradient(1000px 600px at 90% 10%, rgba(248,132,81,.18), transparent 55%),
-                  var(--bg);
       color:var(--text);
+      min-height:100vh;
+      background:
+        radial-gradient(900px 600px at 20% 15%, rgba(120,234,211,.20), transparent 55%),
+        radial-gradient(900px 600px at 80% 20%, rgba(248,132,81,.18), transparent 55%),
+        radial-gradient(1200px 900px at 50% 110%, rgba(221,13,3,.10), transparent 60%),
+        linear-gradient(140deg, var(--bg1), var(--bg2));
     }
-
     a{color:inherit; text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding:28px 18px 80px}
-
-    header{
+    .wrap{max-width:1100px; margin:0 auto; padding:28px 18px 80px}
+    .topbar{
       display:flex; align-items:center; justify-content:space-between;
-      gap:16px;
-      padding:14px 14px;
-      border:1px solid var(--line);
-      background: rgba(16,24,38,.55);
-      backdrop-filter: blur(10px);
-      border-radius: var(--radius2);
-      box-shadow: var(--shadow);
-    }
-    .brand{display:flex; align-items:center; gap:12px}
-    .logo{
-      width:44px; height:44px; border-radius:12px; object-fit:cover;
-      border:1px solid var(--line);
-      background:#0d131d;
-    }
-    .brand b{font-size:16px; letter-spacing:.2px}
-    .brand span{display:block; color:var(--muted); font-size:12px; margin-top:1px}
-
-    nav{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
-    .pill{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:10px 12px;
-      border-radius: 999px;
-      border:1px solid var(--line);
-      background: rgba(15,23,36,.55);
-      color: var(--text);
-      font-size: 13px;
-      transition: .15s ease;
-    }
-    .pill:hover{transform: translateY(-1px); border-color: rgba(120,234,211,.35)}
-    .pill.primary{background: rgba(120,234,211,.14); border-color: rgba(120,234,211,.32)}
-    .pill.orange{background: rgba(248,132,81,.14); border-color: rgba(248,132,81,.32)}
-
-    .grid{
-      margin-top:18px;
-      display:grid;
-      grid-template-columns: 1.25fr .75fr;
       gap:14px;
-    }
-    @media (max-width: 900px){
-      .grid{grid-template-columns: 1fr}
-      nav{justify-content:flex-start}
-    }
-
-    .card{
-      border:1px solid var(--line);
-      background: rgba(16,24,38,.62);
-      backdrop-filter: blur(10px);
-      border-radius: var(--radius2);
+      padding:14px 14px;
+      background:rgba(0,0,0,.22);
+      border:1px solid var(--stroke);
+      border-radius:999px;
       box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      padding-left:6px;
+      min-width: 240px;
+    }
+    .logo{
+      width:36px; height:36px; border-radius:10px;
+      background:rgba(255,255,255,.12);
+      border:1px solid var(--stroke);
+      display:grid; place-items:center;
       overflow:hidden;
     }
-    .card .hd{
-      padding:16px 16px 12px;
-      border-bottom:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.03), transparent);
+    .logo img{width:100%; height:100%; object-fit:cover}
+    .brand h1{margin:0; font-size:14px; letter-spacing:.2px}
+    .brand p{margin:2px 0 0; font-size:12px; color:var(--muted)}
+    .nav{
+      display:flex; flex-wrap:wrap; gap:8px;
+      justify-content:flex-end;
     }
-    .card .hd h1,.card .hd h2{
-      margin:0;
-      font-size:16px;
-      letter-spacing:.2px;
+    .pill{
+      padding:10px 14px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--stroke);
+      border-radius:999px;
+      font-size:13px;
+      color:var(--text);
+      transition:.15s ease;
+      white-space:nowrap;
     }
-    .card .hd p{margin:6px 0 0; color:var(--muted); font-size:13px; line-height:1.4}
-    .card .bd{padding:16px}
-
-    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-    .row > *{flex:1}
-    .row .fixed{flex:0 0 auto}
-
-    label{display:block; font-size:12px; color:var(--muted); margin-bottom:6px}
-    input, textarea{
+    .pill:hover{transform: translateY(-1px); background:rgba(255,255,255,.09)}
+    .pill.primary{border-color: rgba(120,234,211,.45); box-shadow: 0 0 0 1px rgba(120,234,211,.12) inset}
+    .grid{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
+    }
+    @media (max-width: 920px){
+      .grid{grid-template-columns:1fr}
+      .brand{min-width:auto}
+    }
+    .card{
+      background: var(--card);
+      border:1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      padding:18px;
+    }
+    .card h2{margin:0 0 6px; font-size:18px}
+    .card p{margin:0 0 14px; color:var(--muted); font-size:13px; line-height:1.5}
+    .row{
+      display:grid;
+      grid-template-columns: 1fr auto;
+      gap:10px;
+      align-items:end;
+      margin-top:10px;
+    }
+    label{font-size:12px; color:var(--muted)}
+    input{
       width:100%;
       padding:12px 12px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background: rgba(8,12,18,.65);
-      color: var(--text);
+      background: rgba(0,0,0,.28);
+      color:var(--text);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius: 12px;
       outline:none;
+      font-size:14px;
     }
-    input:focus, textarea:focus{border-color: rgba(120,234,211,.45)}
-    .hint{color:var(--muted); font-size:12px; margin-top:8px}
-
-    button{
-      cursor:pointer;
-      border:1px solid var(--line);
-      background: rgba(120,234,211,.14);
-      border-color: rgba(120,234,211,.32);
-      color: var(--text);
+    input:focus{border-color: rgba(120,234,211,.55); box-shadow: 0 0 0 3px rgba(120,234,211,.12)}
+    .btn{
       padding:12px 14px;
-      border-radius: 14px;
+      border-radius: 12px;
+      border:1px solid rgba(120,234,211,.45);
+      background: rgba(120,234,211,.14);
+      color:var(--text);
+      cursor:pointer;
       font-weight:600;
       transition:.15s ease;
+      min-width: 120px;
     }
-    button:hover{transform: translateY(-1px)}
-    button.secondary{
-      background: rgba(255,255,255,.04);
-      border-color: var(--line);
-      font-weight:600;
+    .btn:hover{transform: translateY(-1px); background: rgba(120,234,211,.18)}
+    .btn:disabled{opacity:.55; cursor:not-allowed; transform:none}
+    .note{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      font-size:12px;
+      line-height:1.5;
     }
-    button.danger{
-      background: rgba(255,92,92,.10);
-      border-color: rgba(255,92,92,.28);
+    .result{
+      margin-top:14px;
+      padding:14px 14px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
     }
-
+    .kv{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .code{
+      font-size:22px;
+      letter-spacing: 1.2px;
+      font-weight:800;
+      padding:10px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(120,234,211,.40);
+      background: rgba(120,234,211,.10);
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+    }
+    .mini{
+      padding:10px 12px;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.06);
+      cursor:pointer;
+      font-weight:700;
+      color:var(--text);
+      transition:.15s ease;
+    }
+    .mini:hover{transform: translateY(-1px); background: rgba(255,255,255,.08)}
     .status{
       margin-top:10px;
-      border-radius: 14px;
       padding:10px 12px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.03);
-      font-size: 13px;
-      line-height:1.35;
-      display:none;
-      white-space: pre-wrap;
-      word-break: break-word;
+      border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      font-size:13px;
     }
-    .status.ok{display:block; border-color: rgba(78,229,159,.35); background: rgba(78,229,159,.08)}
-    .status.err{display:block; border-color: rgba(255,92,92,.35); background: rgba(255,92,92,.08)}
-    .status.info{display:block; border-color: rgba(120,234,211,.28); background: rgba(120,234,211,.06)}
-
-    table{
-      width:100%;
-      border-collapse: collapse;
-      font-size: 13px;
-      overflow:hidden;
+    .status.ok{border-color: rgba(124,255,178,.35); color: rgba(124,255,178,.95)}
+    .status.err{border-color: rgba(255,107,107,.35); color: rgba(255,190,190,.98)}
+    .side h3{margin:0 0 6px; font-size:16px}
+    .list{
+      display:grid; gap:10px;
+      margin-top:10px;
+    }
+    .item{
+      padding:12px 12px;
       border-radius: 14px;
-      border:1px solid var(--line);
-    }
-    th,td{padding:10px 10px; border-bottom:1px solid var(--line); text-align:left}
-    th{color: var(--muted); font-weight:600; background: rgba(255,255,255,.03)}
-    tr:last-child td{border-bottom:none}
-
-    .kbd{
-      display:inline-flex; align-items:center; justify-content:center;
-      padding:3px 8px;
-      border-radius: 999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      font-size: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
       color: var(--muted);
+      font-size:13px;
+      line-height:1.5;
+    }
+    .footer{
+      margin-top:18px;
+      text-align:center;
+      color: rgba(255,255,255,.55);
+      font-size:12px;
     }
 
-    /* Floating actions */
+    /* Sağ alt ikonlar */
     .fab{
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
+      position:fixed;
+      right:16px;
+      bottom:16px;
       display:flex;
-      flex-direction: column;
+      flex-direction:column;
       gap:10px;
-      z-index: 50;
+      z-index:50;
     }
     .fab a{
-      width: 50px; height: 50px;
-      display:flex; align-items:center; justify-content:center;
-      border-radius: 16px;
-      border:1px solid var(--line);
-      background: rgba(16,24,38,.70);
+      width:44px; height:44px;
+      display:grid; place-items:center;
+      border-radius: 14px;
+      background: rgba(0,0,0,.35);
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow: 0 10px 25px rgba(0,0,0,.35);
       backdrop-filter: blur(10px);
-      box-shadow: var(--shadow);
       transition:.15s ease;
     }
-    .fab a:hover{transform: translateY(-2px)}
-    .fab svg{width:22px; height:22px; opacity:.92}
-    footer{
-      margin-top: 16px;
-      color: var(--muted);
-      font-size: 12px;
-      text-align:center;
-    }
+    .fab a:hover{transform: translateY(-2px); background: rgba(0,0,0,.42)}
+    .icon{width:18px; height:18px; opacity:.95}
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <header>
+    <div class="topbar">
       <div class="brand">
-        <img class="logo" src="assets/logo.jpg" alt="Göcek Lokantası logo" />
+        <div class="logo" aria-label="Göcek Lokantası">
+          <!-- Logon varsa assets içine koyup src'yi değiştir: assets/logo.png -->
+          <img src="assets/logo.png" alt="" onerror="this.remove(); this.parentElement.textContent='G'; this.parentElement.style.fontWeight='900';" />
+        </div>
         <div>
-          <b>Göcek Lokantası</b>
-          <span>Marina İndirimi • Kod Yönetimi</span>
+          <h1>Göcek Lokantası</h1>
+          <p>Marina İndirimi • Tek Kullanımlık Kod</p>
         </div>
       </div>
 
-      <nav>
-        <a class="pill" href="index.html">Ana Sayfa</a>
-        <a class="pill primary" href="marina.html">Marina İndirimi</a>
-        <a class="pill" href="dashboard.html">Dashboard</a>
+      <div class="nav">
+        <a class="pill" href="/">Ana Sayfa</a>
+        <a class="pill primary" href="/marina">Marina indirimi</a>
+        <a class="pill" href="/dashboard">Dashboard</a>
         <a class="pill" id="btnWhatsapp" href="#" rel="noopener">WhatsApp</a>
-        <a class="pill orange" id="btnMaps" href="#" rel="noopener">Konum</a>
+        <a class="pill" id="btnMaps" href="#" rel="noopener">Konum</a>
         <a class="pill" id="btnInstagram" href="#" rel="noopener">Instagram</a>
-      </nav>
-    </header>
-
-    <div class="grid">
-      <!-- LEFT: Generate / Use -->
-      <section class="card">
-        <div class="hd">
-          <h1>Marina İndirimi Kod Sistemi</h1>
-          <p>
-            <span class="kbd">PS001</span> formatında pedestal/star seçip kod üret.
-            Ardından gelen kodu kasada doğrula.
-          </p>
-        </div>
-
-        <div class="bd">
-          <div class="row">
-            <div>
-              <label for="pedalstar">Pedalstar ID</label>
-              <input id="pedalstar" placeholder="PS001" autocomplete="off" />
-              <div class="hint">Format: <b>PS</b> + 3 hane (örn: PS001, PS014)</div>
-            </div>
-            <div class="fixed">
-              <label>&nbsp;</label>
-              <button id="btnGenerate">Kod Üret</button>
-            </div>
-          </div>
-
-          <div id="genStatus" class="status"></div>
-
-          <hr style="border:none;border-top:1px solid var(--line); margin:16px 0">
-
-          <div class="row">
-            <div>
-              <label for="codeToUse">Kodu Kullan / Doğrula</label>
-              <input id="codeToUse" placeholder="Örn: GL-AB12CD" autocomplete="off" />
-              <div class="hint">Kasada okutulan/okunan kodu buraya gir.</div>
-            </div>
-            <div class="fixed">
-              <label>&nbsp;</label>
-              <button id="btnUse" class="secondary">Kodu Kullan</button>
-            </div>
-          </div>
-
-          <div id="useStatus" class="status"></div>
-        </div>
-      </section>
-
-      <!-- RIGHT: Latest list -->
-      <aside class="card">
-        <div class="hd">
-          <h2>Son Üretilen Kodlar</h2>
-          <p>Seçilen pedestalstar’a göre listele. (Boşsa hepsi)</p>
-        </div>
-        <div class="bd">
-          <div class="row">
-            <div>
-              <label for="filterPedalstar">Filtre (opsiyonel)</label>
-              <input id="filterPedalstar" placeholder="PS001" autocomplete="off" />
-            </div>
-            <div class="fixed">
-              <label>&nbsp;</label>
-              <button id="btnRefresh" class="secondary">Yenile</button>
-            </div>
-          </div>
-
-          <div id="listStatus" class="status"></div>
-
-          <div style="margin-top:10px; overflow:auto">
-            <table>
-              <thead>
-                <tr>
-                  <th>Kod</th>
-                  <th>Pedalstar</th>
-                  <th>Durum</th>
-                  <th>Bitiş</th>
-                </tr>
-              </thead>
-              <tbody id="listBody">
-                <tr><td colspan="4" style="color:var(--muted)">Liste henüz yüklenmedi.</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </aside>
+      </div>
     </div>
 
-    <footer>
-      © <span id="year"></span> Göcek Lokantası
-    </footer>
+    <div class="grid">
+      <!-- SOL: Kod üretme (MÜŞTERİ SAYFASI) -->
+      <div class="card">
+        <h2>Marina İndirimi – Kod Üret</h2>
+        <p>
+          Pedalstar/stand ID’niz <b>PS001</b> formatında olmalı. Kod üretince kasada gösterin.
+          Kod <b>10 dakika</b> geçerlidir.
+        </p>
+
+        <div class="row">
+          <div>
+            <label for="pedalstar">Pedalstar ID</label>
+            <input id="pedalstar" placeholder="Örn: PS001" autocomplete="off" />
+          </div>
+          <button class="btn" id="btnGenerate">Kod Üret</button>
+        </div>
+
+        <div class="note">
+          İpucu: QR linki şöyle olursa otomatik dolar → <b>/marina?pedalstar=PS001</b>
+        </div>
+
+        <div id="out" class="result" style="display:none">
+          <div class="kv">
+            <div class="code">
+              <span id="codeText">------</span>
+              <button class="mini" id="btnCopy" type="button">Kopyala</button>
+            </div>
+            <div style="color:var(--muted); font-size:13px">
+              Bitiş: <b id="expiresText">-</b>
+            </div>
+          </div>
+          <div class="status ok" style="margin-top:12px">
+            Kodu kasada gösterin. Süre dolarsa tekrar kod üretebilirsiniz.
+          </div>
+        </div>
+
+        <div id="status" class="status" style="display:none"></div>
+
+        <div class="footer">© <span id="year"></span> Göcek Lokantası</div>
+      </div>
+
+      <!-- SAĞ: Bilgi kutusu (DASHBOARD/LİSTE YOK) -->
+      <div class="card side">
+        <h3>Nasıl kullanılır?</h3>
+        <div class="list">
+          <div class="item">
+            1) Pedalstar ID alanına <b>PS001</b> gibi ID girin (QR otomatik doldurabilir).
+          </div>
+          <div class="item">
+            2) <b>Kod Üret</b> ile kod oluşturun.
+          </div>
+          <div class="item">
+            3) Kodu kasaya gösterin. Kod tek kullanımlıktır.
+          </div>
+          <div class="item">
+            Personel kontrol ekranı: <b>/dashboard</b> (token ile).
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Floating actions (sağ alt) -->
-  <div class="fab" aria-label="Hızlı erişim">
-    <a id="fabWhatsapp" href="#" title="WhatsApp">
-      <!-- WhatsApp icon -->
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path fill="currentColor" d="M12.04 2C6.58 2 2.15 6.33 2.15 11.69c0 1.89.56 3.64 1.52 5.12L2 22l5.35-1.58c1.41.77 3.03 1.21 4.69 1.21 5.46 0 9.89-4.33 9.89-9.69C21.93 6.33 17.5 2 12.04 2Zm0 17.86c-1.52 0-2.93-.41-4.16-1.12l-.3-.17-3.17.94.95-3.05-.2-.31a7.88 7.88 0 0 1-1.27-4.33c0-4.39 3.65-7.96 8.15-7.96s8.15 3.57 8.15 7.96-3.65 8-8.15 8Zm4.48-5.78c-.24-.12-1.4-.69-1.62-.77-.22-.08-.38-.12-.54.12-.16.24-.62.77-.76.93-.14.16-.28.18-.52.06-.24-.12-1.02-.37-1.94-1.18-.72-.64-1.2-1.43-1.34-1.67-.14-.24-.01-.36.11-.48.11-.11.24-.28.36-.42.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.29-.74-1.77-.2-.48-.4-.41-.54-.42h-.46c-.16 0-.42.06-.64.3-.22.24-.84.82-.84 2 0 1.18.86 2.32.98 2.48.12.16 1.69 2.58 4.1 3.62.57.25 1.02.4 1.37.51.58.18 1.1.15 1.51.09.46-.07 1.4-.57 1.6-1.12.2-.55.2-1.02.14-1.12-.06-.1-.22-.16-.46-.28Z"/>
+  <!-- Sağ alt ikonlar: WhatsApp, Konum, Instagram -->
+  <div class="fab" aria-label="Hızlı Bağlantılar">
+    <a id="fabWhatsapp" href="#" title="WhatsApp" rel="noopener">
+      <svg class="icon" viewBox="0 0 24 24" fill="none">
+        <path d="M20.5 11.9c0 4.7-3.8 8.6-8.5 8.6-1.5 0-2.9-.4-4.2-1l-3.3 1 .9-3.2a8.6 8.6 0 0 1-1.3-4.6C4.1 7.2 8 3.3 12.7 3.3c4.7 0 7.8 3.9 7.8 8.6Z" stroke="white" opacity=".9"/>
+        <path d="M10.2 9.3c-.2-.4-.4-.4-.7-.4h-.6c-.2 0-.4.1-.6.3-.2.3-.8.8-.8 2s.8 2.3.9 2.5c.1.2 1.5 2.4 3.6 3.2 1.7.7 2.1.6 2.4.5.3-.1 1-.4 1.1-.9.1-.5.1-.9 0-1-.1-.1-.3-.2-.6-.3l-1.4-.7c-.2-.1-.4-.1-.6.1l-.5.6c-.2.2-.3.2-.5.1-.2-.1-.9-.3-1.6-1a6 6 0 0 1-1.1-1.4c-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.3-.4.1-.2.1-.3 0-.5l-.6-1.3Z" fill="white" opacity=".9"/>
       </svg>
     </a>
-
-    <a id="fabMaps" href="#" title="Konum">
-      <!-- Map pin icon -->
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path fill="currentColor" d="M12 2c-3.86 0-7 3.14-7 7 0 5.25 7 13 7 13s7-7.75 7-13c0-3.86-3.14-7-7-7Zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5Z"/>
+    <a id="fabMaps" href="#" title="Konum" rel="noopener">
+      <svg class="icon" viewBox="0 0 24 24" fill="none">
+        <path d="M12 22s7-5.2 7-12a7 7 0 1 0-14 0c0 6.8 7 12 7 12Z" stroke="white" opacity=".9"/>
+        <path d="M12 13.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" fill="white" opacity=".9"/>
       </svg>
     </a>
-
-    <a id="fabInstagram" href="#" title="Instagram">
-      <!-- Instagram icon -->
-      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-        <path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5Zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3Zm-5 4a5 5 0 1 1 0 10 5 5 0 0 1 0-10Zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm5.25-2.1a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/>
+    <a id="fabInstagram" href="#" title="Instagram" rel="noopener">
+      <svg class="icon" viewBox="0 0 24 24" fill="none">
+        <path d="M7.5 3.5h9A4 4 0 0 1 20.5 7.5v9a4 4 0 0 1-4 4h-9a4 4 0 0 1-4-4v-9a4 4 0 0 1 4-4Z" stroke="white" opacity=".9"/>
+        <path d="M12 16.2a4.2 4.2 0 1 0 0-8.4 4.2 4.2 0 0 0 0 8.4Z" stroke="white" opacity=".9"/>
+        <path d="M17.3 6.7h.01" stroke="white" stroke-width="2" stroke-linecap="round"/>
       </svg>
     </a>
   </div>
 
   <script>
-    // ====== SABİT SITE BİLGİLERİ (senin verdiğin değerler) ======
+    // ==== SABİT LİNKLER (SENİN VERDİKLERİN) ====
     const SITE = {
       WHATSAPP_NUMBER: "905394105058",
       INSTAGRAM_URL: "https://instagram.com/goceklokantasi",
       MAPS_DIRECTIONS_URL: "https://share.google/qVl6WHz6QGHft2Vl6"
     };
 
-    // WhatsApp hazır mesaj
-    const waText = "Merhaba, Göcek Lokantası marina indirimi hakkında bilgi almak istiyorum.";
+    // Top bar + sağ alt ikonları bağla
+    const waText = "Merhaba, marina indirimi hakkında bilgi alabilir miyim?";
     const waUrl  = `https://wa.me/${SITE.WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
 
-    // Linkleri butonlara bağla
-    const bind = (id, url) => {
+    function bind(id, url){
       const el = document.getElementById(id);
       if (el) el.href = url;
-    };
-
+    }
     ["btnWhatsapp","fabWhatsapp"].forEach(id => bind(id, waUrl));
     ["btnInstagram","fabInstagram"].forEach(id => bind(id, SITE.INSTAGRAM_URL));
     ["btnMaps","fabMaps"].forEach(id => bind(id, SITE.MAPS_DIRECTIONS_URL));
 
-    document.getElementById("year").textContent = new Date().getFullYear();
+    // ==== Pedalstar parametresini URL'den al (QR ile otomatik dolsun) ====
+    const qs = new URLSearchParams(location.search);
+    const pedalstarFromUrl = (qs.get("pedalstar") || qs.get("pedalstar_id") || "").trim().toUpperCase();
+    const pedalInput = document.getElementById("pedalstar");
+    if (pedalstarFromUrl) pedalInput.value = pedalstarFromUrl;
 
-    // ====== UI helpers ======
-    const $ = (id) => document.getElementById(id);
+    const statusEl = document.getElementById("status");
+    const outEl = document.getElementById("out");
+    const codeTextEl = document.getElementById("codeText");
+    const expiresTextEl = document.getElementById("expiresText");
+    const btnGenerate = document.getElementById("btnGenerate");
+    const btnCopy = document.getElementById("btnCopy");
 
-    function setStatus(el, type, msg){
-      el.className = "status " + type;
-      el.textContent = msg;
+    function showStatus(kind, msg){
+      statusEl.style.display = "block";
+      statusEl.className = "status " + (kind === "err" ? "err" : "ok");
+      statusEl.textContent = msg;
+    }
+    function clearStatus(){
+      statusEl.style.display = "none";
+      statusEl.textContent = "";
+      statusEl.className = "status";
     }
 
-    function clearStatus(el){
-      el.className = "status";
-      el.textContent = "";
-      el.style.display = "none";
-    }
+    async function generateCode(){
+      clearStatus();
+      outEl.style.display = "none";
 
-    // Not: status class'ları display'i class ile açıyor; garanti için:
-    const showStatus = (el, type, msg) => {
-      setStatus(el, type, msg);
-      el.style.display = "block";
-    };
+      const pedalstar = (pedalInput.value || "").trim().toUpperCase();
+      if (!/^PS\\d{3}$/.test(pedalstar)){
+        showStatus("err", "Pedalstar ID hatalı. Örn: PS001");
+        return;
+      }
 
-    function normalizePedalstar(input){
-      return (input || "").trim().toUpperCase();
-    }
+      btnGenerate.disabled = true;
+      btnGenerate.textContent = "Üretiliyor...";
 
-    // ====== API calls (Netlify Functions) ======
-    // Not: Param adında emin olamadığımız için 3 paramı birlikte gönderiyoruz
-    // (generate.js hangi paramı okuyorsa onu yakalasın diye)
-    async function apiGenerate(pedalstarId){
-      const id = normalizePedalstar(pedalstarId);
-
-      const qs = new URLSearchParams({
-        pedalstar: id,
-        pedalstar_id: id,
-        pedalstarId: id
-      });
-
-      const url = `/.netlify/functions/generate?${qs.toString()}`;
-      const res = await fetch(url, { method: "GET" });
-      const data = await res.json().catch(() => ({}));
-      return { ok: res.ok, status: res.status, data };
-    }
-
-    async function apiUse(code){
-      const c = (code || "").trim();
-
-      // Önce POST dene
-      let res = await fetch("/.netlify/functions/use", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: c })
-      });
-
-      if (res.ok){
+      try{
+        // NOT: Mutlaka .netlify yolunu kullan
+        const url = `/.netlify/functions/generate?pedalstar=${encodeURIComponent(pedalstar)}`;
+        const res = await fetch(url, { method:"GET" });
         const data = await res.json().catch(() => ({}));
-        return { ok:true, status: res.status, data };
-      }
 
-      // POST olmazsa GET fallback
-      const qs = new URLSearchParams({ code: c });
-      res = await fetch(`/.netlify/functions/use?${qs.toString()}`, { method:"GET" });
-      const data = await res.json().catch(() => ({}));
-      return { ok: res.ok, status: res.status, data };
-    }
-
-    async function apiList(filterPedalstar){
-      const id = normalizePedalstar(filterPedalstar);
-      const qs = new URLSearchParams();
-      if (id) {
-        qs.set("pedalstar", id);
-        qs.set("pedalstar_id", id);
-        qs.set("pedalstarId", id);
-      }
-      const url = `/.netlify/functions/list${qs.toString() ? "?" + qs.toString() : ""}`;
-      const res = await fetch(url, { method:"GET" });
-      const data = await res.json().catch(() => ({}));
-      return { ok: res.ok, status: res.status, data };
-    }
-
-    // ====== Actions ======
-    $("btnGenerate").addEventListener("click", async () => {
-      const genStatus = $("genStatus");
-      const pedalstarId = $("pedalstar").value;
-
-      const id = normalizePedalstar(pedalstarId);
-      if (!/^PS\d{3}$/.test(id)){
-        showStatus(genStatus, "err", "Hatalı Pedalstar ID. Beklenen format: PS001");
-        return;
-      }
-
-      showStatus(genStatus, "info", "Kod üretiliyor...");
-
-      try{
-        const r = await apiGenerate(id);
-
-        if (!r.ok){
-          const msg = r.data?.error || r.data?.message || "Kod üretilemedi.";
-          showStatus(genStatus, "err", `${msg}\n(HTTP ${r.status})`);
+        if (!res.ok || !data.ok){
+          const m = data?.error || `Hata (${res.status})`;
+          const d = data?.detail ? ` — ${data.detail}` : "";
+          showStatus("err", m + d);
           return;
         }
 
-        // Beklenen alanlar: code, expires_at, pedalstar_id vb.
-        const code = r.data?.code || r.data?.data?.code || r.data?.generated?.code || "";
-        const expires = r.data?.expires_at || r.data?.data?.expires_at || r.data?.generated?.expires_at || "";
-        const pId = r.data?.pedalstar_id || r.data?.pedalstar || r.data?.data?.pedalstar_id || id;
-
-        let out = "Kod üretildi ✅\n";
-        out += `Pedalstar: ${pId}\n`;
-        if (code) out += `Kod: ${code}\n`;
-        if (expires) out += `Bitiş: ${expires}\n`;
-
-        if (!code){
-          out += "\nNot: API cevap formatında 'code' alanı bulunamadı. generate.js çıktısını kontrol et.";
-        }
-
-        showStatus(genStatus, "ok", out);
-
-        // Kullanım alanına otomatik yaz
-        if (code) $("codeToUse").value = code;
-
-        // Listeyi yenile
-        await refreshList();
+        codeTextEl.textContent = data.code || "------";
+        expiresTextEl.textContent = data.expires_at ? new Date(data.expires_at).toLocaleString("tr-TR") : "-";
+        outEl.style.display = "block";
+        showStatus("ok", "Kod üretildi.");
       }catch(e){
-        showStatus(genStatus, "err", "Beklenmeyen hata: " + String(e));
+        showStatus("err", "Sunucu hatası: " + String(e));
+      }finally{
+        btnGenerate.disabled = false;
+        btnGenerate.textContent = "Kod Üret";
+      }
+    }
+
+    btnGenerate.addEventListener("click", generateCode);
+
+    btnCopy.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText(codeTextEl.textContent.trim());
+        showStatus("ok", "Kopyalandı.");
+      }catch(e){
+        showStatus("err", "Kopyalama başarısız.");
       }
     });
 
-    $("btnUse").addEventListener("click", async () => {
-      const useStatus = $("useStatus");
-      const code = ($("codeToUse").value || "").trim();
-      if (code.length < 4){
-        showStatus(useStatus, "err", "Kod boş/hatalı görünüyor.");
-        return;
-      }
-
-      showStatus(useStatus, "info", "Kod doğrulanıyor/kullanılıyor...");
-
-      try{
-        const r = await apiUse(code);
-        if (!r.ok){
-          const msg = r.data?.error || r.data?.message || "Kod kullanılamadı.";
-          showStatus(useStatus, "err", `${msg}\n(HTTP ${r.status})`);
-          return;
-        }
-
-        let out = "Kod kullanıldı ✅\n";
-        // muhtemel alanlar
-        const usedAt = r.data?.used_at || r.data?.data?.used_at;
-        const note   = r.data?.used_note || r.data?.data?.used_note;
-        const pId    = r.data?.pedalstar_id || r.data?.data?.pedalstar_id;
-
-        if (pId) out += `Pedalstar: ${pId}\n`;
-        if (usedAt) out += `Kullanım: ${usedAt}\n`;
-        if (note) out += `Not: ${note}\n`;
-
-        showStatus(useStatus, "ok", out);
-
-        await refreshList();
-      }catch(e){
-        showStatus(useStatus, "err", "Beklenmeyen hata: " + String(e));
-      }
-    });
-
-    $("btnRefresh").addEventListener("click", refreshList);
-
-    async function refreshList(){
-      const listStatus = $("listStatus");
-      const tbody = $("listBody");
-      const filter = $("filterPedalstar").value;
-
-      showStatus(listStatus, "info", "Liste yükleniyor...");
-
-      try{
-        const r = await apiList(filter);
-
-        if (!r.ok){
-          const msg = r.data?.error || r.data?.message || "Liste alınamadı.";
-          showStatus(listStatus, "err", `${msg}\n(HTTP ${r.status})`);
-          return;
-        }
-
-        // Beklenen: array
-        const rows =
-          (Array.isArray(r.data) ? r.data : null) ||
-          (Array.isArray(r.data?.rows) ? r.data.rows : null) ||
-          (Array.isArray(r.data?.data) ? r.data.data : null) ||
-          [];
-
-        if (!rows.length){
-          showStatus(listStatus, "ok", "Liste boş (0 kayıt).");
-          tbody.innerHTML = `<tr><td colspan="4" style="color:var(--muted)">Kayıt bulunamadı.</td></tr>`;
-          return;
-        }
-
-        // satır alanları farklı olabilir; esnek okuyalım
-        tbody.innerHTML = rows.map((x) => {
-          const code = x.code ?? x?.code_value ?? "";
-          const p = x.pedalstar_id ?? x.pedalstar ?? "";
-          const usedAt = x.used_at ?? null;
-          const exp = x.expires_at ?? x.expires ?? "";
-          const status = usedAt ? "Kullanıldı" : "Aktif";
-          return `<tr>
-            <td>${escapeHtml(String(code))}</td>
-            <td>${escapeHtml(String(p))}</td>
-            <td>${escapeHtml(String(status))}</td>
-            <td>${escapeHtml(String(exp))}</td>
-          </tr>`;
-        }).join("");
-
-        showStatus(listStatus, "ok", `Yüklendi ✅ (${rows.length} kayıt)`);
-      }catch(e){
-        showStatus(listStatus, "err", "Beklenmeyen hata: " + String(e));
-      }
-    }
-
-    function escapeHtml(str){
-      return str
-        .replaceAll("&","&amp;")
-        .replaceAll("<","&lt;")
-        .replaceAll(">","&gt;")
-        .replaceAll('"',"&quot;")
-        .replaceAll("'","&#039;");
-    }
-
-    // Sayfa açılır açılmaz listeyi çek
-    refreshList();
+    document.getElementById("year").textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

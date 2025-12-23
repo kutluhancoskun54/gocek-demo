@@ -2,3 +2,12 @@
   publish = "."
   functions = "netlify/functions"
 
+[[redirects]]
+  from = "/marina"
+  to = "/marina.html"
+  status = 200
+
+[[redirects]]
+  from = "/dashboard"
+  to = "/dashboard.html"
+  status = 200
