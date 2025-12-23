@@ -2,207 +2,236 @@
 <html lang="tr">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Göcek Lokantası – Marina İndirimi</title>
-  <meta name="description" content="Marina indirimi için tek kullanımlık kod üret." />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Göcek Lokantası — Marina İndirimi</title>
+  <meta name="description" content="Göcek Lokantası marina indirimi için tek kullanımlık kod üretme ekranı." />
   <style>
     :root{
-      --bg1:#071018; --bg2:#120a10;
-      --card: rgba(255,255,255,.06);
+      --bg1:#0b1220;
+      --bg2:#1a2438;
+      --glass: rgba(14, 20, 33, .62);
+      --glass2: rgba(14, 20, 33, .42);
       --stroke: rgba(255,255,255,.10);
+      --stroke2: rgba(255,255,255,.14);
       --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.70);
-      --brand:#78ead3;
-      --brand2:#f88451;
-      --danger:#ff6b6b;
-      --ok:#7CFFB2;
-      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --muted: rgba(255,255,255,.66);
+      --muted2: rgba(255,255,255,.50);
+      --ok: rgba(69, 255, 168, .95);
+      --warn: rgba(255, 126, 126, .95);
+      --btn: rgba(255,255,255,.10);
+      --btnH: rgba(255,255,255,.14);
+      --shadow: 0 20px 60px rgba(0,0,0,.55);
       --radius: 18px;
+      --radius2: 14px;
+      --pad: 18px;
+      --pad2: 14px;
+      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
     }
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      font-family:var(--font);
       color:var(--text);
-      min-height:100vh;
       background:
-        radial-gradient(900px 600px at 20% 15%, rgba(120,234,211,.20), transparent 55%),
-        radial-gradient(900px 600px at 80% 20%, rgba(248,132,81,.18), transparent 55%),
-        radial-gradient(1200px 900px at 50% 110%, rgba(221,13,3,.10), transparent 60%),
-        linear-gradient(140deg, var(--bg1), var(--bg2));
+        radial-gradient(1100px 700px at 12% 18%, rgba(34, 211, 238, .18), transparent 58%),
+        radial-gradient(900px 600px at 85% 20%, rgba(255, 146, 91, .18), transparent 60%),
+        radial-gradient(1100px 700px at 60% 90%, rgba(99, 102, 241, .14), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
     }
     a{color:inherit; text-decoration:none}
-    .wrap{max-width:1100px; margin:0 auto; padding:28px 18px 80px}
+    .wrap{max-width:1100px; margin:0 auto; padding:22px 16px 40px}
+
+    /* topbar */
     .topbar{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:14px;
-      padding:14px 14px;
-      background:rgba(0,0,0,.22);
+      display:flex; align-items:center; gap:12px;
+      padding:10px 12px;
       border:1px solid var(--stroke);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      backdrop-filter: blur(10px);
       border-radius:999px;
       box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
     }
     .brand{
-      display:flex; align-items:center; gap:12px;
-      padding-left:6px;
+      display:flex; align-items:center; gap:10px;
+      padding:4px 8px;
       min-width: 240px;
     }
     .logo{
-      width:36px; height:36px; border-radius:10px;
-      background:rgba(255,255,255,.12);
-      border:1px solid var(--stroke);
+      width:34px; height:34px;
+      border-radius:10px;
+      border:1px solid var(--stroke2);
+      background:
+        radial-gradient(18px 18px at 30% 30%, rgba(255,255,255,.22), transparent 60%),
+        linear-gradient(135deg, rgba(255, 146, 91, .22), rgba(34, 211, 238, .18));
       display:grid; place-items:center;
-      overflow:hidden;
+      flex:0 0 auto;
     }
-    .logo img{width:100%; height:100%; object-fit:cover}
-    .brand h1{margin:0; font-size:14px; letter-spacing:.2px}
-    .brand p{margin:2px 0 0; font-size:12px; color:var(--muted)}
+    .brandText{display:flex; flex-direction:column; line-height:1.05}
+    .brandText b{font-size:14px; letter-spacing:.2px}
+    .brandText span{font-size:12px; color:var(--muted2)}
     .nav{
-      display:flex; flex-wrap:wrap; gap:8px;
-      justify-content:flex-end;
+      display:flex; gap:8px; align-items:center;
+      flex:1 1 auto;
+      justify-content:center;
+      flex-wrap:wrap;
     }
     .pill{
-      padding:10px 14px;
-      background:rgba(255,255,255,.06);
-      border:1px solid var(--stroke);
+      padding:9px 12px;
       border-radius:999px;
-      font-size:13px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.06);
       color:var(--text);
+      font-size:13px;
       transition:.15s ease;
+      user-select:none;
       white-space:nowrap;
     }
-    .pill:hover{transform: translateY(-1px); background:rgba(255,255,255,.09)}
-    .pill.primary{border-color: rgba(120,234,211,.45); box-shadow: 0 0 0 1px rgba(120,234,211,.12) inset}
+    .pill:hover{background:rgba(255,255,255,.10)}
+    .pill.active{
+      background:rgba(34,211,238,.14);
+      border-color:rgba(34,211,238,.24);
+    }
+
+    /* layout */
     .grid{
-      margin-top:22px;
+      margin-top:18px;
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:18px;
+      grid-template-columns: 1.15fr .85fr;
+      gap:16px;
+      align-items:start;
     }
     @media (max-width: 920px){
       .grid{grid-template-columns:1fr}
       .brand{min-width:auto}
+      .nav{justify-content:flex-start}
     }
     .card{
-      background: var(--card);
       border:1px solid var(--stroke);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
       backdrop-filter: blur(10px);
-      padding:18px;
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
     }
-    .card h2{margin:0 0 6px; font-size:18px}
-    .card p{margin:0 0 14px; color:var(--muted); font-size:13px; line-height:1.5}
-    .row{
-      display:grid;
-      grid-template-columns: 1fr auto;
-      gap:10px;
-      align-items:end;
-      margin-top:10px;
+    .cardInner{padding:18px}
+    h1,h2,h3{margin:0}
+    .h{
+      font-size:18px;
+      letter-spacing:.2px;
     }
-    label{font-size:12px; color:var(--muted)}
+    .p{
+      margin:8px 0 0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.45;
+    }
+    .hr{height:1px; background:var(--stroke); margin:14px 0}
+
+    .row{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap}
+    label{display:block; font-size:12px; color:var(--muted2); margin:0 0 6px}
+    .field{flex:1 1 260px}
     input{
       width:100%;
       padding:12px 12px;
-      background: rgba(0,0,0,.28);
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background:rgba(0,0,0,.22);
       color:var(--text);
-      border:1px solid rgba(255,255,255,.14);
-      border-radius: 12px;
       outline:none;
       font-size:14px;
+      letter-spacing:.2px;
     }
-    input:focus{border-color: rgba(120,234,211,.55); box-shadow: 0 0 0 3px rgba(120,234,211,.12)}
+    input:focus{border-color:rgba(34,211,238,.35); box-shadow:0 0 0 3px rgba(34,211,238,.10)}
     .btn{
       padding:12px 14px;
-      border-radius: 12px;
-      border:1px solid rgba(120,234,211,.45);
-      background: rgba(120,234,211,.14);
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background:var(--btn);
       color:var(--text);
-      cursor:pointer;
       font-weight:600;
+      cursor:pointer;
       transition:.15s ease;
-      min-width: 120px;
+      min-width:120px;
     }
-    .btn:hover{transform: translateY(-1px); background: rgba(120,234,211,.18)}
-    .btn:disabled{opacity:.55; cursor:not-allowed; transform:none}
-    .note{
+    .btn:hover{background:var(--btnH)}
+    .btn:disabled{opacity:.6; cursor:not-allowed}
+    .hint{
       margin-top:10px;
       padding:10px 12px;
-      border-radius: 12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      color: var(--muted);
-      font-size:12px;
-      line-height:1.5;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
+      font-size:12.5px;
     }
-    .result{
-      margin-top:14px;
+    .msg{
+      margin-top:10px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.04);
+      font-size:13px;
+      display:none;
+    }
+    .msg.ok{border-color:rgba(69,255,168,.25); background:rgba(69,255,168,.08); color:rgba(234,255,245,.95)}
+    .msg.err{border-color:rgba(255,126,126,.28); background:rgba(255,126,126,.08); color:rgba(255,232,232,.95)}
+    .codeBox{
+      margin-top:10px;
       padding:14px 14px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.22);
+      border-radius:14px;
+      border:1px dashed rgba(255,255,255,.18);
+      background:rgba(0,0,0,.20);
+      display:none;
     }
-    .kv{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .codeRow{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
     .code{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       font-size:22px;
-      letter-spacing: 1.2px;
+      letter-spacing:1px;
       font-weight:800;
-      padding:10px 12px;
-      border-radius: 12px;
-      border:1px solid rgba(120,234,211,.40);
-      background: rgba(120,234,211,.10);
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
     }
-    .mini{
-      padding:10px 12px;
-      border-radius: 12px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.06);
+    .meta{color:var(--muted); font-size:12.5px}
+    .smallBtn{
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid var(--stroke);
+      background:rgba(255,255,255,.06);
       cursor:pointer;
       font-weight:700;
-      color:var(--text);
-      transition:.15s ease;
-    }
-    .mini:hover{transform: translateY(-1px); background: rgba(255,255,255,.08)}
-    .status{
-      margin-top:10px;
-      padding:10px 12px;
-      border-radius: 12px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      font-size:13px;
-    }
-    .status.ok{border-color: rgba(124,255,178,.35); color: rgba(124,255,178,.95)}
-    .status.err{border-color: rgba(255,107,107,.35); color: rgba(255,190,190,.98)}
-    .side h3{margin:0 0 6px; font-size:16px}
-    .list{
-      display:grid; gap:10px;
-      margin-top:10px;
-    }
-    .item{
-      padding:12px 12px;
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.18);
-      color: var(--muted);
-      font-size:13px;
-      line-height:1.5;
-    }
-    .footer{
-      margin-top:18px;
-      text-align:center;
-      color: rgba(255,255,255,.55);
       font-size:12px;
     }
+    .smallBtn:hover{background:rgba(255,255,255,.10)}
 
-    /* Sağ alt ikonlar */
+    /* steps */
+    .steps{display:flex; flex-direction:column; gap:10px}
+    .step{
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--stroke);
+      background:rgba(0,0,0,.18);
+      font-size:13px;
+      color:var(--muted);
+      line-height:1.45;
+    }
+    .step b{color:var(--text)}
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size:12px;
+      color:rgba(255,255,255,.86);
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      padding:2px 6px;
+      border-radius:8px;
+      white-space:nowrap;
+    }
+
+    /* floating icons */
     .fab{
       position:fixed;
-      right:16px;
-      bottom:16px;
+      right:18px;
+      bottom:18px;
       display:flex;
       flex-direction:column;
       gap:10px;
@@ -210,222 +239,260 @@
     }
     .fab a{
       width:44px; height:44px;
-      display:grid; place-items:center;
-      border-radius: 14px;
-      background: rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.12);
-      box-shadow: 0 10px 25px rgba(0,0,0,.35);
+      border-radius:14px;
+      border:1px solid var(--stroke);
+      background:rgba(14, 20, 33, .60);
       backdrop-filter: blur(10px);
+      display:grid; place-items:center;
+      box-shadow: 0 14px 40px rgba(0,0,0,.45);
       transition:.15s ease;
     }
-    .fab a:hover{transform: translateY(-2px); background: rgba(0,0,0,.42)}
-    .icon{width:18px; height:18px; opacity:.95}
+    .fab a:hover{transform:translateY(-1px); background:rgba(255,255,255,.08)}
+    .fab svg{width:20px; height:20px; opacity:.95}
+
+    footer{
+      margin-top:14px;
+      color:rgba(255,255,255,.50);
+      font-size:12px;
+      text-align:center;
+    }
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <div class="topbar">
+    <header class="topbar" role="banner" aria-label="Üst Menü">
       <div class="brand">
-        <div class="logo" aria-label="Göcek Lokantası">
-          <!-- Logon varsa assets içine koyup src'yi değiştir: assets/logo.png -->
-          <img src="assets/logo.png" alt="" onerror="this.remove(); this.parentElement.textContent='G'; this.parentElement.style.fontWeight='900';" />
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M7.5 12.5c0 2.2 2 4 4.5 4s4.5-1.8 4.5-4" stroke="rgba(255,255,255,.85)" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M8 8.8c.8-1.5 2.2-2.5 4-2.5s3.2 1 4 2.5" stroke="rgba(255,255,255,.65)" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
         </div>
-        <div>
-          <h1>Göcek Lokantası</h1>
-          <p>Marina İndirimi • Tek Kullanımlık Kod</p>
+        <div class="brandText">
+          <b>Göcek Lokantası</b>
+          <span>Marina İndirimi • Tek Kullanımlık Kod</span>
         </div>
       </div>
 
-      <div class="nav">
-        <a class="pill" href="/">Ana Sayfa</a>
-        <a class="pill primary" href="/marina">Marina indirimi</a>
-        <a class="pill" href="/dashboard">Dashboard</a>
+      <nav class="nav" aria-label="Sayfalar">
+        <a class="pill" id="navHome" href="/">Ana Sayfa</a>
+        <a class="pill active" id="navMarina" href="/marina">Marina indirimi</a>
+        <a class="pill" id="navDashboard" href="/dashboard">Dashboard</a>
         <a class="pill" id="btnWhatsapp" href="#" rel="noopener">WhatsApp</a>
         <a class="pill" id="btnMaps" href="#" rel="noopener">Konum</a>
         <a class="pill" id="btnInstagram" href="#" rel="noopener">Instagram</a>
-      </div>
-    </div>
+      </nav>
+    </header>
 
-    <div class="grid">
-      <!-- SOL: Kod üretme (MÜŞTERİ SAYFASI) -->
-      <div class="card">
-        <h2>Marina İndirimi – Kod Üret</h2>
-        <p>
-          Pedalstar/stand ID’niz <b>PS001</b> formatında olmalı. Kod üretince kasada gösterin.
-          Kod <b>10 dakika</b> geçerlidir.
-        </p>
+    <main class="grid" role="main">
+      <section class="card" aria-label="Kod Üret">
+        <div class="cardInner">
+          <h1 class="h">Marina İndirimi — Kod Üret</h1>
+          <p class="p">
+            Pedalstar/stand ID’niz <b>PS001</b> formatında olmalı. Kod üretince kasada gösterin. Kod <b>10 dakika</b> geçerlidir.
+          </p>
 
-        <div class="row">
-          <div>
-            <label for="pedalstar">Pedalstar ID</label>
-            <input id="pedalstar" placeholder="Örn: PS001" autocomplete="off" />
-          </div>
-          <button class="btn" id="btnGenerate">Kod Üret</button>
-        </div>
+          <div class="hr"></div>
 
-        <div class="note">
-          İpucu: QR linki şöyle olursa otomatik dolar → <b>/marina?pedalstar=PS001</b>
-        </div>
-
-        <div id="out" class="result" style="display:none">
-          <div class="kv">
-            <div class="code">
-              <span id="codeText">------</span>
-              <button class="mini" id="btnCopy" type="button">Kopyala</button>
+          <div class="row">
+            <div class="field">
+              <label for="pedalstar">Pedalstar ID</label>
+              <input id="pedalstar" inputmode="text" autocomplete="off" spellcheck="false" placeholder="PS001" />
             </div>
-            <div style="color:var(--muted); font-size:13px">
-              Bitiş: <b id="expiresText">-</b>
+            <button class="btn" id="btnGenerate" type="button">Kod Üret</button>
+          </div>
+
+          <div class="hint" id="hintBox">
+            İpucu: QR linki şöyle olursa otomatik dolar → <span class="kbd">/marina?pedalstar=PS001</span>
+          </div>
+
+          <div class="msg err" id="msgErr"></div>
+          <div class="msg ok" id="msgOk"></div>
+
+          <div class="codeBox" id="codeBox">
+            <div class="codeRow">
+              <div>
+                <div class="meta">Üretilen Kod</div>
+                <div class="code" id="codeText">------</div>
+              </div>
+              <button class="smallBtn" id="btnCopy" type="button">Kopyala</button>
+            </div>
+            <div style="margin-top:8px" class="meta" id="expiresText">Bitiş: -</div>
+          </div>
+
+          <footer>© <span id="year"></span> Göcek Lokantası</footer>
+        </div>
+      </section>
+
+      <aside class="card" aria-label="Nasıl Kullanılır">
+        <div class="cardInner">
+          <h2 class="h">Nasıl kullanılır?</h2>
+          <div class="hr"></div>
+
+          <div class="steps">
+            <div class="step">
+              <b>1)</b> Pedalstar ID alanına <b>PS001</b> gibi ID girin (QR otomatik doldurabilir).
+            </div>
+            <div class="step">
+              <b>2)</b> <b>Kod Üret</b> ile kod oluşturun.
+            </div>
+            <div class="step">
+              <b>3)</b> Kodu kasaya gösterin. Kod tek kullanımlıktır ve <b>10 dakika</b> geçerlidir.
+            </div>
+            <div class="step">
+              Personel kontrol ekranı: <span class="kbd">/dashboard?token=...</span>
             </div>
           </div>
-          <div class="status ok" style="margin-top:12px">
-            Kodu kasada gösterin. Süre dolarsa tekrar kod üretebilirsiniz.
-          </div>
         </div>
+      </aside>
+    </main>
 
-        <div id="status" class="status" style="display:none"></div>
-
-        <div class="footer">© <span id="year"></span> Göcek Lokantası</div>
-      </div>
-
-      <!-- SAĞ: Bilgi kutusu (DASHBOARD/LİSTE YOK) -->
-      <div class="card side">
-        <h3>Nasıl kullanılır?</h3>
-        <div class="list">
-          <div class="item">
-            1) Pedalstar ID alanına <b>PS001</b> gibi ID girin (QR otomatik doldurabilir).
-          </div>
-          <div class="item">
-            2) <b>Kod Üret</b> ile kod oluşturun.
-          </div>
-          <div class="item">
-            3) Kodu kasaya gösterin. Kod tek kullanımlıktır.
-          </div>
-          <div class="item">
-            Personel kontrol ekranı: <b>/dashboard</b> (token ile).
-          </div>
-        </div>
-      </div>
+    <div class="fab" aria-label="Hızlı Bağlantılar">
+      <a id="fabWhatsapp" href="#" title="WhatsApp" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 21a9 9 0 1 0-7.7-4.3L3 21l4.5-1.2A8.9 8.9 0 0 0 12 21Z" stroke="rgba(255,255,255,.85)" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M9.6 10.2c.3-.6.6-.6.9-.6h.4c.2 0 .4 0 .6.4l.6 1.3c.1.3.1.5 0 .7l-.3.4c-.2.2-.3.4-.1.7.2.3.7 1.2 1.6 1.9.9.7 1.6.9 1.9 1 .3.1.5.1.7-.1l.5-.6c.2-.2.4-.3.7-.2l1.3.6c.4.2.4.4.4.6v.4c0 .3 0 .6-.6.9-.6.3-1.9.9-4.3-.4-2.4-1.4-4-3.9-4.1-4.2-.2-.3-1.3-1.8-.4-2.9Z" fill="rgba(255,255,255,.82)"/>
+        </svg>
+      </a>
+      <a id="fabMaps" href="#" title="Konum" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 22s7-5.2 7-12a7 7 0 1 0-14 0c0 6.8 7 12 7 12Z" stroke="rgba(255,255,255,.85)" stroke-width="1.6" stroke-linejoin="round"/>
+          <path d="M12 13.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" fill="rgba(255,255,255,.82)"/>
+        </svg>
+      </a>
+      <a id="fabInstagram" href="#" title="Instagram" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5Z" stroke="rgba(255,255,255,.85)" stroke-width="1.6"/>
+          <path d="M12 16.2a4.2 4.2 0 1 0 0-8.4 4.2 4.2 0 0 0 0 8.4Z" stroke="rgba(255,255,255,.85)" stroke-width="1.6"/>
+          <path d="M17.6 6.4h.01" stroke="rgba(255,255,255,.85)" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </a>
     </div>
-  </div>
-
-  <!-- Sağ alt ikonlar: WhatsApp, Konum, Instagram -->
-  <div class="fab" aria-label="Hızlı Bağlantılar">
-    <a id="fabWhatsapp" href="#" title="WhatsApp" rel="noopener">
-      <svg class="icon" viewBox="0 0 24 24" fill="none">
-        <path d="M20.5 11.9c0 4.7-3.8 8.6-8.5 8.6-1.5 0-2.9-.4-4.2-1l-3.3 1 .9-3.2a8.6 8.6 0 0 1-1.3-4.6C4.1 7.2 8 3.3 12.7 3.3c4.7 0 7.8 3.9 7.8 8.6Z" stroke="white" opacity=".9"/>
-        <path d="M10.2 9.3c-.2-.4-.4-.4-.7-.4h-.6c-.2 0-.4.1-.6.3-.2.3-.8.8-.8 2s.8 2.3.9 2.5c.1.2 1.5 2.4 3.6 3.2 1.7.7 2.1.6 2.4.5.3-.1 1-.4 1.1-.9.1-.5.1-.9 0-1-.1-.1-.3-.2-.6-.3l-1.4-.7c-.2-.1-.4-.1-.6.1l-.5.6c-.2.2-.3.2-.5.1-.2-.1-.9-.3-1.6-1a6 6 0 0 1-1.1-1.4c-.1-.2 0-.4.1-.5l.4-.4c.1-.1.2-.3.3-.4.1-.2.1-.3 0-.5l-.6-1.3Z" fill="white" opacity=".9"/>
-      </svg>
-    </a>
-    <a id="fabMaps" href="#" title="Konum" rel="noopener">
-      <svg class="icon" viewBox="0 0 24 24" fill="none">
-        <path d="M12 22s7-5.2 7-12a7 7 0 1 0-14 0c0 6.8 7 12 7 12Z" stroke="white" opacity=".9"/>
-        <path d="M12 13.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" fill="white" opacity=".9"/>
-      </svg>
-    </a>
-    <a id="fabInstagram" href="#" title="Instagram" rel="noopener">
-      <svg class="icon" viewBox="0 0 24 24" fill="none">
-        <path d="M7.5 3.5h9A4 4 0 0 1 20.5 7.5v9a4 4 0 0 1-4 4h-9a4 4 0 0 1-4-4v-9a4 4 0 0 1 4-4Z" stroke="white" opacity=".9"/>
-        <path d="M12 16.2a4.2 4.2 0 1 0 0-8.4 4.2 4.2 0 0 0 0 8.4Z" stroke="white" opacity=".9"/>
-        <path d="M17.3 6.7h.01" stroke="white" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-    </a>
   </div>
 
   <script>
-    // ==== SABİT LİNKLER (SENİN VERDİKLERİN) ====
+    // Sabit bilgiler
     const SITE = {
-      WHATSAPP_NUMBER: "905394105058",
+      WHATSAPP_NUMBER: "905394105058", // sadece rakam
       INSTAGRAM_URL: "https://instagram.com/goceklokantasi",
-      MAPS_DIRECTIONS_URL: "https://share.google/qVl6WHz6QGHft2Vl6"
+      MAPS_DIRECTIONS_URL: "https://maps.app.goo.gl/Vf6fVwdSiV2JRdb36"
     };
 
-    // Top bar + sağ alt ikonları bağla
+    // Link bağlama
     const waText = "Merhaba, marina indirimi hakkında bilgi alabilir miyim?";
-    const waUrl  = `https://wa.me/${SITE.WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+    const waUrl = `https://wa.me/${SITE.WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
 
-    function bind(id, url){
+    function bind(id, url) {
       const el = document.getElementById(id);
       if (el) el.href = url;
     }
+
     ["btnWhatsapp","fabWhatsapp"].forEach(id => bind(id, waUrl));
     ["btnInstagram","fabInstagram"].forEach(id => bind(id, SITE.INSTAGRAM_URL));
     ["btnMaps","fabMaps"].forEach(id => bind(id, SITE.MAPS_DIRECTIONS_URL));
 
-    // ==== Pedalstar parametresini URL'den al (QR ile otomatik dolsun) ====
-    const qs = new URLSearchParams(location.search);
-    const pedalstarFromUrl = (qs.get("pedalstar") || qs.get("pedalstar_id") || "").trim().toUpperCase();
-    const pedalInput = document.getElementById("pedalstar");
-    if (pedalstarFromUrl) pedalInput.value = pedalstarFromUrl;
+    // Footer year
+    document.getElementById("year").textContent = new Date().getFullYear();
 
-    const statusEl = document.getElementById("status");
-    const outEl = document.getElementById("out");
-    const codeTextEl = document.getElementById("codeText");
-    const expiresTextEl = document.getElementById("expiresText");
-    const btnGenerate = document.getElementById("btnGenerate");
-    const btnCopy = document.getElementById("btnCopy");
+    // Helpers
+    const $ = (id) => document.getElementById(id);
 
-    function showStatus(kind, msg){
-      statusEl.style.display = "block";
-      statusEl.className = "status " + (kind === "err" ? "err" : "ok");
-      statusEl.textContent = msg;
+    function showErr(text){
+      $("msgOk").style.display = "none";
+      $("msgOk").textContent = "";
+      $("msgErr").style.display = "block";
+      $("msgErr").textContent = text;
     }
-    function clearStatus(){
-      statusEl.style.display = "none";
-      statusEl.textContent = "";
-      statusEl.className = "status";
+    function showOk(text){
+      $("msgErr").style.display = "none";
+      $("msgErr").textContent = "";
+      $("msgOk").style.display = "block";
+      $("msgOk").textContent = text;
+    }
+    function clearMsgs(){
+      $("msgErr").style.display = "none"; $("msgErr").textContent = "";
+      $("msgOk").style.display = "none"; $("msgOk").textContent = "";
     }
 
+    function normalizePedalstar(v){
+      return (v || "").trim().toUpperCase();
+    }
+
+    function isValidPedalstar(v){
+      // PS001 formatı
+      return /^PS\d{3}$/.test(v);
+    }
+
+    // Query param ile doldur: ?pedalstar=PS001 (veya pedalstar_id)
+    (function prefillFromQuery(){
+      try{
+        const u = new URL(location.href);
+        const q = normalizePedalstar(u.searchParams.get("pedalstar") || u.searchParams.get("pedalstar_id") || "");
+        if (q) $("pedalstar").value = q;
+      }catch(e){}
+    })();
+
+    // Generate
     async function generateCode(){
-      clearStatus();
-      outEl.style.display = "none";
+      clearMsgs();
+      $("codeBox").style.display = "none";
 
-      const pedalstar = (pedalInput.value || "").trim().toUpperCase();
-      if (!/^PS\\d{3}$/.test(pedalstar)){
-        showStatus("err", "Pedalstar ID hatalı. Örn: PS001");
+      const pedalstarRaw = $("pedalstar").value;
+      const pedalstar = normalizePedalstar(pedalstarRaw);
+
+      if (!isValidPedalstar(pedalstar)){
+        showErr("Pedalstar ID hatalı. Örn: PS001");
         return;
       }
 
-      btnGenerate.disabled = true;
-      btnGenerate.textContent = "Üretiliyor...";
+      $("btnGenerate").disabled = true;
+      $("btnGenerate").textContent = "Üretiliyor...";
 
       try{
-        // NOT: Mutlaka .netlify yolunu kullan
-        const url = `/.netlify/functions/generate?pedalstar=${encodeURIComponent(pedalstar)}`;
-        const res = await fetch(url, { method:"GET" });
+        // Netlify Function (generate.js) -> ?pedalstar=PS001
+        const res = await fetch(`/.netlify/functions/generate?pedalstar=${encodeURIComponent(pedalstar)}`, {
+          method: "GET",
+          headers: { "accept": "application/json" }
+        });
+
         const data = await res.json().catch(() => ({}));
 
-        if (!res.ok || !data.ok){
-          const m = data?.error || `Hata (${res.status})`;
-          const d = data?.detail ? ` — ${data.detail}` : "";
-          showStatus("err", m + d);
+        if (!res.ok || !data || data.ok !== true){
+          const msg = (data && (data.error || data.detail)) ? (data.error || data.detail) : `Hata (HTTP ${res.status})`;
+          showErr(String(msg));
           return;
         }
 
-        codeTextEl.textContent = data.code || "------";
-        expiresTextEl.textContent = data.expires_at ? new Date(data.expires_at).toLocaleString("tr-TR") : "-";
-        outEl.style.display = "block";
-        showStatus("ok", "Kod üretildi.");
+        $("codeText").textContent = data.code || "------";
+        $("expiresText").textContent = `Bitiş: ${data.expires_at ? new Date(data.expires_at).toLocaleString("tr-TR") : "-"}`;
+        $("codeBox").style.display = "block";
+        showOk("Kod üretildi. Kasada gösterin.");
+
       }catch(e){
-        showStatus("err", "Sunucu hatası: " + String(e));
+        showErr("Sunucu hatası: " + String(e));
       }finally{
-        btnGenerate.disabled = false;
-        btnGenerate.textContent = "Kod Üret";
+        $("btnGenerate").disabled = false;
+        $("btnGenerate").textContent = "Kod Üret";
       }
     }
 
-    btnGenerate.addEventListener("click", generateCode);
-
-    btnCopy.addEventListener("click", async () => {
-      try{
-        await navigator.clipboard.writeText(codeTextEl.textContent.trim());
-        showStatus("ok", "Kopyalandı.");
-      }catch(e){
-        showStatus("err", "Kopyalama başarısız.");
-      }
+    $("btnGenerate").addEventListener("click", generateCode);
+    $("pedalstar").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") generateCode();
     });
 
-    document.getElementById("year").textContent = new Date().getFullYear();
+    // Copy
+    $("btnCopy").addEventListener("click", async () => {
+      const t = $("codeText").textContent || "";
+      if (!t || t === "------") return;
+      try{
+        await navigator.clipboard.writeText(t);
+        showOk("Kod kopyalandı.");
+      }catch(e){
+        showErr("Kopyalanamadı. Kodu elle seçip kopyalayın.");
+      }
+    });
   </script>
 </body>
 </html>
