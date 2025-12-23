@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Göcek Lokantası – Marina Kod Paneli</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;background:#f6f3ee;color:#111}
+    .wrap{max-width:1100px;margin:32px auto;padding:0 16px}
+    .card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
+    h1{margin:0 0 12px;font-size:18px}
+    .row{display:flex;gap:12px;flex-wrap:wrap}
+    input{padding:12px 12px;border-radius:10px;border:1px solid rgba(0,0,0,.15);min-width:280px}
+    button{padding:12px 14px;border-radius:10px;border:0;background:#111;color:#fff;cursor:pointer}
+    button.secondary{background:#eee;color:#111}
+    table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
+    th,td{padding:10px;border-bottom:1px solid rgba(0,0,0,.08);text-align:left}
+    .tag{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;border:1px solid rgba(0,0,0,.1)}
+    .ok{background:#eaffea}
+    .used{background:#eef3ff}
+    .exp{background:#fff2e8}
+    .err{color:#b00020;font-weight:600}
+    .muted{color:#666}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <h1>Marina Kod Paneli</h1>
+      <div class="row" style="align-items:center">
+        <input id="codeInput" placeholder="Örn: ps001-abc2d3e4" />
+        <button id="verifyBtn">Kodu doğrula (kullanıldı yap)</button>
+        <button id="refreshBtn" class="secondary">Listeyi yenile</button>
+        <span id="status" class="muted"></span>
+      </div>
+
+      <div id="result" style="margin-top:10px"></div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Durum</th>
+            <th>Kod</th>
+            <th>Pedalstar</th>
+            <th>Üretim</th>
+            <th>Bitiş</th>
+            <th>Kullanım</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+<script>
+  const params = new URLSearchParams(location.search);
+  const token = params.get("token");
+
+  const statusEl = document.getElementById("status");
+  const resultEl = document.getElementById("result");
+  const tbody = document.getElementById("tbody");
+
+  if (!token) {
+    statusEl.innerHTML = '<span class="err">Token yok.</span> URL sonuna ?token=... ekleyin.';
+  }
+
+  const fmt = (iso) => iso ? new Date(iso).toLocaleString("tr-TR") : "-";
+
+  function badge(row) {
+    const now = Date.now();
+    const exp = row.expires_at ? new Date(row.expires_at).getTime() : 0;
+    if (row.used_at) return `<span class="tag used">Kullanıldı</span>`;
+    if (exp && now > exp) return `<span class="tag exp">Süresi doldu</span>`;
+    return `<span class="tag ok">Aktif</span>`;
+  }
+
+  async function loadList() {
+    if (!token) return;
+    statusEl.textContent = "Yükleniyor...";
+    resultEl.textContent = "";
+    tbody.innerHTML = "";
+
+    const res = await fetch(`/.netlify/functions/list?token=${encodeURIComponent(token)}&limit=200`);
+    const data = await res.json();
+
+    if (!data.ok) {
+      statusEl.innerHTML = `<span class="err">${data.error || "Hata"}</span>`;
+      return;
+    }
+    statusEl.textContent = "Son 200 kayıt";
+
+    for (const r of data.rows) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${badge(r)}</td>
+        <td><b>${r.voucher_code}</b></td>
+        <td>${r.pedalstar_code}</td>
+        <td>${fmt(r.created_at)}</td>
+        <td>${fmt(r.expires_at)}</td>
+        <td>${fmt(r.used_at)}</td>
+      `;
+      tbody.appendChild(tr);
+    }
+  }
+
+  async function verifyCode() {
+    if (!token) return;
+    const code = document.getElementById("codeInput").value.trim().toLowerCase();
+    if (!code) return;
+
+    resultEl.textContent = "Doğrulanıyor...";
+    const res = await fetch(`/.netlify/functions/verify?token=${encodeURIComponent(token)}&code=${encodeURIComponent(code)}`);
+    const data = await res.json();
+
+    if (data.ok) {
+      resultEl.innerHTML = `<span class="tag ok">OK</span> ${data.message} — ${fmt(data.used_at)}`;
+      await loadList();
+    } else {
+      resultEl.innerHTML = `<span class="err">${data.error || "Hata"}</span>`;
+    }
+  }
+
+  document.getElementById("refreshBtn").addEventListener("click", loadList);
+  document.getElementById("verifyBtn").addEventListener("click", verifyCode);
+  loadList();
+</script>
+</body>
+</html>
