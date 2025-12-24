@@ -3,478 +3,436 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Göcek Lokantası — Marina İndirimi</title>
-  <meta name="description" content="Göcek Lokantası marina indirimi için tek kullanımlık kod üretme ekranı." />
+  <title>Göcek Lokantası – Marina İndirimi</title>
   <style>
     :root{
-      --bg1:#0b1220;
-      --bg2:#1a2438;
-      --glass: rgba(14, 20, 33, .62);
-      --glass2: rgba(14, 20, 33, .42);
-      --stroke: rgba(255,255,255,.10);
-      --stroke2: rgba(255,255,255,.14);
-      --text: rgba(255,255,255,.92);
-      --muted: rgba(255,255,255,.66);
-      --muted2: rgba(255,255,255,.50);
-      --ok: rgba(69, 255, 168, .95);
-      --warn: rgba(255, 126, 126, .95);
-      --btn: rgba(255,255,255,.10);
-      --btnH: rgba(255,255,255,.14);
-      --shadow: 0 20px 60px rgba(0,0,0,.55);
-      --radius: 18px;
-      --radius2: 14px;
-      --pad: 18px;
-      --pad2: 14px;
-      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      --bg1:#081018;
+      --bg2:#0b1a23;
+      --card:rgba(16,24,34,.72);
+      --card2:rgba(16,24,34,.55);
+      --stroke:rgba(255,255,255,.10);
+      --stroke2:rgba(255,255,255,.08);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.68);
+      --muted2:rgba(255,255,255,.52);
+      --accent:#78ead3;
+      --accent2:#f88451;
+      --danger:#ff5c7c;
+      --shadow:0 18px 60px rgba(0,0,0,.45);
+      --radius:18px;
     }
     *{box-sizing:border-box}
-    html,body{height:100%}
     body{
       margin:0;
-      font-family:var(--font);
+      font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
       color:var(--text);
+      min-height:100vh;
       background:
-        radial-gradient(1100px 700px at 12% 18%, rgba(34, 211, 238, .18), transparent 58%),
-        radial-gradient(900px 600px at 85% 20%, rgba(255, 146, 91, .18), transparent 60%),
-        radial-gradient(1100px 700px at 60% 90%, rgba(99, 102, 241, .14), transparent 60%),
+        radial-gradient(900px 550px at 18% 18%, rgba(120,234,211,.22), transparent 55%),
+        radial-gradient(900px 550px at 85% 35%, rgba(248,132,81,.22), transparent 55%),
         linear-gradient(180deg, var(--bg1), var(--bg2));
-      overflow-x:hidden;
     }
     a{color:inherit; text-decoration:none}
-    .wrap{max-width:1100px; margin:0 auto; padding:22px 16px 40px}
-
+    .wrap{max-width:1100px; margin:0 auto; padding:22px 18px 90px}
     .topbar{
-      display:flex; align-items:center; gap:12px;
-      padding:10px 12px;
-      border:1px solid var(--stroke);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      backdrop-filter: blur(10px);
+      display:flex; gap:14px; align-items:center; justify-content:space-between;
+      padding:14px 16px;
+      background:rgba(7,14,20,.55);
+      border:1px solid var(--stroke2);
       border-radius:999px;
+      backdrop-filter: blur(10px);
       box-shadow: var(--shadow);
     }
-    .brand{
-      display:flex; align-items:center; gap:10px;
-      padding:4px 8px;
-      min-width: 240px;
-    }
+    .brand{display:flex; align-items:center; gap:12px}
     .logo{
-      width:34px; height:34px;
-      border-radius:10px;
-      border:1px solid var(--stroke2);
-      background:
-        radial-gradient(18px 18px at 30% 30%, rgba(255,255,255,.22), transparent 60%),
-        linear-gradient(135deg, rgba(255, 146, 91, .22), rgba(34, 211, 238, .18));
-      display:grid; place-items:center;
-      flex:0 0 auto;
+      width:36px; height:36px; border-radius:12px;
+      background:linear-gradient(135deg, rgba(120,234,211,.35), rgba(248,132,81,.22));
+      border:1px solid var(--stroke);
     }
-    .brandText{display:flex; flex-direction:column; line-height:1.05}
-    .brandText b{font-size:14px; letter-spacing:.2px}
-    .brandText span{font-size:12px; color:var(--muted2)}
+    .brand h1{font-size:14px; margin:0; line-height:1.1}
+    .brand small{display:block; color:var(--muted2); font-size:12px; margin-top:2px}
     .nav{
-      display:flex; gap:8px; align-items:center;
-      flex:1 1 auto;
-      justify-content:center;
-      flex-wrap:wrap;
-    }
-    @media (max-width: 920px){
-      .brand{min-width:auto}
-      .nav{justify-content:flex-start}
+      display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;
     }
     .pill{
       padding:9px 12px;
       border-radius:999px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.06);
-      color:var(--text);
+      border:1px solid var(--stroke2);
+      background:rgba(255,255,255,.04);
+      color:var(--muted);
       font-size:13px;
       transition:.15s ease;
-      user-select:none;
       white-space:nowrap;
     }
-    .pill:hover{background:rgba(255,255,255,.10)}
+    .pill:hover{transform:translateY(-1px); border-color:rgba(120,234,211,.35); color:var(--text)}
     .pill.active{
-      background:rgba(34,211,238,.14);
-      border-color:rgba(34,211,238,.24);
+      border-color:rgba(120,234,211,.40);
+      color:var(--text);
+      background:rgba(120,234,211,.10);
     }
 
     .grid{
       margin-top:18px;
       display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap:16px;
-      align-items:start;
+      grid-template-columns: 1.12fr .88fr;
+      gap:14px;
     }
-    @media (max-width: 920px){
+    @media (max-width: 960px){
       .grid{grid-template-columns:1fr}
     }
+
     .card{
-      border:1px solid var(--stroke);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      backdrop-filter: blur(10px);
+      background:var(--card);
+      border:1px solid var(--stroke2);
       border-radius:var(--radius);
       box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
       overflow:hidden;
     }
-    .cardInner{padding:18px}
-    h1,h2{margin:0}
-    .h{font-size:18px; letter-spacing:.2px}
-    .p{margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.45}
-    .hr{height:1px; background:var(--stroke); margin:14px 0}
+    .card .hd{
+      padding:18px 18px 10px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .card .hd h2{margin:0; font-size:18px}
+    .card .hd p{margin:6px 0 0; color:var(--muted2); font-size:13px; line-height:1.45}
 
-    .row{display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap}
-    label{display:block; font-size:12px; color:var(--muted2); margin:0 0 6px}
-    .field{flex:1 1 260px}
+    .card .bd{padding:16px 18px 18px}
+
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .field{
+      width:100%;
+      margin-top:10px;
+    }
+    label{display:block; font-size:12px; color:var(--muted2); margin-bottom:6px}
     input{
       width:100%;
       padding:12px 12px;
       border-radius:12px;
-      border:1px solid var(--stroke);
-      background:rgba(0,0,0,.22);
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.18);
       color:var(--text);
       outline:none;
       font-size:14px;
-      letter-spacing:.2px;
     }
-    input:focus{border-color:rgba(34,211,238,.35); box-shadow:0 0 0 3px rgba(34,211,238,.10)}
+    input:focus{border-color:rgba(120,234,211,.45); box-shadow:0 0 0 3px rgba(120,234,211,.10)}
     .btn{
-      padding:12px 14px;
+      padding:11px 14px;
       border-radius:12px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.10);
+      border:1px solid rgba(120,234,211,.35);
+      background:rgba(120,234,211,.12);
       color:var(--text);
-      font-weight:600;
       cursor:pointer;
+      font-weight:600;
       transition:.15s ease;
-      min-width:120px;
+      white-space:nowrap;
     }
-    .btn:hover{background:rgba(255,255,255,.14)}
-    .btn:disabled{opacity:.6; cursor:not-allowed}
+    .btn:hover{transform:translateY(-1px); border-color:rgba(120,234,211,.55)}
+    .btn:disabled{opacity:.55; cursor:not-allowed; transform:none}
+    .muted{color:var(--muted2); font-size:12px}
     .hint{
       margin-top:10px;
       padding:10px 12px;
+      border:1px dashed rgba(255,255,255,.14);
+      background:rgba(255,255,255,.03);
       border-radius:12px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.04);
-      color:var(--muted);
-      font-size:12.5px;
+      color:var(--muted2);
+      font-size:12px;
+      line-height:1.45;
     }
     .msg{
       margin-top:10px;
       padding:10px 12px;
       border-radius:12px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.04);
-      font-size:13px;
-      display:none;
-    }
-    .msg.ok{border-color:rgba(69,255,168,.25); background:rgba(69,255,168,.08); color:rgba(234,255,245,.95)}
-    .msg.err{border-color:rgba(255,126,126,.28); background:rgba(255,126,126,.08); color:rgba(255,232,232,.95)}
-    .codeBox{
-      margin-top:10px;
-      padding:14px 14px;
-      border-radius:14px;
-      border:1px dashed rgba(255,255,255,.18);
-      background:rgba(0,0,0,.20);
-      display:none;
-    }
-    .codeRow{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap}
-    .code{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      font-size:22px;
-      letter-spacing:1px;
-      font-weight:800;
-    }
-    .meta{color:var(--muted); font-size:12.5px}
-    .smallBtn{
-      padding:8px 10px;
-      border-radius:10px;
-      border:1px solid var(--stroke);
-      background:rgba(255,255,255,.06);
-      cursor:pointer;
-      font-weight:700;
-      font-size:12px;
-    }
-    .smallBtn:hover{background:rgba(255,255,255,.10)}
-
-    .steps{display:flex; flex-direction:column; gap:10px}
-    .step{
-      padding:12px 12px;
-      border-radius:14px;
-      border:1px solid var(--stroke);
-      background:rgba(0,0,0,.18);
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.16);
       font-size:13px;
       color:var(--muted);
-      line-height:1.45;
+      white-space:pre-wrap;
+      word-break:break-word;
     }
-    .step b{color:var(--text)}
-    .kbd{
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    .msg.ok{border-color:rgba(120,234,211,.35); background:rgba(120,234,211,.08); color:rgba(255,255,255,.90)}
+    .msg.err{border-color:rgba(255,92,124,.45); background:rgba(255,92,124,.10); color:rgba(255,255,255,.92)}
+    .codebox{
+      margin-top:10px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(120,234,211,.35);
+      background:rgba(0,0,0,.18);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .codebox b{font-size:18px; letter-spacing:.06em}
+    .copy{
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.05);
+      color:var(--text);
+      padding:9px 10px;
+      border-radius:10px;
+      cursor:pointer;
+    }
+    .steps{
+      padding:16px 18px 18px;
+      background:var(--card2);
+      border-top:1px solid rgba(255,255,255,.06);
+    }
+    .steps h3{margin:0 0 10px; font-size:14px}
+    .step{
+      display:flex; gap:10px;
+      padding:10px 10px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      border-radius:12px;
+      margin-top:8px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+    }
+    .n{
+      min-width:26px; height:26px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      border:1px solid rgba(120,234,211,.35);
+      background:rgba(120,234,211,.10);
+      color:var(--text);
+      font-weight:700;
+      font-size:13px;
+    }
+    footer{
+      text-align:center;
+      color:var(--muted2);
       font-size:12px;
-      color:rgba(255,255,255,.86);
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      padding:2px 6px;
-      border-radius:8px;
-      white-space:nowrap;
+      margin-top:14px;
     }
 
     .fab{
       position:fixed;
-      right:18px;
-      bottom:18px;
+      right:16px;
+      bottom:16px;
       display:flex;
       flex-direction:column;
       gap:10px;
-      z-index:50;
+      z-index:999;
     }
     .fab a{
       width:44px; height:44px;
+      display:flex; align-items:center; justify-content:center;
       border-radius:14px;
-      border:1px solid var(--stroke);
-      background:rgba(14, 20, 33, .60);
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.28);
       backdrop-filter: blur(10px);
-      display:grid; place-items:center;
-      box-shadow: 0 14px 40px rgba(0,0,0,.45);
+      box-shadow: 0 12px 30px rgba(0,0,0,.35);
       transition:.15s ease;
     }
-    .fab a:hover{transform:translateY(-1px); background:rgba(255,255,255,.08)}
-    .fab svg{width:20px; height:20px; opacity:.95}
-
-    footer{
-      margin-top:14px;
-      color:rgba(255,255,255,.50);
-      font-size:12px;
-      text-align:center;
-    }
+    .fab a:hover{transform:translateY(-2px); border-color:rgba(120,234,211,.35)}
+    .ico{width:20px; height:20px; fill:rgba(255,255,255,.88)}
   </style>
 </head>
 
 <body>
   <div class="wrap">
-    <header class="topbar" role="banner" aria-label="Üst Menü">
+    <div class="topbar">
       <div class="brand">
-        <div class="logo" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M7.5 12.5c0 2.2 2 4 4.5 4s4.5-1.8 4.5-4" stroke="rgba(255,255,255,.85)" stroke-width="1.7" stroke-linecap="round"/>
-            <path d="M8 8.8c.8-1.5 2.2-2.5 4-2.5s3.2 1 4 2.5" stroke="rgba(255,255,255,.65)" stroke-width="1.7" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="brandText">
-          <b>Göcek Lokantası</b>
-          <span>Marina İndirimi • Tek Kullanımlık Kod</span>
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Göcek Lokantası</h1>
+          <small>Marina indirimi • Tek kullanımlık kod</small>
         </div>
       </div>
 
-      <nav class="nav" aria-label="Sayfalar">
-        <a class="pill" id="navHome" href="/">Ana Sayfa</a>
-        <a class="pill active" id="navMarina" href="/marina">Marina indirimi</a>
-        <a class="pill" id="navDashboard" href="/dashboard">Dashboard</a>
-        <a class="pill" id="btnWhatsapp" href="#" rel="noopener">WhatsApp</a>
-        <a class="pill" id="btnMaps" href="#" rel="noopener">Konum</a>
-        <a class="pill" id="btnInstagram" href="#" rel="noopener">Instagram</a>
-      </nav>
-    </header>
+      <div class="nav">
+        <a class="pill" href="/">Ana Sayfa</a>
+        <a class="pill active" href="/marina">Marina indirimi</a>
+        <a class="pill" href="/dashboard">Dashboard</a>
+        <a class="pill" id="btnWhatsapp" href="#">WhatsApp</a>
+        <a class="pill" id="btnMaps" href="#">Konum</a>
+        <a class="pill" id="btnInstagram" href="#">Instagram</a>
+      </div>
+    </div>
 
-    <main class="grid" role="main">
-      <section class="card" aria-label="Kod Üret">
-        <div class="cardInner">
-          <h1 class="h">Marina İndirimi — Kod Üret</h1>
-          <p class="p">
-            Pedalstar/stand ID’niz <b>PS001</b> formatında olmalı. Kod üretince kasada gösterin. Kod <b>10 dakika</b> geçerlidir.
-          </p>
+    <div class="grid">
+      <div class="card">
+        <div class="hd">
+          <h2>Marina İndirimi — Kod Üret</h2>
+          <p>Pedalstar/stand ID’niz <b>PS001</b> formatında olmalı. Kod üretilince kasada gösterin. Kod <b>10 dakika</b> geçerlidir.</p>
+        </div>
 
-          <div class="hr"></div>
-
-          <div class="row">
-            <div class="field">
-              <label for="pedalstar">Pedalstar ID</label>
-              <input id="pedalstar" inputmode="text" autocomplete="off" spellcheck="false" placeholder="PS001" />
+        <div class="bd">
+          <div class="field">
+            <label for="pedalstar">Pedalstar ID</label>
+            <div class="row" style="align-items:stretch">
+              <input id="pedalstar" inputmode="text" autocomplete="off" placeholder="PS001" />
+              <button class="btn" id="btnGenerate">Kod Üret</button>
             </div>
-            <button class="btn" id="btnGenerate" type="button">Kod Üret</button>
-          </div>
+            <div class="muted" style="margin-top:6px">Format: <b>PS</b> + 3 hane (ör: <b>PS001</b>, <b>PS014</b>). “1 / 01 / 001” yazarsan otomatik PS001 yapılır.</div>
+            <div class="hint" id="qrHint"></div>
 
-          <div class="hint">
-            İpucu: QR linki şöyle olursa otomatik dolar → <span class="kbd">/marina?pedalstar=PS001</span>
-          </div>
-
-          <div class="msg err" id="msgErr"></div>
-          <div class="msg ok" id="msgOk"></div>
-
-          <div class="codeBox" id="codeBox">
-            <div class="codeRow">
+            <div id="outMsg" class="msg" style="display:none"></div>
+            <div id="outCode" class="codebox" style="display:none">
               <div>
-                <div class="meta">Üretilen Kod</div>
-                <div class="code" id="codeText">------</div>
+                <div class="muted">Üretilen Kod</div>
+                <b id="codeText">------</b>
+                <div class="muted" id="expiresText"></div>
               </div>
-              <button class="smallBtn" id="btnCopy" type="button">Kopyala</button>
-            </div>
-            <div style="margin-top:8px" class="meta" id="expiresText">Bitiş: -</div>
-          </div>
-
-          <footer>© <span id="year"></span> Göcek Lokantası</footer>
-        </div>
-      </section>
-
-      <aside class="card" aria-label="Nasıl Kullanılır">
-        <div class="cardInner">
-          <h2 class="h">Nasıl kullanılır?</h2>
-          <div class="hr"></div>
-
-          <div class="steps">
-            <div class="step">
-              <b>1)</b> Pedalstar ID alanına <b>PS001</b> gibi ID girin (QR otomatik doldurabilir).
-            </div>
-            <div class="step">
-              <b>2)</b> <b>Kod Üret</b> ile kod oluşturun.
-            </div>
-            <div class="step">
-              <b>3)</b> Kodu kasaya gösterin. Kod tek kullanımlıktır ve <b>10 dakika</b> geçerlidir.
-            </div>
-            <div class="step">
-              Personel kontrol ekranı: <span class="kbd">/dashboard?token=...</span>
+              <button class="copy" id="btnCopy">Kopyala</button>
             </div>
           </div>
-        </div>
-      </aside>
-    </main>
 
-    <div class="fab" aria-label="Hızlı Bağlantılar">
-      <a id="fabWhatsapp" href="#" title="WhatsApp" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 21a9 9 0 1 0-7.7-4.3L3 21l4.5-1.2A8.9 8.9 0 0 0 12 21Z" stroke="rgba(255,255,255,.85)" stroke-width="1.6" stroke-linejoin="round"/>
-          <path d="M9.6 10.2c.3-.6.6-.6.9-.6h.4c.2 0 .4 0 .6.4l.6 1.3c.1.3.1.5 0 .7l-.3.4c-.2.2-.3.4-.1.7.2.3.7 1.2 1.6 1.9.9.7 1.6.9 1.9 1 .3.1.5.1.7-.1l.5-.6c.2-.2.4-.3.7-.2l1.3.6c.4.2.4.4.4.6v.4c0 .3 0 .6-.6.9-.6.3-1.9.9-4.3-.4-2.4-1.4-4-3.9-4.1-4.2-.2-.3-1.3-1.8-.4-2.9Z" fill="rgba(255,255,255,.82)"/>
-        </svg>
-      </a>
-      <a id="fabMaps" href="#" title="Konum" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M12 22s7-5.2 7-12a7 7 0 1 0-14 0c0 6.8 7 12 7 12Z" stroke="rgba(255,255,255,.85)" stroke-width="1.6" stroke-linejoin="round"/>
-          <path d="M12 13.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" fill="rgba(255,255,255,.82)"/>
-        </svg>
-      </a>
-      <a id="fabInstagram" href="#" title="Instagram" rel="noopener">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M8 3h8a5 5 0 0 1 5 5v8a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5V8a5 5 0 0 1 5-5Z" stroke="rgba(255,255,255,.85)" stroke-width="1.6"/>
-          <path d="M12 16.2a4.2 4.2 0 1 0 0-8.4 4.2 4.2 0 0 0 0 8.4Z" stroke="rgba(255,255,255,.85)" stroke-width="1.6"/>
-          <path d="M17.6 6.4h.01" stroke="rgba(255,255,255,.85)" stroke-width="3" stroke-linecap="round"/>
-        </svg>
-      </a>
+          <footer>© 2025 Göcek Lokantası</footer>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="hd">
+          <h2>Nasıl kullanılır?</h2>
+          <p>Çalışan akışına uygun kısa özet.</p>
+        </div>
+
+        <div class="steps">
+          <h3>Adımlar</h3>
+          <div class="step"><div class="n">1</div><div>Pedalstar ID alanına <b>PS001</b> gibi ID girin (QR ile otomatik dolabilir).</div></div>
+          <div class="step"><div class="n">2</div><div><b>Kod Üret</b> ile kodu oluşturun.</div></div>
+          <div class="step"><div class="n">3</div><div>Kodu kasaya gösterin. Kod tek kullanımlıktır ve <b>10 dakika</b> geçerlidir.</div></div>
+          <div class="step"><div class="n">4</div><div>Personel kontrol ekranı: <code>/dashboard?token=...</code></div></div>
+        </div>
+      </div>
     </div>
   </div>
 
+  <!-- sağ altta ikonlar -->
+  <div class="fab">
+    <a id="fabWhatsapp" href="#" aria-label="WhatsApp">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-8.66 15l-1.1 4.01 4.12-1.08A10 10 0 1 0 12 2zm5.78 14.26c-.24.68-1.2 1.26-1.95 1.33-.52.05-1.2.08-1.94-.12-2.65-.72-4.67-3.29-4.81-3.48-.14-.18-1.08-1.45-1.08-2.77s.7-1.96.95-2.23c.24-.27.55-.34.73-.34h.53c.17 0 .41-.06.64.49.24.57.82 2 .9 2.14.08.14.13.31.03.5-.1.18-.14.31-.28.48-.14.18-.3.4-.43.53-.14.14-.28.29-.12.58.17.28.76 1.25 1.64 2.02 1.13 1 2.08 1.31 2.37 1.45.29.14.46.12.64-.08.18-.2.73-.85.92-1.14.2-.29.4-.24.67-.14.28.1 1.75.83 2.05 1 .31.18.52.27.6.42.08.14.08.82-.16 1.5z"/></svg>
+    </a>
+    <a id="fabMaps" href="#" aria-label="Konum">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+    </a>
+    <a id="fabInstagram" href="#" aria-label="Instagram">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm10 2H7a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3zm-5 4a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.5-.9a1.1 1.1 0 1 1-2.2 0 1.1 1.1 0 0 1 2.2 0z"/></svg>
+    </a>
+  </div>
+
   <script>
-    // SABİT BİLGİLER (güncellendi)
     const SITE = {
       WHATSAPP_NUMBER: "905394105058",
       INSTAGRAM_URL: "https://instagram.com/goceklokantasi",
       MAPS_DIRECTIONS_URL: "https://maps.app.goo.gl/Vf6fVwdSiV2JRdb36"
     };
 
-    // LINKLER
     const waText = "Merhaba, marina indirimi hakkında bilgi alabilir miyim?";
     const waUrl = `https://wa.me/${SITE.WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
 
-    function bind(id, url) {
+    const bind = (id, url) => {
       const el = document.getElementById(id);
       if (el) el.href = url;
-    }
-    ["btnWhatsapp","fabWhatsapp"].forEach(id => bind(id, waUrl));
-    ["btnInstagram","fabInstagram"].forEach(id => bind(id, SITE.INSTAGRAM_URL));
-    ["btnMaps","fabMaps"].forEach(id => bind(id, SITE.MAPS_DIRECTIONS_URL));
+    };
 
-    document.getElementById("year").textContent = new Date().getFullYear();
+    bind("btnWhatsapp", waUrl);
+    bind("btnInstagram", SITE.INSTAGRAM_URL);
+    bind("btnMaps", SITE.MAPS_DIRECTIONS_URL);
 
-    const $ = (id) => document.getElementById(id);
+    bind("fabWhatsapp", waUrl);
+    bind("fabInstagram", SITE.INSTAGRAM_URL);
+    bind("fabMaps", SITE.MAPS_DIRECTIONS_URL);
 
-    function showErr(text){
-      $("msgOk").style.display = "none";
-      $("msgOk").textContent = "";
-      $("msgErr").style.display = "block";
-      $("msgErr").textContent = text;
-    }
-    function showOk(text){
-      $("msgErr").style.display = "none";
-      $("msgErr").textContent = "";
-      $("msgOk").style.display = "block";
-      $("msgOk").textContent = text;
-    }
-    function clearMsgs(){
-      $("msgErr").style.display = "none"; $("msgErr").textContent = "";
-      $("msgOk").style.display = "none"; $("msgOk").textContent = "";
-    }
+    const $ped = document.getElementById("pedalstar");
+    const $btn = document.getElementById("btnGenerate");
+    const $msg = document.getElementById("outMsg");
+    const $codeBox = document.getElementById("outCode");
+    const $codeText = document.getElementById("codeText");
+    const $expiresText = document.getElementById("expiresText");
+    const $btnCopy = document.getElementById("btnCopy");
+    const $qrHint = document.getElementById("qrHint");
 
-    function normalizePedalstar(v){
-      return (v || "").trim().toUpperCase();
-    }
+    function normalizePedalstar(raw){
+      let s = (raw || "").trim().toUpperCase();
+      s = s.replace(/\s+/g, "");
 
-    // PS001 formatı (kesin)
-    function isValidPedalstar(v){
-      return /^PS\d{3}$/.test(v);
+      if (/^\d{1,3}$/.test(s)) s = "PS" + s.padStart(3, "0");
+      if (/^PS\d{1,3}$/.test(s)) s = "PS" + s.slice(2).padStart(3, "0");
+
+      return s;
     }
 
-    // ?pedalstar=PS001 veya ?pedalstar_id=PS001
-    (function prefillFromQuery(){
-      try{
-        const u = new URL(location.href);
-        const q = normalizePedalstar(u.searchParams.get("pedalstar") || u.searchParams.get("pedalstar_id") || "");
-        if (q) $("pedalstar").value = q;
-      }catch(e){}
+    function showMsg(type, text){
+      $msg.style.display = "block";
+      $msg.className = "msg " + (type === "ok" ? "ok" : "err");
+      $msg.textContent = text;
+    }
+
+    function clearOut(){
+      $msg.style.display = "none";
+      $msg.textContent = "";
+      $codeBox.style.display = "none";
+      $codeText.textContent = "------";
+      $expiresText.textContent = "";
+    }
+
+    function updateHint(){
+      const id = normalizePedalstar($ped.value || "PS001");
+      const link = `${location.origin}/marina?pedalstar=${encodeURIComponent(id)}`;
+      $qrHint.textContent = `İpucu: QR linki şöyle olursa otomatik dolar → ${link}`;
+    }
+
+    // URL'den pedalstar alıp doldur
+    (function init(){
+      const u = new URL(location.href);
+      const raw = u.searchParams.get("pedalstar") || u.searchParams.get("pedalstar_id") || "";
+      if (raw) $ped.value = normalizePedalstar(raw);
+      if (!$ped.value) $ped.value = "PS001";
+      updateHint();
     })();
 
-    async function generateCode(){
-      clearMsgs();
-      $("codeBox").style.display = "none";
+    $ped.addEventListener("input", () => {
+      // yazarken anlık normalize etme (kullanıcı yazarken rahatsız etmesin)
+      updateHint();
+    });
 
-      const pedalstar = normalizePedalstar($("pedalstar").value);
+    $btnCopy.addEventListener("click", async () => {
+      try{
+        await navigator.clipboard.writeText($codeText.textContent.trim());
+        showMsg("ok", "Kod kopyalandı.");
+      }catch(e){
+        showMsg("err", "Kopyalama başarısız. Elle seçip kopyalayın.");
+      }
+    });
 
-      if (!isValidPedalstar(pedalstar)){
-        showErr("Pedalstar ID hatalı. Örn: PS001");
+    $btn.addEventListener("click", async () => {
+      clearOut();
+
+      const normalized = normalizePedalstar($ped.value);
+      $ped.value = normalized; // butona basınca normalize edip göster
+
+      if (!/^PS\d{3}$/.test(normalized)) {
+        showMsg("err", "Pedalstar ID hatalı. Örn: PS001");
         return;
       }
 
-      $("btnGenerate").disabled = true;
-      $("btnGenerate").textContent = "Üretiliyor...";
+      $btn.disabled = true;
+      $btn.textContent = "Üretiliyor...";
 
       try{
-        // ÖNEMLİ: generate function hem pedalstar hem pedalstar_id kabul ediyor.
-        const res = await fetch(`/.netlify/functions/generate?pedalstar_id=${encodeURIComponent(pedalstar)}`, {
-          method: "GET",
-          headers: { "accept": "application/json" }
+        const res = await fetch(`/.netlify/functions/generate?pedalstar=${encodeURIComponent(normalized)}`, {
+          method: "GET"
         });
 
         const data = await res.json().catch(() => ({}));
 
-        if (!res.ok || !data || data.ok !== true){
-          const msg = (data && (data.error || data.detail)) ? (data.error || data.detail) : `Hata (HTTP ${res.status})`;
-          showErr(String(msg));
+        if (!res.ok) {
+          const detail = data?.detail ? ("\n" + data.detail) : "";
+          const received = data?.received ? (`\nreceived: ${data.received}`) : "";
+          const norm = data?.normalized ? (`\nnormalized: ${data.normalized}`) : "";
+          showMsg("err", (data?.error || "Kod üretilemedi.") + received + norm + detail);
           return;
         }
 
-        $("codeText").textContent = data.code || "------";
-        $("expiresText").textContent = `Bitiş: ${data.expires_at ? new Date(data.expires_at).toLocaleString("tr-TR") : "-"}`;
-        $("codeBox").style.display = "block";
-        showOk("Kod üretildi. Kasada gösterin.");
+        $codeText.textContent = data.code || "------";
+        $expiresText.textContent = data.expires_at ? `Bitiş: ${new Date(data.expires_at).toLocaleString("tr-TR")}` : "";
+        $codeBox.style.display = "flex";
+        showMsg("ok", `Kod üretildi. Pedalstar: ${data.pedalstar_id}`);
 
       }catch(e){
-        showErr("Sunucu hatası: " + String(e));
+        showMsg("err", "Ağ hatası / sunucu hatası: " + String(e));
       }finally{
-        $("btnGenerate").disabled = false;
-        $("btnGenerate").textContent = "Kod Üret";
-      }
-    }
-
-    $("btnGenerate").addEventListener("click", generateCode);
-    $("pedalstar").addEventListener("keydown", (e) => {
-      if (e.key === "Enter") generateCode();
-    });
-
-    $("btnCopy").addEventListener("click", async () => {
-      const t = $("codeText").textContent || "";
-      if (!t || t === "------") return;
-      try{
-        await navigator.clipboard.writeText(t);
-        showOk("Kod kopyalandı.");
-      }catch(e){
-        showErr("Kopyalanamadı. Kodu elle seçip kopyalayın.");
+        $btn.disabled = false;
+        $btn.textContent = "Kod Üret";
       }
     });
   </script>

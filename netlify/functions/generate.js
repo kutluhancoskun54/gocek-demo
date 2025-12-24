@@ -1,80 +1,115 @@
 export default async (request) => {
   const headers = {
-    "Content-Type": "application/json; charset=utf-8",
-    "Access-Control-Allow-Origin": "*",
+    "content-type": "application/json; charset=utf-8",
+    "access-control-allow-origin": "*",
+    "access-control-allow-methods": "GET,POST,OPTIONS",
+    "access-control-allow-headers": "content-type"
+  };
+
+  if (request.method === "OPTIONS") {
+    return new Response("", { status: 204, headers });
+  }
+
+  const normalizePedalstar = (raw) => {
+    let s = (raw || "").trim().toUpperCase();
+
+    // boşlukları temizle (kopyala-yapıştırda araya boşluk girebiliyor)
+    s = s.replace(/\s+/g, "");
+
+    // sadece sayı geldiyse PS + 3 hane yap
+    if (/^\d{1,3}$/.test(s)) {
+      s = "PS" + s.padStart(3, "0");
+    }
+
+    // PS1 / PS01 / PS001 gibi geldiyse 3 haneye tamamla
+    if (/^PS\d{1,3}$/.test(s)) {
+      s = "PS" + s.slice(2).padStart(3, "0");
+    }
+
+    return s;
   };
 
   try {
-    const SUPABASE_URL = process.env.SUPABASE_URL;
-    const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-    if (!SUPABASE_URL || !SERVICE_KEY) {
-      return new Response(JSON.stringify({ error: "Missing env vars" }), { status: 500, headers });
-    }
-
     const url = new URL(request.url);
-    const ps = (url.searchParams.get("ps") || "").toUpperCase().trim(); // PS001 gibi
 
-    if (!/^PS\d{3}$/.test(ps)) {
-      return new Response(JSON.stringify({ error: "Invalid pedalstar id. Expected PS001 format." }), { status: 400, headers });
+    // hem pedalstar hem pedalstar_id kabul et
+    const pedalstarRaw =
+      url.searchParams.get("pedalstar") ||
+      url.searchParams.get("pedalstar_id") ||
+      "";
+
+    const pedalstarId = normalizePedalstar(pedalstarRaw);
+
+    if (!/^PS\d{3}$/.test(pedalstarId)) {
+      return new Response(
+        JSON.stringify({
+          error: "Invalid pedalstar id. Expected PS001 format.",
+          received: pedalstarRaw,
+          normalized: pedalstarId
+        }),
+        { status: 400, headers }
+      );
     }
 
-    const now = new Date();
-    const nowIso = now.toISOString();
+    // ENV'lerden Supabase bilgileri
+    const SUPABASE_URL = process.env.SUPABASE_URL;
+    const SERVICE_ROLE = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-    // 1) Aktif (kullanılmamış + süresi geçmemiş) kod varsa aynı kodu döndür
-    {
-      const q = new URL(`${SUPABASE_URL}/rest/v1/marina_codes`);
-      q.searchParams.set("select", "code,pedalstar_id,created_at,expires_at,used_at");
-      q.searchParams.set("pedalstar_id", `eq.${ps}`);
-      q.searchParams.set("used_at", "is.null");
-      q.searchParams.set("expires_at", `gt.${nowIso}`);
-      q.searchParams.set("order", "created_at.desc");
-      q.searchParams.set("limit", "1");
-
-      const r = await fetch(q.toString(), {
-        headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` },
-      });
-
-      if (!r.ok) {
-        const t = await r.text();
-        return new Response(JSON.stringify({ error: "Supabase query failed", detail: t }), { status: 500, headers });
-      }
-
-      const rows = await r.json();
-      if (rows && rows.length) {
-        return new Response(JSON.stringify({ ok: true, reused: true, ...rows[0] }), { status: 200, headers });
-      }
+    if (!SUPABASE_URL || !SERVICE_ROLE) {
+      return new Response(
+        JSON.stringify({
+          error: "Server env missing (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)."
+        }),
+        { status: 500, headers }
+      );
     }
 
-    // 2) Yeni kod üret (ps + 5 karakter => PS001-ABCDE)
-    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"; // benzer karakterleri çıkardım
-    const rand = Array.from({ length: 5 }, () => alphabet[Math.floor(Math.random() * alphabet.length)]).join("");
-    const code = `${ps}-${rand}`;
+    // 6 haneli tek kullanımlık kod üret
+    const code = Math.random().toString(36).slice(2, 8).toUpperCase();
 
-    const expiresAt = new Date(now.getTime() + 30 * 60 * 1000).toISOString(); // 30 dk
+    // 10 dakika geçerli
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
-    const insertBody = [{ code, pedalstar_id: ps, expires_at: expiresAt }];
+    const payload = {
+      pedalstar_id: pedalstarId,
+      code: code,
+      expires_at: expiresAt
+    };
 
     const ins = await fetch(`${SUPABASE_URL}/rest/v1/marina_codes`, {
       method: "POST",
       headers: {
-        apikey: SERVICE_KEY,
-        Authorization: `Bearer ${SERVICE_KEY}`,
-        "Content-Type": "application/json",
-        Prefer: "return=representation",
+        ...headers,
+        apikey: SERVICE_ROLE,
+        authorization: `Bearer ${SERVICE_ROLE}`,
+        prefer: "return=representation"
       },
-      body: JSON.stringify(insertBody),
+      body: JSON.stringify(payload)
     });
 
     if (!ins.ok) {
       const t = await ins.text();
-      return new Response(JSON.stringify({ error: "Insert failed", detail: t }), { status: 500, headers });
+      return new Response(
+        JSON.stringify({ error: "Insert failed", detail: t }),
+        { status: 500, headers }
+      );
     }
 
     const created = (await ins.json())[0];
-    return new Response(JSON.stringify({ ok: true, reused: false, ...created }), { status: 200, headers });
+
+    return new Response(
+      JSON.stringify({
+        ok: true,
+        pedalstar_id: created.pedalstar_id,
+        code: created.code,
+        expires_at: created.expires_at
+      }),
+      { status: 200, headers }
+    );
   } catch (e) {
-    return new Response(JSON.stringify({ error: "Server error", detail: String(e) }), { status: 500, headers });
+    return new Response(
+      JSON.stringify({ error: "Server error", detail: String(e) }),
+      { status: 500, headers }
+    );
   }
 };
