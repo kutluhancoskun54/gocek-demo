@@ -1,709 +1,499 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#f6f1e8" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Göcek Lokantası | Günlük Ev Yemekleri</title>
-  <meta name="description" content="Göcek’te günlük çıkan ev yemekleri. Günün menüsü Instagram’da, sipariş ve bilgi için WhatsApp." />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg: #f6f1e8;
-      --bg2:#efe6d6;
+      --bg:#f7f2ea;
       --card:#ffffff;
-      --ink:#1b1916;
-      --muted:#6a6156;
-      --line: rgba(27,25,22,.10);
-      --shadow: 0 22px 60px rgba(27,25,22,.14);
-      --shadow2: 0 10px 30px rgba(27,25,22,.10);
-
-      --accent:#7a651d;
-      --accent2:#cbb98f;
-      --accent3:#efe4c9;
-
-      --radius-xl: 28px;
-      --radius-lg: 18px;
-      --radius-md: 14px;
-
-      --container: 1120px;
-      --headerH: 84px;
+      --stroke:#e8dfd2;
+      --text:#1f1a14;
+      --muted:#6b5f55;
+      --brand:#7a6a2a;  /* altın-kahve */
+      --brand2:#2b6a62; /* koyu teal */
+      --shadow: 0 18px 60px rgba(31,26,20,.10);
+      --r: 18px;
+      --r2: 26px;
     }
-
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
+    *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--ink);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      color:var(--text);
       background:
-        radial-gradient(1200px 600px at 15% -10%, rgba(122,101,29,.18), transparent 55%),
-        radial-gradient(900px 520px at 85% 10%, rgba(203,185,143,.22), transparent 60%),
-        linear-gradient(180deg, var(--bg) 0%, #f7f3ec 55%, var(--bg) 100%);
-      min-height:100vh;
+        radial-gradient(1000px 650px at 15% 10%, rgba(122,106,42,.08), transparent 60%),
+        radial-gradient(900px 600px at 80% 18%, rgba(43,106,98,.08), transparent 55%),
+        linear-gradient(180deg, #fbf7f1, var(--bg));
     }
 
-    a{ color:inherit; text-decoration:none; }
-    .sr-only{
-      position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0;
+    .wrap{
+      max-width: 1120px;
+      margin: 26px auto 40px;
+      padding: 0 18px 40px;
     }
 
-    .header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      height:var(--headerH);
-      display:flex;
-      align-items:center;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(180deg, rgba(246,241,232,.86), rgba(246,241,232,.68));
-      border-bottom: 1px solid rgba(27,25,22,.06);
-    }
-    .header .wrap{
-      width:min(var(--container), calc(100% - 48px));
-      margin:0 auto;
+    /* Topbar */
+    .topbar{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:16px;
+      padding: 14px 18px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.72);
+      border-radius: 999px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
     }
+
     .brand{
       display:flex;
       align-items:center;
-      gap:12px;
-      min-width: 240px;
+      gap:14px;
+      min-width: 280px;
     }
-    .brandMark{
-      width:46px; height:46px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.75);
-      border:1px solid rgba(27,25,22,.08);
-      box-shadow: 0 8px 18px rgba(27,25,22,.08);
+
+    /* ✅ Logo büyütüldü */
+    .logo{
+      width:56px;
+      height:56px;
+      border-radius: 16px;
+      overflow:hidden;
+      border:1px solid var(--stroke);
+      background:#fff;
       display:grid;
       place-items:center;
-      overflow:hidden;
+      flex:0 0 auto;
     }
-    .brandMark img{
+    .logo img{
       width:100%;
       height:100%;
-      object-fit:cover;
-      transform: scale(1.06);
+      object-fit:contain;
+      padding:6px;
     }
-    .brandText{
-      display:flex;
-      flex-direction:column;
-      line-height:1.05;
-    }
-    .brandName{
-      font-family: "Playfair Display", serif;
+
+    .brandText .name{
+      font-weight:800;
       letter-spacing:.2px;
-      font-weight:700;
-      font-size: 18px;
+      line-height:1.1;
     }
-    .brandTag{
-      font-size: 11px;
-      letter-spacing: .32em;
-      color: var(--accent);
+    .brandText .tag{
+      font-size:11px;
+      letter-spacing: .24em;
       text-transform: uppercase;
-      margin-top: 6px;
-      font-weight:600;
+      color: var(--muted);
+      margin-top: 4px;
     }
 
     .nav{
       display:flex;
+      gap:10px;
       align-items:center;
-      gap:18px;
-      color: rgba(27,25,22,.78);
-      font-weight:500;
-      font-size: 13px;
-      letter-spacing:.02em;
-    }
-    .nav a{
-      padding:10px 10px;
-      border-radius: 999px;
-      transition: background .2s ease, color .2s ease;
-      cursor:pointer;
-    }
-    .nav a:hover{
-      background: rgba(27,25,22,.06);
-      color: var(--ink);
-    }
-    .nav .pill{
-      padding:10px 14px;
-      border: 1px solid rgba(122,101,29,.35);
-      background: rgba(255,255,255,.55);
-      color: var(--accent);
-    }
-    .nav .pill:hover{
-      background: rgba(122,101,29,.10);
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
 
-    .container{
-      width:min(var(--container), calc(100% - 48px));
-      margin:0 auto;
-      padding: 34px 0 54px;
+    .pill{
+      border:1px solid var(--stroke);
+      background:#fff;
+      color:var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      text-decoration:none;
+      cursor:pointer;
+      transition: transform .08s ease, box-shadow .15s ease;
+    }
+    .pill:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(31,26,20,.10);
+    }
+
+    .layout{
+      margin-top: 22px;
+      border:1px solid var(--stroke);
+      background: rgba(255,255,255,.75);
+      border-radius: var(--r2);
+      box-shadow: var(--shadow);
+      padding: 22px;
     }
 
     .hero{
-      position:relative;
-      border-radius: var(--radius-xl);
-      background:
-        radial-gradient(700px 380px at 8% 10%, rgba(122,101,29,.16), transparent 60%),
-        radial-gradient(520px 320px at 92% 30%, rgba(203,185,143,.22), transparent 55%),
-        linear-gradient(180deg, rgba(255,255,255,.70), rgba(255,255,255,.44));
-      border: 1px solid rgba(27,25,22,.08);
-      box-shadow: var(--shadow);
-      padding: 46px 44px;
-      overflow:hidden;
-    }
-    .heroGrid{
       display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 34px;
+      grid-template-columns: 1.35fr .85fr;
+      gap: 18px;
       align-items:start;
+    }
+    @media (max-width: 980px){
+      .hero{grid-template-columns:1fr}
+      .brand{min-width:auto}
+      .nav{justify-content:flex-start}
     }
 
     .kicker{
       display:flex;
       align-items:center;
       gap:10px;
-      color: rgba(27,25,22,.65);
+      color: var(--muted);
       font-size: 12px;
-      letter-spacing: .22em;
+      letter-spacing:.18em;
       text-transform: uppercase;
-      font-weight: 600;
-      margin-bottom: 14px;
+      margin-bottom: 10px;
     }
     .dot{
-      width:8px;height:8px;border-radius:999px;background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(122,101,29,.14);
-    }
-    h1{
-      margin:0;
-      font-family:"Playfair Display", serif;
-      font-size: 56px;
-      line-height: 1.02;
-      letter-spacing: -.02em;
-    }
-    .lead{
-      margin: 14px 0 0;
-      color: var(--muted);
-      font-size: 15px;
-      line-height: 1.7;
-      max-width: 54ch;
+      width:8px;height:8px;border-radius:999px;
+      background: var(--brand);
+      box-shadow: 0 0 0 3px rgba(122,106,42,.12);
     }
 
-    .ctaRow{
-      margin-top: 22px;
+    h1{
+      margin: 0 0 10px;
+      font-size: 56px;
+      line-height: 1.02;
+      letter-spacing:-.02em;
+      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+    }
+    @media(max-width:700px){
+      h1{font-size: 40px;}
+    }
+
+    .lead{
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 14px;
+      max-width: 64ch;
+    }
+
+    .btnRow{
       display:flex;
+      gap:10px;
       flex-wrap:wrap;
-      gap:12px;
       align-items:center;
+      margin: 10px 0 10px;
     }
 
     .btn{
+      border:1px solid var(--stroke);
+      background:#fff;
+      color:var(--text);
+      padding: 11px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      text-decoration:none;
       display:inline-flex;
       align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding: 12px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(27,25,22,.12);
-      background: rgba(255,255,255,.72);
-      box-shadow: 0 10px 22px rgba(27,25,22,.10);
-      font-weight: 600;
-      font-size: 13px;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-      cursor:pointer;
-      user-select:none;
+      gap:8px;
+      transition: transform .08s ease, box-shadow .15s ease;
     }
-    .btn:hover{ transform: translateY(-1px); box-shadow: 0 14px 28px rgba(27,25,22,.13); }
-    .btn:active{ transform: translateY(0px); box-shadow: 0 10px 22px rgba(27,25,22,.10); }
+    .btn:hover{
+      transform: translateY(-1px);
+      box-shadow: 0 10px 26px rgba(31,26,20,.10);
+    }
 
     .btn.primary{
-      background: linear-gradient(180deg, rgba(122,101,29,.98), rgba(94,76,18,.98));
-      color: #fff;
-      border-color: rgba(0,0,0,.05);
-      box-shadow: 0 16px 34px rgba(122,101,29,.30);
-    }
-    .btn.primary:hover{ box-shadow: 0 22px 44px rgba(122,101,29,.34); }
-
-    .btn.ghost{
-      background: rgba(255,255,255,.55);
+      background: rgba(122,106,42,.10);
+      border-color: rgba(122,106,42,.30);
     }
 
-    .btn .icon{
-      width: 18px; height: 18px;
-      display:inline-block;
+    .btn.soft{
+      background: rgba(43,106,98,.08);
+      border-color: rgba(43,106,98,.22);
     }
 
-    .metaLine{
-      margin-top: 16px;
-      padding-top: 14px;
-      border-top: 1px solid rgba(27,25,22,.08);
-      color: rgba(27,25,22,.62);
+    .smallNote{
+      margin-top: 10px;
+      color: var(--muted);
       font-size: 12px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:16px;
-    }
-    .metaLine b{
-      color: rgba(27,25,22,.80);
-      font-weight: 700;
     }
 
-    .asideCard{
-      border-radius: var(--radius-lg);
-      background: rgba(255,255,255,.78);
-      border: 1px solid rgba(27,25,22,.10);
-      box-shadow: var(--shadow2);
-      padding: 22px 20px 18px;
+    /* Right card */
+    .sideCard{
+      border:1px solid var(--stroke);
+      background:#fff;
+      border-radius: var(--r2);
+      padding: 18px;
+      box-shadow: 0 14px 44px rgba(31,26,20,.08);
     }
-    .asideLabel{
-      font-size: 12px;
-      letter-spacing: .26em;
+    .sideTitle{
+      font-size: 11px;
+      letter-spacing:.22em;
       text-transform: uppercase;
-      color: rgba(122,101,29,.85);
-      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 10px;
     }
-    .asideTitle{
-      margin: 8px 0 0;
-      font-size: 16px;
-      font-weight: 700;
-      color: rgba(27,25,22,.90);
-      line-height: 1.35;
+    .sideCard h3{
+      margin:0 0 8px;
+      font-size: 14px;
     }
-    .asideText{
-      margin: 10px 0 0;
-      color: rgba(27,25,22,.62);
+    .sideCard p{
+      margin:0 0 14px;
       font-size: 13px;
-      line-height: 1.65;
-    }
-    .asideActions{
-      margin-top: 18px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .sections{
-      margin-top: 26px;
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 14px;
-    }
-    .mini{
-      background: rgba(255,255,255,.62);
-      border: 1px solid rgba(27,25,22,.08);
-      border-radius: var(--radius-lg);
-      padding: 18px 18px;
-      box-shadow: 0 12px 26px rgba(27,25,22,.08);
-      display:flex;
-      gap: 14px;
-      align-items:flex-start;
-      min-height: 96px;
-    }
-    .miniIcon{
-      width: 36px; height: 36px;
-      border-radius: 12px;
-      background: rgba(122,101,29,.10);
-      border: 1px solid rgba(122,101,29,.20);
-      display:grid;
-      place-items:center;
-      color: var(--accent);
-      flex: 0 0 auto;
-    }
-    .mini h3{
-      margin:0;
-      font-size: 13px;
-      letter-spacing: .20em;
-      text-transform: uppercase;
-      color: rgba(27,25,22,.78);
-    }
-    .mini p{
-      margin: 6px 0 0;
-      color: rgba(27,25,22,.62);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .marinaBar{
-      margin-top: 14px;
-      background: linear-gradient(180deg, rgba(122,101,29,.10), rgba(122,101,29,.06));
-      border: 1px solid rgba(122,101,29,.22);
-      border-radius: var(--radius-lg);
-      padding: 16px 18px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap: 14px;
-    }
-    .marinaBar .left{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    .marinaBar .cap{
-      font-size: 12px;
-      letter-spacing: .26em;
-      text-transform: uppercase;
-      font-weight: 800;
-      color: rgba(122,101,29,.92);
-    }
-    .marinaBar .desc{
-      font-size: 13px;
-      color: rgba(27,25,22,.70);
+      color: var(--muted);
       line-height: 1.5;
     }
-    .marinaBar .right{
+    .sideActions{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      justify-content:flex-end;
     }
 
-    .footer{
-      margin-top: 16px;
-      padding-top: 18px;
-      border-top: 1px solid rgba(27,25,22,.08);
-      color: rgba(27,25,22,.55);
+    /* Info tiles */
+    .tiles{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    @media(max-width:900px){
+      .tiles{grid-template-columns:1fr}
+    }
+    .tile{
+      border:1px solid var(--stroke);
+      background:#fff;
+      border-radius: var(--r);
+      padding: 14px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+    }
+    .icon{
+      width:34px;height:34px;border-radius: 12px;
+      border:1px solid var(--stroke);
+      background: rgba(122,106,42,.08);
+      display:grid;place-items:center;
+      flex:0 0 auto;
+      color: var(--brand);
+      font-weight: 800;
+    }
+    .tile h4{
+      margin:0 0 6px;
       font-size: 12px;
+      letter-spacing:.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .tile p{
+      margin:0;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* Bottom highlight (Marina row without buttons) */
+    .marinaRow{
+      margin-top: 16px;
+      border:1px solid var(--stroke);
+      background: rgba(122,106,42,.06);
+      border-radius: var(--r2);
+      padding: 14px 16px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 12px;
-      flex-wrap:wrap;
+      gap: 10px;
+    }
+    .marinaRow .title{
+      font-size: 11px;
+      letter-spacing:.22em;
+      text-transform: uppercase;
+      color: var(--brand);
+      font-weight: 800;
+    }
+    .marinaRow .desc{
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+      margin-top: 3px;
     }
 
-    .fab{
-      position:fixed;
-      right: 18px;
-      bottom: 20px;
-      z-index: 60;
+    footer{
+      margin-top: 18px;
+      text-align:center;
+      color: rgba(31,26,20,.50);
+      font-size: 12px;
+    }
+
+    /* Right floating quick icons (optional, mevcutsa kalsın) */
+    .float{
+      position: fixed;
+      right: 16px;
+      bottom: 18px;
       display:flex;
       flex-direction:column;
       gap: 10px;
+      z-index: 99;
     }
-    .fab a{
-      width: 44px;
-      height: 44px;
+    .fab{
+      width: 44px; height: 44px;
       border-radius: 14px;
-      background: rgba(255,255,255,.86);
-      border: 1px solid rgba(27,25,22,.12);
-      box-shadow: 0 16px 34px rgba(27,25,22,.14);
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.9);
       display:grid;
       place-items:center;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      box-shadow: 0 14px 40px rgba(31,26,20,.12);
+      cursor:pointer;
+      transition: transform .08s ease;
+      text-decoration:none;
     }
-    .fab a:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 22px 44px rgba(27,25,22,.18);
-      background: rgba(255,255,255,.94);
-    }
-    .fab svg{ width: 20px; height: 20px; color: rgba(122,101,29,.92); }
-
-    [id]{ scroll-margin-top: calc(var(--headerH) + 18px); }
-
-    @keyframes pulseRing{
-      0%{ box-shadow: 0 0 0 0 rgba(122,101,29,.28); }
-      100%{ box-shadow: 0 0 0 18px rgba(122,101,29,0); }
-    }
-    .pulse{
-      animation: pulseRing .7s ease-out 1;
-      border-radius: 22px;
-    }
-
-    @media (max-width: 980px){
-      :root{ --headerH: 78px; }
-      .brandName{ font-size: 17px; }
-      h1{ font-size: 44px; }
-      .hero{ padding: 34px 26px; }
-      .heroGrid{ grid-template-columns: 1fr; }
-      .sections{ grid-template-columns: 1fr; }
-      .nav{ gap: 10px; }
-      .nav a{ padding: 10px 9px; }
-    }
-    @media (max-width: 560px){
-      h1{ font-size: 38px; }
-      .brand{ min-width: unset; }
-      .brandTag{ display:none; }
-      .ctaRow{ gap:10px; }
-      .btn{ width: 100%; justify-content:center; }
-      .asideActions .btn{ width:auto; }
-      .fab{ right: 14px; bottom: 16px; }
-    }
+    .fab:hover{transform: translateY(-1px);}
+    .fab svg{width:20px;height:20px; fill: rgba(31,26,20,.75)}
   </style>
 </head>
 
-<body id="top">
-  <a class="sr-only" href="#menu">İçeriğe geç</a>
+<body>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">
+          <!-- ✅ Logo büyütüldü / daha görünür -->
+          <img src="assets/logo.png" alt="Göcek Lokantası Logo">
+        </div>
+        <div class="brandText">
+          <div class="name">Göcek Lokantası</div>
+          <div class="tag">BİR KEPÇE MUTLULUK</div>
+        </div>
+      </div>
 
-  <header class="header">
-    <div class="wrap">
-      <a class="brand" href="#top" aria-label="Göcek Lokantası ana sayfa">
-        <span class="brandMark" aria-hidden="true">
-          <img src="assets/logo.jpg" alt="">
-        </span>
-        <span class="brandText">
-          <span class="brandName">Göcek Lokantası</span>
-          <span class="brandTag">BİR KEPÇE MUTLULUK</span>
-        </span>
-      </a>
-
-      <!-- ✅ SAĞ ÜST MENÜ: dış linkler -->
-      <nav class="nav" aria-label="Üst menü">
-        <a id="navInstagram" href="#" target="_blank" rel="noopener">Günlük Menü</a>
-        <a id="navWhatsApp" href="#" target="_blank" rel="noopener">Sipariş</a>
-        <a id="navMaps" href="#" target="_blank" rel="noopener">Ulaşım</a>
-        <a id="navMarina" class="pill" href="marina.html">Marina İndirimi</a>
+      <!-- ✅ Sağ üstten “Marina indirimi” kaldırıldı -->
+      <nav class="nav" aria-label="Menü">
+        <a class="pill" href="#menu">Günlük Menü</a>
+        <a class="pill" href="#siparis">Sipariş</a>
+        <a class="pill" href="#ulasim">Ulaşım</a>
       </nav>
-    </div>
-  </header>
+    </header>
 
-  <main class="container">
-    <section class="hero" aria-label="Göcek Lokantası giriş alanı">
-      <div class="heroGrid">
+    <main class="layout">
+      <section class="hero">
+        <!-- Left -->
         <div>
-          <div class="kicker">
-            <span class="dot" aria-hidden="true"></span>
-            Günlük çıkan ev yemekleri
-          </div>
-
+          <div class="kicker"><span class="dot"></span> GÜNLÜK ÇIKAN EV YEMEKLERİ</div>
           <h1>Göcek’te taze, günlük ev yemekleri.</h1>
-
           <p class="lead">
-            Menümüz her gün yenilenir. Günün menüsünü Instagram’da paylaşırız.
-            Sipariş ve bilgi için WhatsApp hattımızdan hızlıca ulaşabilirsiniz.
+            Her gün yenilenen, özenle hazırlanan ev yemeklerini siz değerli misafirlerimize sunuyoruz.
+            Günün menüsünü düzenli olarak paylaşır; sipariş ve bilgi taleplerinizi hızlıca yanıtlarız.
           </p>
 
-          <div class="ctaRow" role="group" aria-label="Hızlı işlemler">
-            <a id="btnWhatsApp" class="btn primary" href="#" target="_blank" rel="noopener">
-              <span class="icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M20 11.6A8.3 8.3 0 0 1 7.7 18.9L4 20l1.2-3.5A8.3 8.3 0 1 1 20 11.6Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M9.4 9.2c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.3l.8 1.6c.1.2.1.4 0 .6l-.4.5c-.1.1-.1.3 0 .5.4.7 1.1 1.4 1.9 1.8.2.1.4.1.5 0l.6-.4c.2-.1.4-.1.6 0l1.5.7c.2.1.3.3.3.5v.5c0 .3 0 .5-.5.7-.5.2-1.6.6-3.7-.3-2.2-1-3.6-3.4-3.7-3.6-.1-.2-1-1.4-.3-2.9Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              WhatsApp ile sipariş
-            </a>
-
-            <a id="btnInstagram" class="btn ghost" href="#" target="_blank" rel="noopener">
-              <span class="icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="1.6"/>
-                  <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.6"/>
-                  <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/>
-                </svg>
-              </span>
-              Günün menüsü (Instagram)
-            </a>
-
-            <a id="btnMaps" class="btn ghost" href="#" target="_blank" rel="noopener">
-              <span class="icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                  <path d="M12 10.3a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-              Yol tarifi al
-            </a>
-
-            <a id="btnYemeksepeti" class="btn ghost" href="#" target="_blank" rel="noopener">
-              Yemeksepeti
-            </a>
+          <div class="btnRow">
+            <a class="btn primary" id="btnWA" href="#" target="_blank" rel="noopener">WhatsApp ile sipariş</a>
+            <a class="btn" id="btnIG" href="#" target="_blank" rel="noopener">Günün menüsü (Instagram)</a>
+            <a class="btn soft" id="btnMAP" href="#" target="_blank" rel="noopener">Yol tarifi al</a>
+            <a class="btn" id="btnYS" href="#" target="_blank" rel="noopener">Yemeksepeti</a>
           </div>
 
-          <div class="metaLine" aria-label="Kısa bilgi">
-            <span><b>Menü:</b> Instagram’da güncellenir</span>
-            <span><b>Sipariş:</b> WhatsApp üzerinden</span>
-            <span><b>Ulaşım:</b> Google Maps yol tarifi</span>
+          <div class="smallNote" id="menu">
+            Menü: Instagram üzerinden günlük olarak güncellenir • Sipariş: WhatsApp hattımız üzerinden alınır • Ulaşım: Google Maps ile kolay yol tarifi
           </div>
         </div>
 
-        <aside class="asideCard" aria-label="Marina indirimi bilgisi">
-          <div class="asideLabel">Marina</div>
-          <div class="asideTitle">Tekne misafirlerine %10 indirim</div>
-
-          <p class="asideText">
-            Marina pedalstar üzerindeki QR okunduğunda indirim tanımlanır.
-            Doğrulama işlemi WhatsApp üzerinden yapılır.
+        <!-- Right marina card -->
+        <aside class="sideCard" id="siparis">
+          <div class="sideTitle">MARINA</div>
+          <h3>Tekne misafirlerine %10 indirim</h3>
+          <p>
+            Marina misafirlerimize özel indirim uygulamamız mevcuttur.
+            İletişim butonuna dokunarak doğrudan restoran hattımızı arayabilirsiniz.
           </p>
 
-          <div class="asideActions">
-            <a class="btn primary" href="marina.html">Marina QR sayfası</a>
-            <a class="btn" href="#siparis">İletişim</a>
+          <div class="sideActions">
+            <!-- ✅ “Marina QR sayfası” kaldırıldı -->
+            <a class="btn primary" id="btnCALL" href="#">İletişim</a>
           </div>
         </aside>
-      </div>
+      </section>
 
-      <div class="sections">
-        <div class="mini" id="menu" aria-label="Günlük menü bölümü">
-          <div class="miniIcon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-              <path d="M7 3h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Z" stroke="currentColor" stroke-width="1.6"/>
-              <path d="M8 7h8M8 11h8M8 15h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
-            </svg>
-          </div>
+      <!-- Tiles (kurumsal metinlerle güncellendi) -->
+      <section class="tiles" id="ulasim">
+        <div class="tile">
+          <div class="icon">≡</div>
           <div>
-            <h3>Günlük Menü</h3>
-            <p>Menü her gün değişir. En güncel paylaşım Instagram’dadır.</p>
+            <h4>GÜNLÜK MENÜ</h4>
+            <p>
+              Güncel menülerimizi her gün Instagram hikâyelerimizde paylaşıyoruz.
+              Günün yemeklerinden haberdar olmak için Instagram hesabımızı takip edebilirsiniz.
+            </p>
           </div>
         </div>
 
-        <div class="mini" id="siparis" aria-label="Sipariş ve bilgi bölümü">
-          <div class="miniIcon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-              <path d="M20 11.6A8.3 8.3 0 0 1 7.7 18.9L4 20l1.2-3.5A8.3 8.3 0 1 1 20 11.6Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+        <div class="tile">
+          <div class="icon">◎</div>
           <div>
-            <h3>Sipariş & Bilgi</h3>
-            <p>En hızlı iletişim kanalımız WhatsApp. Sipariş ve teslimat bilgisi alabilirsiniz.</p>
+            <h4>SİPARİŞ & BİLGİ</h4>
+            <p>
+              Sipariş ve tüm sorularınız için WhatsApp hattımız üzerinden kolayca bize ulaşabilirsiniz.
+              Hızlı dönüş ve net bilgilendirme önceliğimizdir.
+            </p>
           </div>
         </div>
 
-        <div class="mini" id="ulasim" aria-label="Ulaşım bölümü">
-          <div class="miniIcon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-              <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M12 10.3a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6Z" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
+        <div class="tile">
+          <div class="icon">⌖</div>
           <div>
-            <h3>Ulaşım</h3>
-            <p>Google Maps’te doğrudan “yol tarifi” açılır (başlangıç: mevcut konum).</p>
+            <h4>ULAŞIM</h4>
+            <p>
+              Google Maps üzerinden tek dokunuşla yol tarifi alabilir,
+              mevcut konumunuzdan kolayca restoranımıza ulaşabilirsiniz.
+            </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <div class="marinaBar" id="marina" aria-label="Marina indirimi bölümü">
-        <div class="left">
-          <div class="cap">Marina İndirimi</div>
-          <div class="desc">QR okutulunca tekne misafirlerine <b>%10 indirim</b> tanımlanır. İndirim kodunu WhatsApp’tan iletebilirsiniz.</div>
+      <!-- ✅ Alt marina indirimi satırında butonlar kaldırıldı -->
+      <section class="marinaRow">
+        <div>
+          <div class="title">MARINA İNDİRİMİ</div>
+          <div class="desc">
+            Marina misafirlerimize özel %10 indirim uygulanır. Detay ve iletişim için restoran hattımızı arayabilirsiniz.
+          </div>
         </div>
-        <div class="right">
-          <a class="btn" href="marina.html">Marina QR sayfası</a>
-          <a class="btn" id="btnWhatsAppMarina" href="#" target="_blank" rel="noopener">WhatsApp doğrulama</a>
-        </div>
-      </div>
+      </section>
 
-      <div class="footer">
-        <div>© <span id="year"></span> Göcek Lokantası</div>
-        <div style="display:flex; gap:14px; flex-wrap:wrap;">
-          <a href="#menu">Günlük Menü</a>
-          <a href="#siparis">Sipariş</a>
-          <a href="#ulasim">Ulaşım</a>
-        </div>
-      </div>
-    </section>
-  </main>
+      <footer>© <span id="year"></span> Göcek Lokantası</footer>
+    </main>
+  </div>
 
-  <div class="fab" aria-label="Hızlı ikonlar">
-    <a id="fabWhatsApp" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M20 11.6A8.3 8.3 0 0 1 7.7 18.9L4 20l1.2-3.5A8.3 8.3 0 1 1 20 11.6Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M9.4 9.2c.2-.5.4-.5.7-.5h.5c.2 0 .4.1.5.3l.8 1.6c.1.2.1.4 0 .6l-.4.5c-.1.1-.1.3 0 .5.4.7 1.1 1.4 1.9 1.8.2.1.4.1.5 0l.6-.4c.2-.1.4-.1.6 0l1.5.7c.2.1.3.3.3.5v.5c0 .3 0 .5-.5.7-.5.2-1.6.6-3.7-.3-2.2-1-3.6-3.4-3.7-3.6-.1-.2-1-1.4-.3-2.9Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+  <!-- Sağ altta hızlı ikonlar (kalsın) -->
+  <div class="float" aria-label="Hızlı erişim">
+    <a class="fab" id="fabWA" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <svg viewBox="0 0 32 32"><path d="M19.11 17.46c-.27-.13-1.6-.79-1.85-.88-.25-.09-.43-.13-.62.13-.18.27-.71.88-.88 1.06-.16.18-.31.2-.58.07-.27-.13-1.12-.41-2.14-1.31-.79-.7-1.33-1.56-1.49-1.83-.16-.27-.02-.42.12-.55.12-.12.27-.31.4-.47.13-.16.18-.27.27-.44.09-.18.04-.33-.02-.47-.07-.13-.62-1.5-.85-2.06-.22-.53-.45-.46-.62-.46l-.53-.01c-.18 0-.47.07-.71.33-.25.27-.94.92-.94 2.24s.96 2.6 1.09 2.78c.13.18 1.89 2.88 4.58 4.04.64.28 1.14.44 1.53.57.64.2 1.23.17 1.69.1.52-.08 1.6-.65 1.83-1.28.23-.62.23-1.16.16-1.28-.06-.12-.25-.2-.52-.33zM16.01 3.2c-6.99 0-12.67 5.69-12.67 12.68 0 2.21.58 4.37 1.69 6.27L3.2 28.8l6.83-1.79a12.64 12.64 0 0 0 5.98 1.52h.01c6.99 0 12.67-5.69 12.67-12.68S23 3.2 16.01 3.2zm0 23.17h-.01c-1.9 0-3.77-.51-5.42-1.47l-.39-.23-4.05 1.06 1.08-3.95-.25-.41a10.5 10.5 0 0 1-1.6-5.6c0-5.79 4.71-10.5 10.5-10.5S26.5 9.98 26.5 15.77 21.79 26.37 16.01 26.37z"/></svg>
     </a>
-    <a id="fabInstagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="1.8"/>
-        <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" stroke="currentColor" stroke-width="1.8"/>
-        <path d="M17.5 6.5h.01" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/>
-      </svg>
+
+    <a class="fab" id="fabIG" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.75-2.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
     </a>
-    <a id="fabMaps" href="#" target="_blank" rel="noopener" aria-label="Google Maps yol tarifi">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M12 21s7-5.1 7-11a7 7 0 1 0-14 0c0 5.9 7 11 7 11Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-        <path d="M12 10.3a2.3 2.3 0 1 0 0-4.6 2.3 2.3 0 0 0 0 4.6Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+
+    <a class="fab" id="fabMAP" href="#" target="_blank" rel="noopener" aria-label="Konum">
+      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
     </a>
   </div>
 
   <script>
-    const SITE = {
-      WHATSAPP_NUMBER: "905394105058",
-      WHATSAPP_TEXT:
-        "Merhaba, Göcek Lokantası’ndan sipariş vermek istiyorum. Bugünün menüsü ve teslimat bilgileri hakkında bilgi alabilir miyim?",
-      WHATSAPP_TEXT_MARINA:
-        "Merhaba, marina QR indirimi için doğrulama yapmak istiyorum. Yardımcı olabilir misiniz?",
-      INSTAGRAM_URL: "https://www.instagram.com/goceklokantasi/",
-      YEMEKSEPETI_URL: "https://www.yemeksepeti.com/",
-      MAPS_DIRECTIONS_URL: "https://www.google.com/maps/dir/?api=1&destination=36.7523523%2C28.9428661&travelmode=driving"
-    };
+    const PHONE = "+905394105058";
+    const WHATSAPP_NUMBER = "905394105058";
+    const INSTAGRAM = "https://instagram.com/goceklokantasi";
+    const MAPS = "https://maps.app.goo.gl/Vf6fVwdSiV2JRdb36";
 
-    const wa = (text) => `https://wa.me/${SITE.WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-    const waGeneral = wa(SITE.WHATSAPP_TEXT);
-    const waMarina  = wa(SITE.WHATSAPP_TEXT_MARINA);
+    const waText = "Merhaba, Göcek Lokantası’ndan sipariş vermek istiyorum.";
+    const WA = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
 
-    function bindHref(id, url){
-      const el = document.getElementById(id);
-      if (el) el.href = url;
-    }
+    const bind = (id, url) => { const el = document.getElementById(id); if (el) el.href = url; };
 
-    // ✅ Butonlar + FAB
-    bindHref("btnWhatsApp", waGeneral);
-    bindHref("fabWhatsApp", waGeneral);
-    bindHref("btnWhatsAppMarina", waMarina);
+    bind("btnWA", WA);
+    bind("fabWA", WA);
 
-    bindHref("btnInstagram", SITE.INSTAGRAM_URL);
-    bindHref("fabInstagram", SITE.INSTAGRAM_URL);
+    bind("btnIG", INSTAGRAM);
+    bind("fabIG", INSTAGRAM);
 
-    bindHref("btnMaps", SITE.MAPS_DIRECTIONS_URL);
-    bindHref("fabMaps", SITE.MAPS_DIRECTIONS_URL);
+    bind("btnMAP", MAPS);
+    bind("fabMAP", MAPS);
 
-    bindHref("btnYemeksepeti", SITE.YEMEKSEPETI_URL);
+    // Yemeksepeti linkin mevcutsa buraya koy (yoksa buton yine çalışır ama boş kalmasın)
+    bind("btnYS", "https://www.yemeksepeti.com/");
 
-    // ✅ SAĞ ÜST MENÜ BAĞLANTILARI (İSTEDİĞİN GİBİ)
-    bindHref("navInstagram", SITE.INSTAGRAM_URL); // Günlük Menü -> Instagram
-    bindHref("navWhatsApp", waGeneral);           // Sipariş -> WhatsApp
-    bindHref("navMaps", SITE.MAPS_DIRECTIONS_URL);// Ulaşım -> Maps
-    // navMarina zaten marina.html
-
-    // (Sadece sayfa içi #anchor tıklanırsa yakala)
-    function getHeaderOffset(){
-      const header = document.querySelector(".header");
-      const h = header ? header.getBoundingClientRect().height : 72;
-      return Math.round(h + 16);
-    }
-    function scrollToHash(hash){
-      const id = (hash || "").replace("#", "");
-      if (!id) return false;
-      const el = document.getElementById(id);
-      if (!el) return false;
-
-      const offset = getHeaderOffset();
-      const y = el.getBoundingClientRect().top + window.pageYOffset - offset;
-      window.scrollTo({ top: y, behavior: "smooth" });
-
-      el.classList.remove("pulse");
-      void el.offsetWidth;
-      el.classList.add("pulse");
-      setTimeout(() => el.classList.remove("pulse"), 750);
-
-      return true;
-    }
-
-    document.addEventListener("click", (e) => {
-      const a = e.target.closest('a[href^="#"]');
-      if (!a) return;
-      const href = a.getAttribute("href");
-      if (!href || href === "#") return;
-
-      const ok = scrollToHash(href);
-      if (ok) {
-        e.preventDefault();
-        history.replaceState(null, "", href);
-      }
-    }, true);
-
-    window.addEventListener("load", () => {
-      if (location.hash) setTimeout(() => scrollToHash(location.hash), 50);
-    });
+    // ✅ İletişim butonu: direkt arama ekranı
+    bind("btnCALL", `tel:${PHONE}`);
 
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>

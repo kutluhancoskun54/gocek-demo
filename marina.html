@@ -10,7 +10,6 @@
       --bg1:#06131a;
       --bg2:#0b0f1f;
       --glass: rgba(255,255,255,.06);
-      --glass2: rgba(255,255,255,.09);
       --stroke: rgba(255,255,255,.12);
       --text: rgba(255,255,255,.92);
       --muted: rgba(255,255,255,.62);
@@ -44,7 +43,6 @@
       padding: 0 18px 60px;
     }
 
-    /* Top bar */
     .topbar{
       display:flex;
       align-items:center;
@@ -70,7 +68,6 @@
       display:grid;place-items:center;
       overflow:hidden;
     }
-    .logo img{width:100%;height:100%;object-fit:cover}
     .brand .t1{font-weight:700; letter-spacing:.2px; line-height:1.1}
     .brand .t2{font-size:12px; color:var(--muted); line-height:1.1}
 
@@ -100,7 +97,6 @@
       background: rgba(120,234,211,.12);
     }
 
-    /* Layout cards */
     .grid{
       margin-top: 22px;
       display:grid;
@@ -221,7 +217,6 @@
       font-size: 12px;
     }
 
-    /* Floating buttons */
     .float{
       position: fixed;
       right: 16px;
@@ -260,7 +255,6 @@
         </div>
       </div>
 
-      <!-- ✅ Dashboard BUTONU BURADA YOK -->
       <nav class="nav" aria-label="Üst Menü">
         <a class="pill" href="/">Ana Sayfa</a>
         <a class="pill active" href="/marina">Marina indirimi</a>
@@ -285,30 +279,28 @@
         </div>
 
         <div class="hint">
-          İpucu: QR linki şöyle olursa otomatik dolar → <b>/marina?pedalstar=PS001</b>
+          QR linki örneği → <b>/marina?pedalstar=PS001</b>
         </div>
 
         <div id="msg" class="msg neu"></div>
-
         <footer>© <span id="year"></span> Göcek Lokantası</footer>
       </section>
 
       <aside class="card">
         <h1>Nasıl kullanılır?</h1>
         <div class="steps">
-          <div class="step"><b>1)</b> Pedalstar ID alanına <b>PS001</b> gibi ID girin (QR otomatik doldurabilir).</div>
+          <div class="step"><b>1)</b> Pedalstar ID alanına <b>PS001</b> gibi ID girin (QR otomatik doldurur).</div>
           <div class="step"><b>2)</b> <b>Kod Üret</b> ile kod oluşturun.</div>
           <div class="step"><b>3)</b> Kodu kasaya gösterin. Kod tek kullanımlık ve <b>10 dakika</b> geçerlidir.</div>
         </div>
 
         <div class="hint" style="margin-top:12px">
-          Not: Dashboard sadece lokantanın harici linkiyle açılır (bu sayfada görünmez).
+          Not: Bu sayfa yalnızca pedalstar QR ile açılır.
         </div>
       </aside>
     </div>
   </div>
 
-  <!-- Floating quick actions -->
   <div class="float" aria-label="Hızlı Erişim">
     <a class="fab" id="fabWhatsapp" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
       <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M19.11 17.46c-.27-.13-1.6-.79-1.85-.88-.25-.09-.43-.13-.62.13-.18.27-.71.88-.88 1.06-.16.18-.31.2-.58.07-.27-.13-1.12-.41-2.14-1.31-.79-.7-1.33-1.56-1.49-1.83-.16-.27-.02-.42.12-.55.12-.12.27-.31.4-.47.13-.16.18-.27.27-.44.09-.18.04-.33-.02-.47-.07-.13-.62-1.5-.85-2.06-.22-.53-.45-.46-.62-.46l-.53-.01c-.18 0-.47.07-.71.33-.25.27-.94.92-.94 2.24s.96 2.6 1.09 2.78c.13.18 1.89 2.88 4.58 4.04.64.28 1.14.44 1.53.57.64.2 1.23.17 1.69.1.52-.08 1.6-.65 1.83-1.28.23-.62.23-1.16.16-1.28-.06-.12-.25-.2-.52-.33zM16.01 3.2c-6.99 0-12.67 5.69-12.67 12.68 0 2.21.58 4.37 1.69 6.27L3.2 28.8l6.83-1.79a12.64 12.64 0 0 0 5.98 1.52h.01c6.99 0 12.67-5.69 12.67-12.68S23 3.2 16.01 3.2zm0 23.17h-.01c-1.9 0-3.77-.51-5.42-1.47l-.39-.23-4.05 1.06 1.08-3.95-.25-.41a10.5 10.5 0 0 1-1.6-5.6c0-5.79 4.71-10.5 10.5-10.5S26.5 9.98 26.5 15.77 21.79 26.37 16.01 26.37z"/></svg>
@@ -324,14 +316,23 @@
   </div>
 
   <script>
-    // ✅ Senin bilgilerinin güncel hali
     const SITE = {
       WHATSAPP_NUMBER: "905394105058",
       INSTAGRAM_URL: "https://instagram.com/goceklokantasi",
       MAPS_DIRECTIONS_URL: "https://maps.app.goo.gl/Vf6fVwdSiV2JRdb36"
     };
 
-    // Links bind
+    // ✅ QR şartı (pedalstar paramı yoksa sayfa açılmaz)
+    const qs = new URLSearchParams(location.search);
+    const pedalFromQS = (qs.get("pedalstar") || qs.get("pedalstar_id") || "").trim().toUpperCase().replace(/\s+/g,"");
+    const isValidPS = (s) => /^PS\d{3}$/.test(s);
+
+    if (!isValidPS(pedalFromQS)) {
+      // burada “marina sayfası sadece QR ile açılacak” şartı uygulanıyor
+      // yanlış/boş girişte ana sayfaya döndür
+      location.replace("/");
+    }
+
     const waText = "Merhaba, marina indirimi hakkında bilgi alabilir miyim?";
     const waUrl  = `https://wa.me/${SITE.WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
 
@@ -344,16 +345,11 @@
     ["btnInstagram","fabInstagram"].forEach(id => bind(id, SITE.INSTAGRAM_URL));
     ["btnMaps","fabMaps"].forEach(id => bind(id, SITE.MAPS_DIRECTIONS_URL));
 
-    // Year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Query param -> pedalstar
-    const qs = new URLSearchParams(location.search);
-    const qsPedal = (qs.get("pedalstar") || qs.get("pedalstar_id") || "").trim();
     const pedalInput = document.getElementById("pedalstar");
-    if (qsPedal) pedalInput.value = qsPedal.toUpperCase();
+    pedalInput.value = pedalFromQS;
 
-    // UI helpers
     const msg = document.getElementById("msg");
     const setMsg = (type, text) => {
       msg.className = "msg " + (type || "neu");
@@ -362,9 +358,7 @@
     };
 
     const normalizePS = (s) => (s || "").toString().trim().toUpperCase().replace(/\s+/g, "");
-    const isValidPS = (s) => /^PS\d{3}$/.test(s);
 
-    // Generate
     const btn = document.getElementById("btnGenerate");
     btn.addEventListener("click", async () => {
       const pedalstar = normalizePS(pedalInput.value);
@@ -388,9 +382,7 @@
           throw new Error((data?.error || "Kod üretilemedi.") + detail);
         }
 
-        // ✅ kullanıcıya gösterilecek kod
         setMsg("ok", `Kodunuz: ${data.code} (Bitiş: ${new Date(data.expires_at).toLocaleString("tr-TR")})`);
-
       } catch (e) {
         setMsg("err", String(e?.message || e));
       } finally {
