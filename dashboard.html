@@ -1,40 +1,49 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Göcek Lokantası – Marina Kod Paneli</title>
   <style>
-    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;margin:0;background:#f6f3ee;color:#111}
-    .wrap{max-width:1100px;margin:32px auto;padding:0 16px}
-    .card{background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:14px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.06)}
-    h1{margin:0 0 12px;font-size:18px}
-    .row{display:flex;gap:12px;flex-wrap:wrap}
-    input{padding:12px 12px;border-radius:10px;border:1px solid rgba(0,0,0,.15);min-width:280px}
-    button{padding:12px 14px;border-radius:10px;border:0;background:#111;color:#fff;cursor:pointer}
-    button.secondary{background:#eee;color:#111}
-    table{width:100%;border-collapse:collapse;margin-top:12px;font-size:13px}
-    th,td{padding:10px;border-bottom:1px solid rgba(0,0,0,.08);text-align:left}
-    .tag{display:inline-block;padding:4px 8px;border-radius:999px;font-size:12px;border:1px solid rgba(0,0,0,.1)}
-    .ok{background:#eaffea}
-    .used{background:#eef3ff}
-    .exp{background:#fff2e8}
-    .err{color:#b00020;font-weight:600}
-    .muted{color:#666}
+    :root { --bg:#f7f3ee; --card:#ffffff; --text:#111; --muted:#666; --shadow:0 14px 40px rgba(0,0,0,.08); }
+    body{ margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial; background:var(--bg); color:var(--text); }
+    .wrap{ max-width:1100px; margin:60px auto; padding:0 20px; }
+    .card{ background:var(--card); border-radius:16px; box-shadow:var(--shadow); padding:22px; }
+    h1{ margin:0 0 14px; font-size:22px; }
+    .row{ display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+    input{ height:42px; padding:0 12px; border-radius:10px; border:1px solid #e3e3e3; min-width:260px; font-size:15px; }
+    button{ height:42px; padding:0 14px; border-radius:10px; border:1px solid transparent; cursor:pointer; font-weight:700; }
+    button:disabled{ opacity:.6; cursor:not-allowed; }
+    .btn-dark{ background:#111; color:#fff; }
+    .btn-light{ background:#efefef; color:#111; }
+    .hint{ margin-left:10px; color:#b00020; font-weight:800; }
+    .okmsg{ margin-left:10px; color:#0a7a2f; font-weight:800; }
+    .sub{ color:var(--muted); margin-top:8px; }
+    table{ width:100%; border-collapse:collapse; margin-top:16px; font-size:14px; }
+    th,td{ text-align:left; padding:10px 8px; border-bottom:1px solid #eee; vertical-align:middle; }
+    th{ color:#333; font-size:13px; }
+    .tag{ display:inline-block; padding:4px 10px; border-radius:999px; font-size:12px; background:#f3f3f3; }
+    .tag.ok{ background:#e8f6ed; color:#0a7a2f; font-weight:800; }
+    .tag.bad{ background:#ffe9ea; color:#b00020; font-weight:800; }
+    .tag.warn{ background:#fff2e1; color:#8a4b00; font-weight:800; }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; }
   </style>
 </head>
 <body>
   <div class="wrap">
     <div class="card">
       <h1>Marina Kod Paneli</h1>
-      <div class="row" style="align-items:center">
-        <input id="codeInput" placeholder="Örn: ps001-abc2d3e4" />
-        <button id="verifyBtn">Kodu doğrula (kullanıldı yap)</button>
-        <button id="refreshBtn" class="secondary">Listeyi yenile</button>
-        <span id="status" class="muted"></span>
+
+      <div class="row">
+        <input id="codeInput" placeholder="Kasada okunan 6 haneli kod" />
+        <button class="btn-dark" id="btnUse">Kodu doğrula (kullanıldı yap)</button>
+        <button class="btn-light" id="btnRefresh">Listeyi yenile</button>
+        <span class="sub" id="count"></span>
+        <span class="hint" id="hint"></span>
+        <span class="okmsg" id="ok"></span>
       </div>
 
-      <div id="result" style="margin-top:10px"></div>
+      <div class="sub" id="status"></div>
 
       <table>
         <thead>
@@ -47,82 +56,187 @@
             <th>Kullanım</th>
           </tr>
         </thead>
-        <tbody id="tbody"></tbody>
+        <tbody id="tbody">
+          <tr><td colspan="6" class="sub">Liste henüz yüklenmedi.</td></tr>
+        </tbody>
       </table>
     </div>
   </div>
 
-<script>
-  const params = new URLSearchParams(location.search);
-  const token = params.get("token");
+  <script>
+    const qs = new URLSearchParams(location.search);
+    const token = (qs.get("token") || "").trim();
 
-  const statusEl = document.getElementById("status");
-  const resultEl = document.getElementById("result");
-  const tbody = document.getElementById("tbody");
+    const hintEl = document.getElementById("hint");
+    const okEl = document.getElementById("ok");
+    const statusEl = document.getElementById("status");
+    const countEl = document.getElementById("count");
+    const tbody = document.getElementById("tbody");
+    const codeInput = document.getElementById("codeInput");
+    const btnUse = document.getElementById("btnUse");
+    const btnRefresh = document.getElementById("btnRefresh");
 
-  if (!token) {
-    statusEl.innerHTML = '<span class="err">Token yok.</span> URL sonuna ?token=... ekleyin.';
-  }
-
-  const fmt = (iso) => iso ? new Date(iso).toLocaleString("tr-TR") : "-";
-
-  function badge(row) {
-    const now = Date.now();
-    const exp = row.expires_at ? new Date(row.expires_at).getTime() : 0;
-    if (row.used_at) return `<span class="tag used">Kullanıldı</span>`;
-    if (exp && now > exp) return `<span class="tag exp">Süresi doldu</span>`;
-    return `<span class="tag ok">Aktif</span>`;
-  }
-
-  async function loadList() {
-    if (!token) return;
-    statusEl.textContent = "Yükleniyor...";
-    resultEl.textContent = "";
-    tbody.innerHTML = "";
-
-    const res = await fetch(`/.netlify/functions/list?token=${encodeURIComponent(token)}&limit=200`);
-    const data = await res.json();
-
-    if (!data.ok) {
-      statusEl.innerHTML = `<span class="err">${data.error || "Hata"}</span>`;
-      return;
+    function esc(s) {
+      s = (s ?? "").toString();
+      return s.replace(/[&<>"']/g, (c) => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[c]));
     }
-    statusEl.textContent = "Son 200 kayıt";
 
-    for (const r of data.rows) {
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${badge(r)}</td>
-        <td><b>${r.voucher_code}</b></td>
-        <td>${r.pedalstar_code}</td>
-        <td>${fmt(r.created_at)}</td>
-        <td>${fmt(r.expires_at)}</td>
-        <td>${fmt(r.used_at)}</td>
-      `;
-      tbody.appendChild(tr);
+    function setBusy(isBusy, msg) {
+      btnUse.disabled = isBusy;
+      btnRefresh.disabled = isBusy;
+      statusEl.textContent = msg || "";
     }
-  }
 
-  async function verifyCode() {
-    if (!token) return;
-    const code = document.getElementById("codeInput").value.trim().toLowerCase();
-    if (!code) return;
-
-    resultEl.textContent = "Doğrulanıyor...";
-    const res = await fetch(`/.netlify/functions/verify?token=${encodeURIComponent(token)}&code=${encodeURIComponent(code)}`);
-    const data = await res.json();
-
-    if (data.ok) {
-      resultEl.innerHTML = `<span class="tag ok">OK</span> ${data.message} — ${fmt(data.used_at)}`;
-      await loadList();
-    } else {
-      resultEl.innerHTML = `<span class="err">${data.error || "Hata"}</span>`;
+    function authHeaders() {
+      return token ? { "Authorization": "Bearer " + token } : {};
     }
-  }
 
-  document.getElementById("refreshBtn").addEventListener("click", loadList);
-  document.getElementById("verifyBtn").addEventListener("click", verifyCode);
-  loadList();
-</script>
+    function fmt(dt) {
+      if (!dt) return "-";
+      try { return new Date(dt).toLocaleString("tr-TR"); } catch { return dt; }
+    }
+
+    function normalizeRow(r) {
+      // alan isimleri farklı gelse bile yakala
+      const code =
+        r.code ?? r.kod ?? r.marina_code ?? r.discount_code ?? r.token ?? r.value ?? r.Code ?? null;
+
+      const pedalstar =
+        r.pedalstar_id ?? r.pedalstar ?? r.stand_id ?? r.stand ?? r.pedalstarId ?? r.PEDALSTAR_ID ?? null;
+
+      const created_at =
+        r.created_at ?? r.createdAt ?? r.created ?? r.created_on ?? r.inserted_at ?? null;
+
+      const expires_at =
+        r.expires_at ?? r.expiresAt ?? r.expire_at ?? r.expireAt ?? r.valid_until ?? null;
+
+      const used_at =
+        r.used_at ?? r.usedAt ?? r.used ?? r.used_on ?? null;
+
+      return { code, pedalstar, created_at, expires_at, used_at };
+    }
+
+    function renderRows(rows) {
+      const norm = (rows || []).map(normalizeRow);
+
+      countEl.textContent = `Son ${norm.length} kayıt`;
+      if (!norm.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="sub">Kayıt yok.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = norm.map(r => {
+        const used = !!r.used_at;
+        const expired = r.expires_at ? (Date.now() > Date.parse(r.expires_at)) : false;
+
+        let badge = `<span class="tag ok">Aktif</span>`;
+        if (used) badge = `<span class="tag ok">Kullanıldı</span>`;
+        else if (expired) badge = `<span class="tag warn">Süresi doldu</span>`;
+
+        return `
+          <tr>
+            <td>${badge}</td>
+            <td class="mono">${esc(r.code || "-")}</td>
+            <td class="mono">${esc(r.pedalstar || "-")}</td>
+            <td>${esc(fmt(r.created_at))}</td>
+            <td>${esc(fmt(r.expires_at))}</td>
+            <td>${r.used_at ? esc(fmt(r.used_at)) : "-"}</td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    async function fetchWithTimeout(url, opts = {}, ms = 12000) {
+      const ctrl = new AbortController();
+      const t = setTimeout(() => ctrl.abort(), ms);
+      try {
+        return await fetch(url, { ...opts, signal: ctrl.signal });
+      } finally {
+        clearTimeout(t);
+      }
+    }
+
+    async function refresh() {
+      okEl.textContent = "";
+      hintEl.textContent = "";
+
+      if (!token) {
+        hintEl.textContent = "Token yok. URL sonuna ?token=... ekleyin.";
+        return;
+      }
+
+      setBusy(true, "Yükleniyor...");
+      try {
+        const resp = await fetchWithTimeout("/.netlify/functions/list", {
+          method: "GET",
+          headers: { ...authHeaders() }
+        });
+
+        const data = await resp.json().catch(() => ({}));
+
+        if (!resp.ok) {
+          hintEl.textContent = data?.error ? data.error : `HTTP ${resp.status}`;
+          renderRows([]);
+          return;
+        }
+
+        renderRows(data.rows || []);
+      } catch (e) {
+        hintEl.textContent = "Liste alınamadı (timeout / bağlantı).";
+        renderRows([]);
+      } finally {
+        setBusy(false, "");
+      }
+    }
+
+    async function useCode() {
+      okEl.textContent = "";
+      hintEl.textContent = "";
+
+      if (!token) {
+        hintEl.textContent = "Token yok. URL sonuna ?token=... ekleyin.";
+        return;
+      }
+
+      const code = (codeInput.value || "").trim().toUpperCase();
+      if (!/^[A-Z0-9]{6}$/.test(code)) {
+        hintEl.textContent = "Kod 6 karakter olmalı (A-Z0-9).";
+        return;
+      }
+
+      setBusy(true, "Doğrulanıyor...");
+      try {
+        const resp = await fetchWithTimeout("/.netlify/functions/use", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json; charset=utf-8",
+            ...authHeaders()
+          },
+          body: JSON.stringify({ code })
+        });
+
+        const data = await resp.json().catch(() => ({}));
+
+        if (!resp.ok) {
+          hintEl.textContent = data?.error ? data.error : `HTTP ${resp.status}`;
+          return;
+        }
+
+        okEl.textContent = "OK";
+        await refresh();
+      } catch (e) {
+        hintEl.textContent = "Doğrulama başarısız (timeout / bağlantı).";
+      } finally {
+        setBusy(false, "");
+      }
+    }
+
+    btnRefresh.addEventListener("click", refresh);
+    btnUse.addEventListener("click", useCode);
+
+    refresh();
+  </script>
 </body>
 </html>
