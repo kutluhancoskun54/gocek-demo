@@ -6,27 +6,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Göcek Lokantası</title>
 
+  <!-- SENİN VERDİĞİN NET BİLGİLER -->
+  <script>
+    window.SITE = {
+      INSTAGRAM_URL: "https://instagram.com/goceklokantasi",
+      INSTAGRAM_MENU_URL: "https://instagram.com/goceklokantasi",
+      MAPS_URL: "https://maps.app.goo.gl/CgurhQnmZytUFDrV6",
+      PHONE_TEL: "tel:+905394105058",
+      PHONE_RAW: "+90 539 410 50 58",
+      // WhatsApp: en stabil format wa.me
+      WHATSAPP_URL: "https://wa.me/905394105058?text=Merhaba%20G%C3%B6cek%20Lokantas%C4%B1%2C%20sipari%C5%9F%20vermek%20istiyorum."
+    };
+  </script>
+
   <style>
     :root{
-      /* Eski “sıcak/bej + altın” hissine geri dönüyoruz */
-      --bg1:#f3eadc;
+      /* Sıcak/kurumsal bej + altın palet (eski stile yakın) */
+      --bg1:#f6efe3;
       --bg2:#fbf7f1;
-
       --card: rgba(255,255,255,.86);
       --card2: rgba(255,255,255,.92);
-
       --ink:#141312;
       --muted:#5f594f;
-
       --line:#e7ddcf;
-
-      --accent:#b28a3a;          /* altın */
-      --accent2:#8f6b24;         /* koyu altın */
+      --accent:#b28a3a;
+      --accent2:#8f6b24;
       --shadow: 0 16px 40px rgba(20,20,20,.10);
-
       --radius: 18px;
       --radius2: 14px;
       --container: 1080px;
+
+      /* LOGO görselinde boşluk varsa “gerçekten büyütmek” için */
+      --logoZoom: 1.9;
     }
 
     *{box-sizing:border-box}
@@ -66,20 +77,31 @@
       display:flex;
       align-items:center;
       gap:16px;
-      min-width:340px;
+      min-width:320px;
     }
 
-    /* LOGO: daha geniş (rect) */
-    .brand img{
-      width:150px;               /* geniş */
-      height:64px;               /* düşük */
-      border-radius:16px;        /* kurumsal */
-      object-fit:contain;        /* logoyu kırpma */
-      padding:10px 12px;         /* nefes */
+    /* Logo: kutu + gerçek büyütme (zoom) */
+    .logoBox{
+      width:170px;
+      height:78px;
+      border-radius:18px;
       background: rgba(255,255,255,.92);
       border:1px solid rgba(231,221,207,.95);
-      box-shadow: 0 10px 22px rgba(20,20,20,.08);
+      box-shadow: 0 12px 26px rgba(20,20,20,.10);
+      overflow:hidden;
       flex:0 0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      position:relative;
+    }
+    .logoBox img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      transform: scale(var(--logoZoom)); /* logo boşlukluysa gerçek büyütür */
+      transform-origin:center;
+      display:block;
     }
 
     .brand .t{display:flex;flex-direction:column;line-height:1.05}
@@ -305,44 +327,35 @@
       .wrap{width:calc(100% - 22px)}
       .topbar{padding:12px 12px}
       .brand{min-width:0;gap:12px}
-      .brand img{
-        width:132px;            /* mobilde de geniş */
-        height:58px;
-        border-radius:14px;
+      .logoBox{
+        width:150px;
+        height:70px;
+        border-radius:16px;
       }
       .brand .name{font-size:16px}
       .brand .tag{font-size:11px}
     }
   </style>
-
-  <script>
-    // Projede SITE zaten varsa bozmuyoruz. Yoksa fallback.
-    window.SITE = window.SITE || {
-      WHATSAPP_URL: "#",
-      MAPS_URL: "#",
-      INSTAGRAM_MENU_URL: "#",
-      YEMEKSEPETI_URL: "#",
-      PHONE_TEL: "#"
-    };
-  </script>
 </head>
 
 <body>
   <div class="wrap">
     <header class="topbar">
       <a class="brand" href="/">
-        <img src="assets/logo.jpg" alt="Göcek Lokantası Logo" />
+        <div class="logoBox">
+          <img src="assets/logo.jpg" alt="Göcek Lokantası Logo" />
+        </div>
         <div class="t">
           <div class="name">Göcek Lokantası</div>
           <div class="tag">BİR KEPÇE MUTLULUK</div>
         </div>
       </a>
 
-      <!-- Sağ üst butonlar: site içi değil, DIŞ yönlendirme -->
+      <!-- Sağ üst: Dış yönlendirme -->
       <nav class="nav">
-        <a id="navMenu" href="#" rel="noopener">Günlük Menü</a>
-        <a id="navSiparis" href="#" rel="noopener">Sipariş</a>
-        <a id="navUlasim" href="#" rel="noopener">Ulaşım</a>
+        <a id="navMenu" href="#" target="_blank" rel="noopener">Günlük Menü</a>
+        <a id="navSiparis" href="#" target="_blank" rel="noopener">Sipariş</a>
+        <a id="navUlasim" href="#" target="_blank" rel="noopener">Ulaşım</a>
       </nav>
     </header>
 
@@ -357,10 +370,10 @@
           </p>
 
           <div class="ctas">
-            <a class="btn primary" id="btnWhatsapp" href="#">WhatsApp ile sipariş</a>
-            <a class="btn" id="btnMenuIg" href="#">Günün menüsü (Instagram)</a>
-            <a class="btn" id="btnMaps" href="#">Yol tarifi al</a>
-            <a class="btn" id="btnYemeksepeti" href="#">Yemeksepeti</a>
+            <a class="btn primary" id="btnWhatsapp" href="#" target="_blank" rel="noopener">WhatsApp ile sipariş</a>
+            <a class="btn" id="btnMenuIg" href="#" target="_blank" rel="noopener">Günün menüsü (Instagram)</a>
+            <a class="btn" id="btnMaps" href="#" target="_blank" rel="noopener">Yol tarifi al</a>
+            <a class="btn" id="btnYemeksepeti" href="#" target="_blank" rel="noopener">Yemeksepeti</a>
           </div>
 
           <div class="pay">
@@ -430,18 +443,19 @@
     </main>
   </div>
 
+  <!-- Sağ alttaki ikonlar -->
   <div class="fabs" aria-label="Hızlı erişim">
-    <a class="fab" id="fabWhatsapp" href="#" title="WhatsApp">
+    <a class="fab" id="fabWhatsapp" href="#" target="_blank" rel="noopener" title="WhatsApp">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M12 2a10 10 0 0 0-8.66 15l-.84 3.07 3.14-.82A10 10 0 1 0 12 2Z" stroke="currentColor" stroke-width="1.8"/>
       </svg>
     </a>
-    <a class="fab" id="fabInstagram" href="#" title="Instagram">
+    <a class="fab" id="fabInstagram" href="#" target="_blank" rel="noopener" title="Instagram">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z" stroke="currentColor" stroke-width="1.8"/>
       </svg>
     </a>
-    <a class="fab" id="fabMaps" href="#" title="Konum">
+    <a class="fab" id="fabMaps" href="#" target="_blank" rel="noopener" title="Konum">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
         <path d="M12 22s7-5.1 7-12a7 7 0 0 0-14 0c0 6.9 7 12 7 12Z" stroke="currentColor" stroke-width="1.8"/>
       </svg>
@@ -460,16 +474,22 @@
     safeSetHref("btnWhatsapp", SITE.WHATSAPP_URL);
     safeSetHref("btnMenuIg", SITE.INSTAGRAM_MENU_URL);
     safeSetHref("btnMaps", SITE.MAPS_URL);
-    safeSetHref("btnYemeksepeti", SITE.YEMEKSEPETI_URL);
+    // Yemeksepeti yoksa butonu gizle
+    const ys = document.getElementById("btnYemeksepeti");
+    if (SITE.YEMEKSEPETI_URL && SITE.YEMEKSEPETI_URL !== "#") {
+      ys.href = SITE.YEMEKSEPETI_URL;
+    } else {
+      ys.style.display = "none";
+    }
 
     /* TOP NAV: dış yönlendirme */
-    safeSetHref("navMenu", SITE.INSTAGRAM_MENU_URL);
+    safeSetHref("navMenu", SITE.INSTAGRAM_URL);
     safeSetHref("navSiparis", SITE.WHATSAPP_URL);
     safeSetHref("navUlasim", SITE.MAPS_URL);
 
     /* Floating */
     safeSetHref("fabWhatsapp", SITE.WHATSAPP_URL);
-    safeSetHref("fabInstagram", SITE.INSTAGRAM_MENU_URL);
+    safeSetHref("fabInstagram", SITE.INSTAGRAM_URL);
     safeSetHref("fabMaps", SITE.MAPS_URL);
 
     /* Call buttons */
