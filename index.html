@@ -1,345 +1,425 @@
 <!doctype html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Göcek Lokantası | Günlük Ev Yemekleri</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Göcek Lokantası</title>
+  <meta name="description" content="Göcek'te taze, günlük ev yemekleri. Menü Instagram'da güncellenir. Sipariş WhatsApp üzerinden. Ulaşım Google Maps yol tarifi." />
 
   <style>
     :root{
-      --bg:#f7f2ea;
-      --card:#ffffff;
-      --stroke:#e8dfd2;
-      --text:#1f1a14;
-      --muted:#6b5f55;
-      --brand:#7a6a2a;  /* altın-kahve */
-      --brand2:#2b6a62; /* koyu teal */
-      --shadow: 0 18px 60px rgba(31,26,20,.10);
-      --r: 18px;
-      --r2: 26px;
+      /* Logo uyumlu “sıcak / premium” palet */
+      --bg0:#fbf7ef;
+      --bg1:#f4ead9;
+      --card:#ffffffd6;
+      --cardSolid:#ffffff;
+      --text:#1f1d1a;
+      --muted:#6b6258;
+      --border:rgba(65,46,22,.14);
+      --shadow: 0 22px 55px rgba(30,18,6,.10);
+      --shadow2: 0 10px 25px rgba(30,18,6,.08);
+      --accent:#a17a26;       /* altın/kum */
+      --accent2:#2c6e65;      /* yeşil-safir */
+      --accentSoft: rgba(161,122,38,.14);
+      --radius: 22px;
+      --radius2: 18px;
+      --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, "Noto Sans", "Apple Color Emoji","Segoe UI Emoji";
     }
+
     *{box-sizing:border-box}
+    html,body{height:100%}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Noto Sans", "Helvetica Neue", sans-serif;
+      font-family:var(--font);
       color:var(--text);
       background:
-        radial-gradient(1000px 650px at 15% 10%, rgba(122,106,42,.08), transparent 60%),
-        radial-gradient(900px 600px at 80% 18%, rgba(43,106,98,.08), transparent 55%),
-        linear-gradient(180deg, #fbf7f1, var(--bg));
+        radial-gradient(1200px 600px at 35% 20%, rgba(161,122,38,.12), transparent 55%),
+        radial-gradient(900px 500px at 85% 30%, rgba(44,110,101,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
     }
 
     .wrap{
-      max-width: 1120px;
-      margin: 26px auto 40px;
-      padding: 0 18px 40px;
+      width:min(1100px, 92vw);
+      margin:28px auto 60px;
     }
 
-    /* Topbar */
+    /* Header */
     .topbar{
       display:flex;
       align-items:center;
       justify-content:space-between;
       gap:16px;
-      padding: 14px 18px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.72);
+      padding:12px 14px;
+      border:1px solid var(--border);
+      background:var(--card);
+      backdrop-filter: blur(12px);
       border-radius: 999px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow2);
     }
 
     .brand{
       display:flex;
       align-items:center;
       gap:14px;
-      min-width: 280px;
+      padding-left:6px;
+      min-width: 260px;
     }
-
-    /* ✅ Logo büyütüldü */
-    .logo{
-      width:56px;
-      height:56px;
-      border-radius: 16px;
-      overflow:hidden;
-      border:1px solid var(--stroke);
-      background:#fff;
+    .brand .logo{
+      width:58px;
+      height:58px;
+      border-radius: 999px;
+      background: #fff;
+      border:1px solid var(--border);
+      box-shadow: 0 8px 18px rgba(0,0,0,.06);
       display:grid;
       place-items:center;
+      overflow:hidden;
       flex:0 0 auto;
     }
-    .logo img{
+    .brand .logo img{
       width:100%;
       height:100%;
-      object-fit:contain;
-      padding:6px;
+      object-fit: cover; /* logo net görünsün */
+      image-rendering: -webkit-optimize-contrast;
     }
-
-    .brandText .name{
+    .brand .name{
+      line-height:1.05;
+    }
+    .brand .name strong{
+      display:block;
       font-weight:800;
       letter-spacing:.2px;
-      line-height:1.1;
+      font-size:16px;
     }
-    .brandText .tag{
+    .brand .name small{
+      display:block;
+      margin-top:4px;
       font-size:11px;
-      letter-spacing: .24em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-top: 4px;
+      letter-spacing:.18em;
+      color:var(--muted);
+      text-transform:uppercase;
     }
 
     .nav{
       display:flex;
-      gap:10px;
       align-items:center;
+      gap:10px;
       flex-wrap:wrap;
       justify-content:flex-end;
     }
-
-    .pill{
-      border:1px solid var(--stroke);
-      background:#fff;
-      color:var(--text);
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-size: 13px;
+    .nav a{
       text-decoration:none;
-      cursor:pointer;
-      transition: transform .08s ease, box-shadow .15s ease;
+      color:var(--text);
+      font-weight:600;
+      font-size:13px;
+      padding:10px 14px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.55);
+      transition:.18s ease;
     }
-    .pill:hover{
+    .nav a:hover{
       transform: translateY(-1px);
-      box-shadow: 0 10px 26px rgba(31,26,20,.10);
+      box-shadow: 0 10px 18px rgba(0,0,0,.06);
+      background: rgba(255,255,255,.8);
     }
 
-    .layout{
-      margin-top: 22px;
-      border:1px solid var(--stroke);
-      background: rgba(255,255,255,.75);
-      border-radius: var(--r2);
+    /* Main card */
+    .main{
+      margin-top:16px;
+      border:1px solid var(--border);
+      background: var(--card);
+      backdrop-filter: blur(14px);
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
       padding: 22px;
     }
 
-    .hero{
+    .grid{
       display:grid;
-      grid-template-columns: 1.35fr .85fr;
-      gap: 18px;
+      grid-template-columns: 1.2fr .8fr;
+      gap:18px;
       align-items:start;
-    }
-    @media (max-width: 980px){
-      .hero{grid-template-columns:1fr}
-      .brand{min-width:auto}
-      .nav{justify-content:flex-start}
     }
 
     .kicker{
-      display:flex;
+      display:inline-flex;
       align-items:center;
       gap:10px;
       color: var(--muted);
-      font-size: 12px;
-      letter-spacing:.18em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
+      font-weight:700;
+      letter-spacing:.12em;
+      font-size:12px;
+      text-transform:uppercase;
+      margin-bottom:10px;
     }
     .dot{
-      width:8px;height:8px;border-radius:999px;
-      background: var(--brand);
-      box-shadow: 0 0 0 3px rgba(122,106,42,.12);
+      width:9px;height:9px;border-radius:50%;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(161,122,38,.12);
     }
 
     h1{
-      margin: 0 0 10px;
-      font-size: 56px;
-      line-height: 1.02;
+      margin:0;
+      font-size: clamp(36px, 4.2vw, 54px);
+      line-height:1.02;
       letter-spacing:-.02em;
-      font-family: ui-serif, Georgia, "Times New Roman", Times, serif;
+      font-weight: 900;
     }
-    @media(max-width:700px){
-      h1{font-size: 40px;}
-    }
-
     .lead{
-      margin: 0 0 18px;
+      margin:14px 0 16px;
+      max-width: 58ch;
       color: var(--muted);
-      line-height: 1.55;
       font-size: 14px;
-      max-width: 64ch;
+      line-height:1.55;
+      font-weight: 550;
     }
 
-    .btnRow{
+    .actions{
       display:flex;
-      gap:10px;
       flex-wrap:wrap;
-      align-items:center;
-      margin: 10px 0 10px;
+      gap:10px;
+      margin: 10px 0 16px;
     }
-
     .btn{
-      border:1px solid var(--stroke);
-      background:#fff;
-      color:var(--text);
-      padding: 11px 14px;
-      border-radius: 999px;
-      font-size: 13px;
-      text-decoration:none;
       display:inline-flex;
       align-items:center;
-      gap:8px;
-      transition: transform .08s ease, box-shadow .15s ease;
+      justify-content:center;
+      gap:10px;
+      padding:11px 14px;
+      border-radius: 999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.70);
+      color: var(--text);
+      text-decoration:none;
+      font-weight:800;
+      font-size:13px;
+      transition:.18s ease;
+      box-shadow: 0 8px 16px rgba(0,0,0,.05);
+      user-select:none;
     }
-    .btn:hover{
-      transform: translateY(-1px);
-      box-shadow: 0 10px 26px rgba(31,26,20,.10);
-    }
-
+    .btn:hover{ transform: translateY(-1px); box-shadow: 0 14px 28px rgba(0,0,0,.08); background: rgba(255,255,255,.9); }
     .btn.primary{
-      background: rgba(122,106,42,.10);
-      border-color: rgba(122,106,42,.30);
+      background: linear-gradient(180deg, rgba(161,122,38,.95), rgba(138,103,30,.95));
+      border-color: rgba(110,80,16,.45);
+      color:#fff;
+      box-shadow: 0 16px 34px rgba(161,122,38,.18);
+    }
+    .btn.primary:hover{ filter: brightness(1.03); }
+
+    .btn .ic{
+      width:16px;height:16px; display:inline-block;
     }
 
-    .btn.soft{
-      background: rgba(43,106,98,.08);
-      border-color: rgba(43,106,98,.22);
-    }
-
-    .smallNote{
-      margin-top: 10px;
-      color: var(--muted);
-      font-size: 12px;
-    }
-
-    /* Right card */
+    /* Marina card (right) */
     .sideCard{
-      border:1px solid var(--stroke);
-      background:#fff;
-      border-radius: var(--r2);
-      padding: 18px;
-      box-shadow: 0 14px 44px rgba(31,26,20,.08);
+      background: rgba(255,255,255,.68);
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      padding:18px;
+      box-shadow: 0 12px 28px rgba(0,0,0,.06);
     }
-    .sideTitle{
-      font-size: 11px;
-      letter-spacing:.22em;
-      text-transform: uppercase;
+    .sideCard .label{
+      font-size:11px;
+      letter-spacing:.18em;
       color: var(--muted);
-      margin-bottom: 10px;
+      font-weight:800;
+      text-transform:uppercase;
+      margin-bottom:8px;
     }
-    .sideCard h3{
-      margin:0 0 8px;
-      font-size: 14px;
+    .sideCard .title{
+      margin:0;
+      font-weight:900;
+      font-size:14px;
     }
     .sideCard p{
-      margin:0 0 14px;
-      font-size: 13px;
+      margin:10px 0 14px;
       color: var(--muted);
-      line-height: 1.5;
-    }
-    .sideActions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
+      font-size:13px;
+      line-height:1.5;
+      font-weight: 600;
     }
 
-    /* Info tiles */
-    .tiles{
+    /* Feature cards */
+    .features{
       display:grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 18px;
-    }
-    @media(max-width:900px){
-      .tiles{grid-template-columns:1fr}
-    }
-    .tile{
-      border:1px solid var(--stroke);
-      background:#fff;
-      border-radius: var(--r);
-      padding: 14px;
-      display:flex;
       gap:12px;
-      align-items:flex-start;
+      margin-top:14px;
     }
-    .icon{
-      width:34px;height:34px;border-radius: 12px;
-      border:1px solid var(--stroke);
-      background: rgba(122,106,42,.08);
-      display:grid;place-items:center;
-      flex:0 0 auto;
-      color: var(--brand);
-      font-weight: 800;
+    .fcard{
+      background: rgba(255,255,255,.65);
+      border:1px solid var(--border);
+      border-radius: var(--radius2);
+      padding:14px;
+      box-shadow: 0 10px 20px rgba(0,0,0,.05);
+      min-height: 116px;
     }
-    .tile h4{
-      margin:0 0 6px;
-      font-size: 12px;
-      letter-spacing:.22em;
-      text-transform: uppercase;
-      color: var(--muted);
+    .fcard .ftop{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:8px;
     }
-    .tile p{
+    .ficon{
+      width:30px;height:30px;
+      border-radius: 10px;
+      display:grid;
+      place-items:center;
+      background: var(--accentSoft);
+      border:1px solid rgba(161,122,38,.22);
+    }
+    .ficon svg{ width:16px;height:16px; opacity:.85; }
+    .fcard h3{
       margin:0;
-      font-size: 13px;
+      font-size:12px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      font-weight:900;
+    }
+    .fcard p{
+      margin:0;
       color: var(--muted);
-      line-height: 1.5;
+      font-size:12.5px;
+      line-height:1.5;
+      font-weight: 600;
     }
 
-    /* Bottom highlight (Marina row without buttons) */
-    .marinaRow{
-      margin-top: 16px;
-      border:1px solid var(--stroke);
-      background: rgba(122,106,42,.06);
-      border-radius: var(--r2);
-      padding: 14px 16px;
+    /* Meal card payment block */
+    .pay{
+      margin-top:12px;
+      padding:14px;
+      border-radius: var(--radius2);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.62);
+      box-shadow: 0 10px 20px rgba(0,0,0,.05);
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap: 10px;
+      gap:12px;
+      flex-wrap:wrap;
     }
-    .marinaRow .title{
-      font-size: 11px;
-      letter-spacing:.22em;
-      text-transform: uppercase;
-      color: var(--brand);
-      font-weight: 800;
-    }
-    .marinaRow .desc{
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-      margin-top: 3px;
-    }
-
-    footer{
-      margin-top: 18px;
-      text-align:center;
-      color: rgba(31,26,20,.50);
-      font-size: 12px;
-    }
-
-    /* Right floating quick icons (optional, mevcutsa kalsın) */
-    .float{
-      position: fixed;
-      right: 16px;
-      bottom: 18px;
+    .pay .txt{
       display:flex;
-      flex-direction:column;
-      gap: 10px;
-      z-index: 99;
+      align-items:flex-start;
+      gap:10px;
+      min-width: 240px;
     }
-    .fab{
-      width: 44px; height: 44px;
-      border-radius: 14px;
-      border: 1px solid var(--stroke);
-      background: rgba(255,255,255,.9);
+    .pay .badgeIc{
+      width:34px;height:34px;
+      border-radius: 12px;
+      background: rgba(44,110,101,.12);
+      border: 1px solid rgba(44,110,101,.22);
       display:grid;
       place-items:center;
-      box-shadow: 0 14px 40px rgba(31,26,20,.12);
-      cursor:pointer;
-      transition: transform .08s ease;
-      text-decoration:none;
     }
-    .fab:hover{transform: translateY(-1px);}
-    .fab svg{width:20px;height:20px; fill: rgba(31,26,20,.75)}
+    .pay .badgeIc svg{ width:18px;height:18px; opacity:.9; }
+    .pay .txt strong{
+      display:block;
+      font-size:13px;
+      font-weight: 950;
+      letter-spacing:.2px;
+      margin-top:1px;
+    }
+    .pay .txt span{
+      display:block;
+      font-size:12.2px;
+      color: var(--muted);
+      font-weight: 650;
+      margin-top:3px;
+      line-height:1.45;
+    }
+    .logos{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      align-items:center;
+      justify-content:flex-end;
+      flex: 1 1 auto;
+    }
+    .logoPill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:9px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(0,0,0,.10);
+      background: rgba(255,255,255,.78);
+      box-shadow: 0 8px 16px rgba(0,0,0,.045);
+      font-weight: 900;
+      font-size:12px;
+      color:#2a241c;
+      letter-spacing:.2px;
+      white-space:nowrap;
+    }
+    .logoPill .mark{
+      width:18px;height:18px;
+      border-radius: 6px;
+      background: linear-gradient(180deg, rgba(161,122,38,.22), rgba(161,122,38,.08));
+      border:1px solid rgba(161,122,38,.25);
+    }
+    .logoPill.alt .mark{
+      background: linear-gradient(180deg, rgba(44,110,101,.20), rgba(44,110,101,.08));
+      border:1px solid rgba(44,110,101,.22);
+    }
+
+    /* Bottom notice */
+    .strip{
+      margin-top:12px;
+      padding:14px 16px;
+      border-radius: var(--radius2);
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.55);
+      color: var(--muted);
+      font-weight:700;
+      font-size:12.5px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .strip strong{ color: var(--text); font-weight:950; letter-spacing:.14em; text-transform:uppercase; font-size:11px; }
+
+    footer{
+      margin-top:10px;
+      color: rgba(30,22,14,.55);
+      text-align:center;
+      font-size:12px;
+      font-weight:700;
+    }
+
+    /* Floating buttons */
+    .float{
+      position: fixed;
+      right: 18px;
+      bottom: 22px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      z-index: 50;
+    }
+    .fab{
+      width:44px;height:44px;
+      border-radius: 14px;
+      border:1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 14px 28px rgba(0,0,0,.10);
+      display:grid;
+      place-items:center;
+      text-decoration:none;
+      transition:.18s ease;
+    }
+    .fab:hover{ transform: translateY(-2px); box-shadow: 0 18px 34px rgba(0,0,0,.14); }
+    .fab svg{ width:18px;height:18px; opacity:.85; }
+
+    @media (max-width: 900px){
+      .grid{ grid-template-columns: 1fr; }
+      .brand{ min-width:unset; }
+      .features{ grid-template-columns: 1fr; }
+      .topbar{ border-radius: var(--radius); }
+      .nav{ justify-content:flex-start; }
+    }
   </style>
 </head>
 
@@ -347,153 +427,217 @@
   <div class="wrap">
     <header class="topbar">
       <div class="brand">
-        <div class="logo">
-          <!-- ✅ Logo büyütüldü / daha görünür -->
-          <img src="assets/logo.png" alt="Göcek Lokantası Logo">
+        <div class="logo" aria-label="Göcek Lokantası Logo">
+          <!-- Logo dosya adını kendi projenizdekiyle aynı tutun -->
+          <img src="assets/logo.png" alt="Göcek Lokantası" />
         </div>
-        <div class="brandText">
-          <div class="name">Göcek Lokantası</div>
-          <div class="tag">BİR KEPÇE MUTLULUK</div>
+        <div class="name">
+          <strong>Göcek Lokantası</strong>
+          <small>Bir kepçe mutluluk</small>
         </div>
       </div>
 
-      <!-- ✅ Sağ üstten “Marina indirimi” kaldırıldı -->
-      <nav class="nav" aria-label="Menü">
-        <a class="pill" href="#menu">Günlük Menü</a>
-        <a class="pill" href="#siparis">Sipariş</a>
-        <a class="pill" href="#ulasim">Ulaşım</a>
+      <nav class="nav" aria-label="Üst menü">
+        <a href="#gunluk">Günlük Menü</a>
+        <a href="#siparis">Sipariş</a>
+        <a href="#ulasim">Ulaşım</a>
       </nav>
     </header>
 
-    <main class="layout">
-      <section class="hero">
-        <!-- Left -->
-        <div>
-          <div class="kicker"><span class="dot"></span> GÜNLÜK ÇIKAN EV YEMEKLERİ</div>
+    <main class="main">
+      <div class="grid">
+        <section>
+          <div class="kicker"><span class="dot"></span> Günlük çıkan ev yemekleri</div>
           <h1>Göcek’te taze, günlük ev yemekleri.</h1>
           <p class="lead">
             Her gün yenilenen, özenle hazırlanan ev yemeklerini siz değerli misafirlerimize sunuyoruz.
             Günün menüsünü düzenli olarak paylaşır; sipariş ve bilgi taleplerinizi hızlıca yanıtlarız.
           </p>
 
-          <div class="btnRow">
-            <a class="btn primary" id="btnWA" href="#" target="_blank" rel="noopener">WhatsApp ile sipariş</a>
-            <a class="btn" id="btnIG" href="#" target="_blank" rel="noopener">Günün menüsü (Instagram)</a>
-            <a class="btn soft" id="btnMAP" href="#" target="_blank" rel="noopener">Yol tarifi al</a>
-            <a class="btn" id="btnYS" href="#" target="_blank" rel="noopener">Yemeksepeti</a>
+          <div class="actions" id="siparis">
+            <a class="btn primary" id="btnWhatsApp" href="#" target="_blank" rel="noopener">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M20.5 11.8c0 4.8-3.9 8.7-8.7 8.7a8.6 8.6 0 0 1-4.1-1.1L3.5 20.5l1.2-4a8.6 8.6 0 0 1-1.2-4.7C3.5 7 7.4 3.1 12.2 3.1c4.8 0 8.3 3.9 8.3 8.7Z" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M9.2 8.7c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .5.4.2.4.7 1.7.8 1.8.1.2.1.4 0 .6-.1.2-.2.4-.4.6l-.3.3c-.1.1-.2.3-.1.5.1.2.4.9 1 1.4.7.7 1.3 1 1.5 1.1.2.1.4 0 .5-.1l.6-.7c.2-.2.4-.2.6-.1.2.1 1.4.7 1.7.8.2.1.4.2.4.4 0 .2 0 .9-.4 1.2-.4.3-.9.4-1.3.3-.4-.1-1.3-.4-2.3-1.1-1.2-.8-2.2-1.9-2.6-2.4-.4-.5-1-1.6-1.1-2.3-.1-.7.1-1.2.4-1.6Z" fill="currentColor" opacity=".85"/>
+                </svg>
+              </span>
+              WhatsApp ile sipariş
+            </a>
+
+            <a class="btn" id="btnInstagram" href="#" target="_blank" rel="noopener">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M7.7 3.8h8.6c2.2 0 4 1.8 4 4v8.5c0 2.2-1.8 4-4 4H7.7c-2.2 0-4-1.8-4-4V7.8c0-2.2 1.8-4 4-4Z" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M12 8.7a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6Z" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M17.5 6.6h.01" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+                </svg>
+              </span>
+              Günün menüsü (Instagram)
+            </a>
+
+            <a class="btn" id="btnMaps" href="#" target="_blank" rel="noopener">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M12 10.4a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z" fill="currentColor" opacity=".85"/>
+                </svg>
+              </span>
+              Yol tarifi al
+            </a>
+
+            <a class="btn" id="btnYemeksepeti" href="#" target="_blank" rel="noopener">
+              <span class="ic" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M7 7.8h14l-1.3 6.8a3 3 0 0 1-3 2.4H10a3 3 0 0 1-3-2.4L5.8 4.8H3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                  <path d="M10 20.3a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8ZM17.2 20.3a.9.9 0 1 0 0-1.8.9.9 0 0 0 0 1.8Z" fill="currentColor" opacity=".85"/>
+                </svg>
+              </span>
+              Yemeksepeti
+            </a>
           </div>
 
-          <div class="smallNote" id="menu">
-            Menü: Instagram üzerinden günlük olarak güncellenir • Sipariş: WhatsApp hattımız üzerinden alınır • Ulaşım: Google Maps ile kolay yol tarifi
-          </div>
-        </div>
+          <!-- Yemek kartları premium blok -->
+          <div class="pay" aria-label="Yemek kartları ile ödeme">
+            <div class="txt">
+              <div class="badgeIc" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M4.6 7.7h14.8c1 0 1.8.8 1.8 1.8v5c0 1-.8 1.8-1.8 1.8H4.6c-1 0-1.8-.8-1.8-1.8v-5c0-1 .8-1.8 1.8-1.8Z" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M3.2 11.2h17.6" stroke="currentColor" stroke-width="1.6" opacity=".9"/>
+                  <path d="M6.3 15.3h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </div>
+              <div>
+                <strong>Yemek kartı ile ödeme kabul ediyoruz.</strong>
+                <span>Edenred, MetropolCard, Setcard ve Sodexo ile ödeme yapabilirsiniz.</span>
+              </div>
+            </div>
 
-        <!-- Right marina card -->
-        <aside class="sideCard" id="siparis">
-          <div class="sideTitle">MARINA</div>
-          <h3>Tekne misafirlerine %10 indirim</h3>
+            <div class="logos" aria-label="Yemek kartı markaları">
+              <span class="logoPill"><span class="mark" aria-hidden="true"></span>Edenred</span>
+              <span class="logoPill alt"><span class="mark" aria-hidden="true"></span>MetropolCard</span>
+              <span class="logoPill"><span class="mark" aria-hidden="true"></span>Setcard</span>
+              <span class="logoPill alt"><span class="mark" aria-hidden="true"></span>Sodexo</span>
+            </div>
+          </div>
+        </section>
+
+        <aside class="sideCard" id="gunluk">
+          <div class="label">Marina</div>
+          <p class="title">Tekne misafirlerine %10 indirim</p>
           <p>
             Marina misafirlerimize özel indirim uygulamamız mevcuttur.
-            İletişim butonuna dokunarak doğrudan restoran hattımızı arayabilirsiniz.
+            <b>İletişim</b> butonuna dokunarak doğrudan restoran hattımızı arayabilirsiniz.
           </p>
-
-          <div class="sideActions">
-            <!-- ✅ “Marina QR sayfası” kaldırıldı -->
-            <a class="btn primary" id="btnCALL" href="#">İletişim</a>
-          </div>
+          <a class="btn" id="btnCallMarina" href="tel:+905394105058">İletişim</a>
         </aside>
+      </div>
+
+      <section class="features" id="ulasim">
+        <div class="fcard">
+          <div class="ftop">
+            <div class="ficon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M6 7.5h12M6 12h12M6 16.5h8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <h3>Günlük Menü</h3>
+          </div>
+          <p>
+            Güncel menülerimizi her gün Instagram hikâyelerimizde paylaşıyoruz.
+            Günün yemeklerini görmek için hesabımızı takip edebilirsiniz.
+          </p>
+        </div>
+
+        <div class="fcard">
+          <div class="ftop">
+            <div class="ficon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M7.8 6.2h8.4c1.9 0 3.6 1.7 3.6 3.6v4.4c0 1.9-1.7 3.6-3.6 3.6H11l-3.2 2.2V6.2Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <h3>Sipariş &amp; Bilgi</h3>
+          </div>
+          <p>
+            Sipariş ve tüm sorularınız için WhatsApp hattımızdan bize kolayca ulaşabilirsiniz.
+            Hızlı dönüş ve net bilgilendirme önceliğimizdir.
+          </p>
+        </div>
+
+        <div class="fcard">
+          <div class="ftop">
+            <div class="ficon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none">
+                <path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" stroke="currentColor" stroke-width="1.6"/>
+                <path d="M12 10.4a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z" fill="currentColor" opacity=".85"/>
+              </svg>
+            </div>
+            <h3>Ulaşım</h3>
+          </div>
+          <p>
+            Google Maps üzerinden tek dokunuşla yol tarifi alabilir,
+            mevcut konumunuzdan restoranımıza kolayca ulaşabilirsiniz.
+          </p>
+        </div>
       </section>
 
-      <!-- Tiles (kurumsal metinlerle güncellendi) -->
-      <section class="tiles" id="ulasim">
-        <div class="tile">
-          <div class="icon">≡</div>
-          <div>
-            <h4>GÜNLÜK MENÜ</h4>
-            <p>
-              Güncel menülerimizi her gün Instagram hikâyelerimizde paylaşıyoruz.
-              Günün yemeklerinden haberdar olmak için Instagram hesabımızı takip edebilirsiniz.
-            </p>
-          </div>
-        </div>
-
-        <div class="tile">
-          <div class="icon">◎</div>
-          <div>
-            <h4>SİPARİŞ & BİLGİ</h4>
-            <p>
-              Sipariş ve tüm sorularınız için WhatsApp hattımız üzerinden kolayca bize ulaşabilirsiniz.
-              Hızlı dönüş ve net bilgilendirme önceliğimizdir.
-            </p>
-          </div>
-        </div>
-
-        <div class="tile">
-          <div class="icon">⌖</div>
-          <div>
-            <h4>ULAŞIM</h4>
-            <p>
-              Google Maps üzerinden tek dokunuşla yol tarifi alabilir,
-              mevcut konumunuzdan kolayca restoranımıza ulaşabilirsiniz.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- ✅ Alt marina indirimi satırında butonlar kaldırıldı -->
-      <section class="marinaRow">
-        <div>
-          <div class="title">MARINA İNDİRİMİ</div>
-          <div class="desc">
-            Marina misafirlerimize özel %10 indirim uygulanır. Detay ve iletişim için restoran hattımızı arayabilirsiniz.
-          </div>
-        </div>
-      </section>
+      <div class="strip">
+        <div><strong>Marina indirimi</strong> Marina misafirlerimize özel %10 indirim uygulanır. Detay ve iletişim için restoran hattımızı arayabilirsiniz.</div>
+        <a class="btn" href="tel:+905394105058">Hemen ara</a>
+      </div>
 
       <footer>© <span id="year"></span> Göcek Lokantası</footer>
     </main>
   </div>
 
-  <!-- Sağ altta hızlı ikonlar (kalsın) -->
-  <div class="float" aria-label="Hızlı erişim">
-    <a class="fab" id="fabWA" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
-      <svg viewBox="0 0 32 32"><path d="M19.11 17.46c-.27-.13-1.6-.79-1.85-.88-.25-.09-.43-.13-.62.13-.18.27-.71.88-.88 1.06-.16.18-.31.2-.58.07-.27-.13-1.12-.41-2.14-1.31-.79-.7-1.33-1.56-1.49-1.83-.16-.27-.02-.42.12-.55.12-.12.27-.31.4-.47.13-.16.18-.27.27-.44.09-.18.04-.33-.02-.47-.07-.13-.62-1.5-.85-2.06-.22-.53-.45-.46-.62-.46l-.53-.01c-.18 0-.47.07-.71.33-.25.27-.94.92-.94 2.24s.96 2.6 1.09 2.78c.13.18 1.89 2.88 4.58 4.04.64.28 1.14.44 1.53.57.64.2 1.23.17 1.69.1.52-.08 1.6-.65 1.83-1.28.23-.62.23-1.16.16-1.28-.06-.12-.25-.2-.52-.33zM16.01 3.2c-6.99 0-12.67 5.69-12.67 12.68 0 2.21.58 4.37 1.69 6.27L3.2 28.8l6.83-1.79a12.64 12.64 0 0 0 5.98 1.52h.01c6.99 0 12.67-5.69 12.67-12.68S23 3.2 16.01 3.2zm0 23.17h-.01c-1.9 0-3.77-.51-5.42-1.47l-.39-.23-4.05 1.06 1.08-3.95-.25-.41a10.5 10.5 0 0 1-1.6-5.6c0-5.79 4.71-10.5 10.5-10.5S26.5 9.98 26.5 15.77 21.79 26.37 16.01 26.37z"/></svg>
+  <!-- Sağ alttaki ikonlar -->
+  <div class="float" aria-label="Hızlı bağlantılar">
+    <a class="fab" id="fabWhatsApp" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M20.5 11.8c0 4.8-3.9 8.7-8.7 8.7a8.6 8.6 0 0 1-4.1-1.1L3.5 20.5l1.2-4a8.6 8.6 0 0 1-1.2-4.7C3.5 7 7.4 3.1 12.2 3.1c4.8 0 8.3 3.9 8.3 8.7Z" stroke="currentColor" stroke-width="1.6" />
+        <path d="M9.2 8.7c.2-.4.4-.4.7-.4h.5c.2 0 .4 0 .5.4.2.4.7 1.7.8 1.8.1.2.1.4 0 .6-.1.2-.2.4-.4.6l-.3.3c-.1.1-.2.3-.1.5.1.2.4.9 1 1.4.7.7 1.3 1 1.5 1.1.2.1.4 0 .5-.1l.6-.7c.2-.2.4-.2.6-.1.2.1 1.4.7 1.7.8.2.1.4.2.4.4 0 .2 0 .9-.4 1.2-.4.3-.9.4-1.3.3-.4-.1-1.3-.4-2.3-1.1-1.2-.8-2.2-1.9-2.6-2.4-.4-.5-1-1.6-1.1-2.3-.1-.7.1-1.2.4-1.6Z" fill="currentColor" opacity=".85"/>
+      </svg>
     </a>
 
-    <a class="fab" id="fabIG" href="#" target="_blank" rel="noopener" aria-label="Instagram">
-      <svg viewBox="0 0 24 24"><path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.75-2.5a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/></svg>
+    <a class="fab" id="fabInstagram" href="#" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M7.7 3.8h8.6c2.2 0 4 1.8 4 4v8.5c0 2.2-1.8 4-4 4H7.7c-2.2 0-4-1.8-4-4V7.8c0-2.2 1.8-4 4-4Z" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M12 8.7a3.3 3.3 0 1 0 0 6.6 3.3 3.3 0 0 0 0-6.6Z" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M17.5 6.6h.01" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>
+      </svg>
     </a>
 
-    <a class="fab" id="fabMAP" href="#" target="_blank" rel="noopener" aria-label="Konum">
-      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6a2.5 2.5 0 0 1 0 5.5z"/></svg>
+    <a class="fab" id="fabMaps" href="#" target="_blank" rel="noopener" aria-label="Konum">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 21s6-5.1 6-11a6 6 0 1 0-12 0c0 5.9 6 11 6 11Z" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M12 10.4a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z" fill="currentColor" opacity=".85"/>
+      </svg>
     </a>
   </div>
 
   <script>
-    const PHONE = "+905394105058";
-    const WHATSAPP_NUMBER = "905394105058";
-    const INSTAGRAM = "https://instagram.com/goceklokantasi";
-    const MAPS = "https://maps.app.goo.gl/Vf6fVwdSiV2JRdb36";
+    // Sabit linkler
+    const SITE = {
+      WHATSAPP_NUMBER: "+905394105058",
+      INSTAGRAM_URL: "https://instagram.com/goceklokantasi",
+      MAPS_URL: "https://maps.app.goo.gl/Vf6fVwdSiV2JRdb36",
+      YEMEKSEPETI_URL: "#"
+    };
 
+    // WhatsApp link (sipariş)
     const waText = "Merhaba, Göcek Lokantası’ndan sipariş vermek istiyorum.";
-    const WA = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(waText)}`;
+    const waUrl = `https://wa.me/${SITE.WHATSAPP_NUMBER.replace("+","")}?text=${encodeURIComponent(waText)}`;
 
-    const bind = (id, url) => { const el = document.getElementById(id); if (el) el.href = url; };
+    document.getElementById("btnWhatsApp").href = waUrl;
+    document.getElementById("fabWhatsApp").href = waUrl;
 
-    bind("btnWA", WA);
-    bind("fabWA", WA);
+    document.getElementById("btnInstagram").href = SITE.INSTAGRAM_URL;
+    document.getElementById("fabInstagram").href = SITE.INSTAGRAM_URL;
 
-    bind("btnIG", INSTAGRAM);
-    bind("fabIG", INSTAGRAM);
+    document.getElementById("btnMaps").href = SITE.MAPS_URL;
+    document.getElementById("fabMaps").href = SITE.MAPS_URL;
 
-    bind("btnMAP", MAPS);
-    bind("fabMAP", MAPS);
-
-    // Yemeksepeti linkin mevcutsa buraya koy (yoksa buton yine çalışır ama boş kalmasın)
-    bind("btnYS", "https://www.yemeksepeti.com/");
-
-    // ✅ İletişim butonu: direkt arama ekranı
-    bind("btnCALL", `tel:${PHONE}`);
+    document.getElementById("btnYemeksepeti").href = SITE.YEMEKSEPETI_URL;
 
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
