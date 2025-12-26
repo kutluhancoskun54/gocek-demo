@@ -14,14 +14,12 @@
       MAPS_URL: "https://maps.app.goo.gl/CgurhQnmZytUFDrV6",
       PHONE_TEL: "tel:+905394105058",
       PHONE_RAW: "+90 539 410 50 58",
-      // WhatsApp: en stabil format wa.me
       WHATSAPP_URL: "https://wa.me/905394105058?text=Merhaba%20G%C3%B6cek%20Lokantas%C4%B1%2C%20sipari%C5%9F%20vermek%20istiyorum."
     };
   </script>
 
   <style>
     :root{
-      /* Sıcak/kurumsal bej + altın palet (eski stile yakın) */
       --bg1:#f6efe3;
       --bg2:#fbf7f1;
       --card: rgba(255,255,255,.86);
@@ -80,14 +78,21 @@
       min-width:320px;
     }
 
-    /* Logo: kutu + gerçek büyütme (zoom) */
+    /* Logo: KUTU CAM/CREAM (beyaz plaka hissi yok) + gerçek büyütme (zoom) */
     .logoBox{
       width:170px;
       height:78px;
       border-radius:18px;
-      background: rgba(255,255,255,.92);
-      border:1px solid rgba(231,221,207,.95);
-      box-shadow: 0 12px 26px rgba(20,20,20,.10);
+
+      /* cam/kremsi görünüm */
+      background: rgba(251,247,241,.58);
+      border: 1px solid rgba(231,221,207,.78);
+      backdrop-filter: blur(10px);
+
+      box-shadow:
+        0 12px 26px rgba(20,20,20,.10),
+        inset 0 1px 0 rgba(255,255,255,.55);
+
       overflow:hidden;
       flex:0 0 auto;
       display:flex;
@@ -99,9 +104,10 @@
       width:100%;
       height:100%;
       object-fit:contain;
-      transform: scale(var(--logoZoom)); /* logo boşlukluysa gerçek büyütür */
+      transform: scale(var(--logoZoom));
       transform-origin:center;
       display:block;
+      filter: saturate(1.05) contrast(1.05);
     }
 
     .brand .t{display:flex;flex-direction:column;line-height:1.05}
@@ -351,7 +357,6 @@
         </div>
       </a>
 
-      <!-- Sağ üst: Dış yönlendirme -->
       <nav class="nav">
         <a id="navMenu" href="#" target="_blank" rel="noopener">Günlük Menü</a>
         <a id="navSiparis" href="#" target="_blank" rel="noopener">Sipariş</a>
@@ -443,7 +448,6 @@
     </main>
   </div>
 
-  <!-- Sağ alttaki ikonlar -->
   <div class="fabs" aria-label="Hızlı erişim">
     <a class="fab" id="fabWhatsapp" href="#" target="_blank" rel="noopener" title="WhatsApp">
       <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -470,11 +474,10 @@
       if (el && href) el.href = href;
     };
 
-    /* CTA */
     safeSetHref("btnWhatsapp", SITE.WHATSAPP_URL);
     safeSetHref("btnMenuIg", SITE.INSTAGRAM_MENU_URL);
     safeSetHref("btnMaps", SITE.MAPS_URL);
-    // Yemeksepeti yoksa butonu gizle
+
     const ys = document.getElementById("btnYemeksepeti");
     if (SITE.YEMEKSEPETI_URL && SITE.YEMEKSEPETI_URL !== "#") {
       ys.href = SITE.YEMEKSEPETI_URL;
@@ -482,17 +485,14 @@
       ys.style.display = "none";
     }
 
-    /* TOP NAV: dış yönlendirme */
     safeSetHref("navMenu", SITE.INSTAGRAM_URL);
     safeSetHref("navSiparis", SITE.WHATSAPP_URL);
     safeSetHref("navUlasim", SITE.MAPS_URL);
 
-    /* Floating */
     safeSetHref("fabWhatsapp", SITE.WHATSAPP_URL);
     safeSetHref("fabInstagram", SITE.INSTAGRAM_URL);
     safeSetHref("fabMaps", SITE.MAPS_URL);
 
-    /* Call buttons */
     safeSetHref("btnCallMarina", SITE.PHONE_TEL);
     safeSetHref("btnCallFooter", SITE.PHONE_TEL);
 
