@@ -3,7 +3,7 @@ export default async (request) => {
     "content-type": "application/json; charset=utf-8",
     "access-control-allow-origin": "*",
     "access-control-allow-methods": "GET,POST,OPTIONS",
-    "access-control-allow-headers": "content-type,authorization,x-admin-token"
+    "access-control-allow-headers": "content-type,authorization,x-admin-token",
   };
 
   if (request.method === "OPTIONS") {
@@ -15,55 +15,105 @@ export default async (request) => {
     const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
     const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
 
-    if (!SUPABASE_URL || !SERVICE_KEY) {
-      return new Response(JSON.stringify({
-        error: "Server env missing (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY)."
-      }), { status: 500, headers });
+    if (!SUPABASE_URL || !SERVICE_KEY || !ADMIN_TOKEN) {
+      return new Response(
+        JSON.stringify({ ok: false, error: "Server env missing (SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY / ADMIN_TOKEN)." }),
+        { status: 500, headers }
+      );
     }
 
     const url = new URL(request.url);
 
-    // token: Authorization Bearer > x-admin-token > ?token=
+    // token: Authorization Bearer | x-admin-token | ?token=
     const auth = request.headers.get("authorization") || "";
-    const bearer = auth.startsWith("Bearer ") ? auth.slice(7) : "";
-    const xToken = request.headers.get("x-admin-token") || "";
-    const qToken = url.searchParams.get("token") || url.searchParams.get("admin_token") || "";
-    const token = (bearer || xToken || qToken).trim();
+    const bearer = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
+    const xToken = (request.headers.get("x-admin-token") || "").trim();
+    const qToken = (url.searchParams.get("token") || url.searchParams.get("admin_token") || "").trim();
+    const token = (bearer || xToken || qToken || "").trim();
 
-    if (!ADMIN_TOKEN || token !== ADMIN_TOKEN) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401, headers });
+    if (!token || token !== ADMIN_TOKEN) {
+      return new Response(JSON.stringify({ ok: false, error: "Unauthorized" }), { status: 401, headers });
     }
 
-    // Opsiyonel filtreler
-    const pedalstarRaw = (url.searchParams.get("pedalstar") || url.searchParams.get("pedalstar_id") || "").trim().toUpperCase();
-    const codeRaw = (url.searchParams.get("code") || "").trim().toUpperCase();
+    // code: ?code=XXXXXX  (GET)  | body { code }
+    let code = (url.searchParams.get("code") || "").trim().toUpperCase();
+    if (!code && request.method !== "GET") {
+      const body = await request.json().catch(() => ({}));
+      code = String(body.code || "").trim().toUpperCase();
+    }
+    if (!code) {
+      return new Response(JSON.stringify({ ok: false, error: "Missing code" }), { status: 400, headers });
+    }
 
-    const qs = new URLSearchParams();
-    qs.set("select", "code,pedalstar_id,created_at,expires_at,used_at");
-    qs.set("order", "created_at.desc");
-    qs.set("limit", "50");
+    const TABLE = "marina_codes";
+    const nowIso = new Date().toISOString();
 
-    if (pedalstarRaw) qs.append("pedalstar_id", `eq.${encodeURIComponent(pedalstarRaw)}`);
-    if (codeRaw) qs.append("code", `eq.${encodeURIComponent(codeRaw)}`);
+    const commonHeaders = {
+      apikey: SERVICE_KEY,
+      authorization: `Bearer ${SERVICE_KEY}`,
+      "content-type": "application/json",
+    };
 
-    const resp = await fetch(`${SUPABASE_URL}/rest/v1/marina_codes?${qs.toString()}`, {
-      method: "GET",
-      headers: {
-        ...headers,
-        apikey: SERVICE_KEY,
-        authorization: `Bearer ${SERVICE_KEY}`
+    // 1) row oku
+    const selectUrl = new URL(`${SUPABASE_URL}/rest/v1/${TABLE}`);
+    selectUrl.searchParams.set("select", "code,pedalstar_id,created_at,expires_at,used_at");
+    selectUrl.searchParams.set("code", `eq.${code}`);
+    selectUrl.searchParams.set("limit", "1");
+
+    const selRes = await fetch(selectUrl.toString(), { method: "GET", headers: commonHeaders });
+    const selText = await selRes.text();
+    let rows = [];
+    try { rows = JSON.parse(selText); } catch { rows = []; }
+
+    if (!selRes.ok) {
+      return new Response(JSON.stringify({ ok: false, error: `Select failed (${selRes.status})`, detail: selText }), { status: 500, headers });
+    }
+    if (!rows || rows.length === 0) {
+      return new Response(JSON.stringify({ ok: false, error: "Code not found" }), { status: 404, headers });
+    }
+
+    const row = rows[0];
+
+    // expires kontrol (varsa)
+    if (row.expires_at) {
+      const exp = new Date(row.expires_at).getTime();
+      const now = Date.now();
+      if (!Number.isNaN(exp) && exp <= now) {
+        return new Response(JSON.stringify({ ok: false, error: "Code expired", row }), { status: 400, headers });
       }
+    }
+
+    // zaten kullanılmış mı
+    if (row.used_at) {
+      return new Response(JSON.stringify({ ok: true, already_used: true, rows: [row] }), { status: 200, headers });
+    }
+
+    // 2) used_at set et (PATCH) ve güncel satırı döndür
+    const patchUrl = new URL(`${SUPABASE_URL}/rest/v1/${TABLE}`);
+    patchUrl.searchParams.set("code", `eq.${code}`);
+
+    const patchRes = await fetch(patchUrl.toString(), {
+      method: "PATCH",
+      headers: {
+        ...commonHeaders,
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify({ used_at: nowIso }),
     });
 
-    if (!resp.ok) {
-      const t = await resp.text();
-      return new Response(JSON.stringify({ error: "List failed", detail: t }), { status: 500, headers });
+    const patchText = await patchRes.text();
+    let updated = [];
+    try { updated = JSON.parse(patchText); } catch { updated = []; }
+
+    if (!patchRes.ok) {
+      return new Response(JSON.stringify({ ok: false, error: `Update failed (${patchRes.status})`, detail: patchText }), { status: 500, headers });
     }
 
-    const rows = await resp.json();
-    return new Response(JSON.stringify({ ok: true, rows }), { status: 200, headers });
-
+    return new Response(JSON.stringify({ ok: true, rows: updated && updated.length ? updated : [{ ...row, used_at: nowIso }] }), {
+      status: 200,
+      headers,
+    });
   } catch (e) {
-    return new Response(JSON.stringify({ error: "Server error", detail: String(e) }), { status: 500, headers });
+    return new Response(JSON.stringify({ ok: false, error: "Server error", detail: String(e?.message || e) }), { status: 500, headers });
   }
 };
