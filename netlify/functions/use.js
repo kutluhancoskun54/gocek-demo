@@ -13,7 +13,7 @@ export default async (request) => {
   try {
     const SUPABASE_URL = process.env.SUPABASE_URL;
     const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    const ADMIN_TOKEN = process.env.ADMIN_TOKEN;
+    const token = (qToken || xToken || bearer || "").trim();
 
     if (!SUPABASE_URL || !SERVICE_KEY || !ADMIN_TOKEN) {
       return new Response(
@@ -29,7 +29,7 @@ export default async (request) => {
     const bearer = auth.startsWith("Bearer ") ? auth.slice(7).trim() : "";
     const xToken = (request.headers.get("x-admin-token") || "").trim();
     const qToken = (url.searchParams.get("token") || url.searchParams.get("admin_token") || "").trim();
-    const token = (bearer || xToken || qToken || "").trim();
+   const ADMIN_TOKEN = (process.env.ADMIN_TOKEN || "").trim();
 
     if (!token || token !== ADMIN_TOKEN) {
       return new Response(JSON.stringify({ ok: false, error: "Unauthorized" }), { status: 401, headers });
